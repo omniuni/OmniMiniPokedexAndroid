@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name_dev">Mini Template DevTools</string>
+    <string name="devTools_welcome">Welcome to development tools.\nThis is not included in the released app.</string>
+    <string name="version_code">Version Code:</string>
+    <string name="version_name">Version Name:</string>
+</resources>
