@@ -1,5 +1,6 @@
 package com.omniimpact.template.mini.utilities
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.view.LayoutInflater
@@ -19,13 +20,48 @@ import java.lang.Exception
 
 class AdapterRecyclerViewPokemonList: RecyclerView.Adapter<AdapterRecyclerViewPokemonList.ViewHolder>() {
 
-    private lateinit var mItemBinding: ListItemPokemonBinding
-    private var mFilteredItems: List<ModelPokemonListItem> = listOf()
+    interface IOnUpdate{
+        fun onListUpdated()
+    }
 
-    fun updateItems(filter: String = String()){
-        if(filter.isEmpty()){
-            mFilteredItems = UtilityPokemonLoader.getLoadedPokemonList().results
+    private lateinit var mItemBinding: ListItemPokemonBinding
+    private var mFilter = String()
+    private var mFilteredItems: List<ModelPokemonListItem> = listOf()
+    private var mShouldSortAlphabetical: Boolean = false
+    private var mUpdateCallback: IOnUpdate = object : IOnUpdate{ override fun onListUpdated() {} }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateItems(){
+        mFilteredItems = if(mFilter.isEmpty()){
+            UtilityPokemonLoader.getLoadedPokemonList().results
+        } else {
+            UtilityPokemonLoader.getLoadedPokemonList().results.filter {
+                modelPokemonListItem -> modelPokemonListItem.name.contains(mFilter, true)
+            }
         }
+        if(mFilteredItems.isNotEmpty() && mShouldSortAlphabetical){
+            mFilteredItems = mFilteredItems.sortedWith(compareBy { it.name })
+        }
+        notifyDataSetChanged()
+        mUpdateCallback.onListUpdated()
+    }
+
+    fun sortItemsAlphabetical(shouldSortAlphabetical: Boolean = false){
+        mShouldSortAlphabetical = shouldSortAlphabetical
+        updateItems()
+    }
+
+    fun setUpdateCallback(callback: IOnUpdate){
+        mUpdateCallback = callback
+    }
+
+    fun setFilter(filter: String){
+        mFilter = filter
+        updateItems()
+    }
+
+    fun getFilteredItemCount(): Int {
+        return  mFilteredItems.size
     }
 
     inner class ViewHolder(viewBinding: ListItemPokemonBinding): RecyclerView.ViewHolder(viewBinding.root){

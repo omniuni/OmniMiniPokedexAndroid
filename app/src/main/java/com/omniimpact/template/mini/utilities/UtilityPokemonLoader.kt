@@ -50,4 +50,8 @@ object UtilityPokemonLoader {
         return mPokemonList
     }
 
+    fun getLoadedPokemonListCount(): Int{
+        return mPokemonList.results.size
+    }
+
 }

@@ -9,8 +9,67 @@
             android:layout_height="64dp"
             android:layout_centerInParent="true"/>
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/id_cv_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/id_tv_total_shown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="?actionBarSize"
+                    android:layout_marginHorizontal="@dimen/margin_half"
+                    android:gravity="center"
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:textStyle="bold"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="?actionBarSize"
+                    android:layout_marginHorizontal="@dimen/margin_half"
+                    android:orientation="horizontal"
+                    android:layout_gravity="end"
+                    android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_encountered"/>
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/id_sw_sort"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_alphabetical"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="?actionBarSize"
+                    android:weightSum="100"
+                    android:orientation="horizontal">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/id_et_filter"
+                            android:layout_weight="90"
+                            android:layout_marginStart="@dimen/margin_half"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/label_filter"/>
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/id_b_clear"
+                            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                            android:layout_weight="10"
+                            android:layout_marginHorizontal="@dimen/margin_half"
+                            android:padding="0dp"
+                            android:minWidth="0dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_clear"/>
+                </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/id_rv_pokemon"
+            android:layout_below="@id/id_cv_toolbar"
             android:layout_marginHorizontal="@dimen/margin_half"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
