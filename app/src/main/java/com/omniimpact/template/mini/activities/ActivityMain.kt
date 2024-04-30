@@ -16,11 +16,4 @@ class ActivityMain: AppCompatActivity() {
         setContentView(mActivityViewBinding.root)
     }
 
-    override fun onStart() {
-        super.onStart()
-        mActivityViewBinding.idBtnExit.setOnClickListener {
-            finish()
-        }
-    }
-
 }
