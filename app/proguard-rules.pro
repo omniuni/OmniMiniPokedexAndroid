@@ -25,3 +25,7 @@
 -keepclassmembers public class com.omniimpact.* {
     *;
 }
+
+# For Picasso
+-dontwarn org.conscrypt.Conscrypt
+-dontwarn org.conscrypt.OpenSSLProvider
