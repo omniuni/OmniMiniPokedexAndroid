@@ -9,6 +9,7 @@ lifecycleRuntimeKtx = "2.7.0"
 material = "1.11.0"
 moshiKotlin = "1.15.1"
 picasso = "2.8"
+palette = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -20,6 +21,7 @@ material = { module = "com.google.android.material:material", version.ref = "mat
 moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshiKotlin" }
 moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshiKotlin" }
 picasso = {module = "com.squareup.picasso:picasso", version.ref = "picasso"}
+palette = {module = "androidx.palette:palette", version.ref = "palette"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

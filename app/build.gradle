@@ -91,6 +91,9 @@ dependencies {
     // Picasso
     implementation libs.picasso
 
+    // Palette
+    implementation libs.palette
+
     // Testing Libraries
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit

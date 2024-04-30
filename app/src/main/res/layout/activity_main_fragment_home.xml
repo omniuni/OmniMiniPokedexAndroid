@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="12dp">
+    android:layout_height="match_parent">
 
         <ProgressBar
             android:id="@+id/id_pb_loader"
@@ -12,6 +11,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/id_rv_pokemon"
+            android:layout_marginHorizontal="@dimen/margin_half"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

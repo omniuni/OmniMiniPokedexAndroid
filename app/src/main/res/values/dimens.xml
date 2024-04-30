@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_standard">12dp</dimen>
+    <dimen name="margin_half">6dp</dimen>
+    <dimen name="padding_standard">8dp</dimen>
+    <dimen name="icon_medium">64dp</dimen>
+    <dimen name="icon_large">120dp</dimen>
+</resources>
