@@ -23,6 +23,12 @@ object UtilityPokemonLoader {
 
     fun load(caller: IOnLoad) {
 
+        // No need to re-load if we already have it
+        if(this::mPokemonList.isInitialized){
+            caller.onPokemonLoaded()
+            return
+        }
+
         loadScope.launch {
             val jsonResult = URL(URL_POKEMON_LIST).readText()
 

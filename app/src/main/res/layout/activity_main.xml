@@ -8,26 +8,19 @@
     tools:context=".activities.ActivityMain">
 
     <!-- Apply top padding here for window insets. -->
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/id_abl"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/id_toolbar"
         android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            android:background="@null"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:title="@string/app_name" />
-
-    </com.google.android.material.appbar.AppBarLayout>
+        android:layout_height="wrap_content"/>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/id_fcv_activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/id_abl"
+        android:layout_below="@id/id_toolbar"
         android:layout_above="@id/id_fl_navigation"
         android:name="com.omniimpact.template.mini.fragments.FragmentHome"/>
 

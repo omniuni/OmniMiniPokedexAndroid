@@ -16,7 +16,7 @@
             android:name=".activities.ActivityMain"
             android:exported="true"
             android:theme="@style/Theme.TemplateMini"
-            android:configChanges="orientation|screenSize|screenLayout|keyboard"
+            android:configChanges="screenSize|screenLayout|keyboard"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

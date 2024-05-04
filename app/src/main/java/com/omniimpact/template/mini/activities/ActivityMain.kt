@@ -1,10 +1,12 @@
 package com.omniimpact.template.mini.activities
 
 import android.os.Bundle
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import com.omniimpact.template.mini.databinding.ActivityMainBinding
 
@@ -22,12 +24,16 @@ class ActivityMain: AppCompatActivity() {
             WindowInsetsCompat.CONSUMED
         }
         setContentView(mActivityViewBinding.root)
+        setSupportActionBar(mActivityViewBinding.idToolbar)
     }
 
     private fun updateViewForInsets(windowInsets: WindowInsetsCompat){
         val insetValues = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-        mActivityViewBinding.idAbl.updatePadding(top = insetValues.top)
+        mActivityViewBinding.idToolbar.updatePadding(top = insetValues.top)
         mActivityViewBinding.idFlNavigation.minimumHeight = insetValues.bottom
+        mActivityViewBinding.idFcvActivityMain.updateLayoutParams<MarginLayoutParams> {
+            rightMargin = insetValues.right
+        }
     }
 
 }

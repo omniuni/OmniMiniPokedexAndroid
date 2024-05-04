@@ -1,6 +1,7 @@
 package com.omniimpact.template.mini.fragments
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ class FragmentHome: Fragment(), UtilityPokemonLoader.IOnLoad, AdapterRecyclerVie
 
     private lateinit var mFragmentViewBinding: ActivityMainFragmentHomeBinding
     private lateinit var mAdapter: AdapterRecyclerViewPokemonList
+    private lateinit var mRecyclerViewScrollState: Parcelable
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +34,15 @@ class FragmentHome: Fragment(), UtilityPokemonLoader.IOnLoad, AdapterRecyclerVie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         UtilityPokemonLoader.load(this)
+    }
+
+    override fun onPause() {
+        if(this::mAdapter.isInitialized){
+            mFragmentViewBinding.idRvPokemon.layoutManager?.onSaveInstanceState()?.also {
+                mRecyclerViewScrollState = it
+            }
+        }
+        super.onPause()
     }
 
     override fun onPokemonLoaded() {
@@ -56,8 +67,12 @@ class FragmentHome: Fragment(), UtilityPokemonLoader.IOnLoad, AdapterRecyclerVie
             mFragmentViewBinding.idEtFilter.doOnTextChanged { text, _, _, _ -> // start, before, count
                 mAdapter.setFilter(text.toString())
             }
+            mAdapter.setFilter(mFragmentViewBinding.idEtFilter.text.toString())
         } else {
              mFragmentViewBinding.idTvTotalShown.text = String()
+        }
+        if(this::mRecyclerViewScrollState.isInitialized){
+            mFragmentViewBinding.idRvPokemon.layoutManager?.onRestoreInstanceState(mRecyclerViewScrollState)
         }
     }
 
