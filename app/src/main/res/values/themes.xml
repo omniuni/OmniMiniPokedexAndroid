@@ -49,6 +49,5 @@
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
     </style>
     <style name="Theme.TemplateMini" parent="AppTheme">
-        <item name="android:fitsSystemWindows">true</item>
     </style>
 </resources>

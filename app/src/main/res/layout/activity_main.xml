@@ -7,13 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".activities.ActivityMain">
 
+    <!-- Apply top padding here for window insets. -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/id_abl"
+        android:background="?attr/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            android:background="@null"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="@string/app_name" />
@@ -22,10 +25,18 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/id_fcv_activity_main"
-        android:layout_below="@id/id_abl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/id_abl"
+        android:layout_above="@id/id_fl_navigation"
         android:name="com.omniimpact.template.mini.fragments.FragmentHome"/>
+
+    <FrameLayout
+        android:id="@+id/id_fl_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="?attr/colorPrimary"/>
 
 </RelativeLayout>
 
