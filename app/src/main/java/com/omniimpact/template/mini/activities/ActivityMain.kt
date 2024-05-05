@@ -1,6 +1,8 @@
 package com.omniimpact.template.mini.activities
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
+import com.omniimpact.template.mini.R
 import com.omniimpact.template.mini.databinding.ActivityMainBinding
 
 class ActivityMain: AppCompatActivity() {
@@ -25,6 +28,11 @@ class ActivityMain: AppCompatActivity() {
         }
         setContentView(mActivityViewBinding.root)
         setSupportActionBar(mActivityViewBinding.idToolbar)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_home, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     private fun updateViewForInsets(windowInsets: WindowInsetsCompat){

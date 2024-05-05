@@ -6,4 +6,5 @@
     <string name="a_of_b">%1$d of %2$d</string>
     <string name="label_filter">Filter Pokemon</string>
     <string name="label_clear">Clear</string>
+    <string name="toggle_options">Toggle Options</string>
 </resources>

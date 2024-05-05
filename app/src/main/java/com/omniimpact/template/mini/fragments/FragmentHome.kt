@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
@@ -21,6 +22,12 @@ class FragmentHome: Fragment(), UtilityPokemonLoader.IOnLoad, AdapterRecyclerVie
     private lateinit var mFragmentViewBinding: ActivityMainFragmentHomeBinding
     private lateinit var mAdapter: AdapterRecyclerViewPokemonList
     private lateinit var mRecyclerViewScrollState: Parcelable
+    private var mIsOptionsShown = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,12 +35,23 @@ class FragmentHome: Fragment(), UtilityPokemonLoader.IOnLoad, AdapterRecyclerVie
         savedInstanceState: Bundle?
     ): View {
         mFragmentViewBinding = ActivityMainFragmentHomeBinding.inflate(layoutInflater)
+        updateMenu()
         return mFragmentViewBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         UtilityPokemonLoader.load(this)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.toggle_search_sort -> {
+                mIsOptionsShown = !mIsOptionsShown
+                updateMenu()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onPause() {
@@ -43,6 +61,10 @@ class FragmentHome: Fragment(), UtilityPokemonLoader.IOnLoad, AdapterRecyclerVie
             }
         }
         super.onPause()
+    }
+
+    private fun updateMenu(){
+        mFragmentViewBinding.idCvToolbar.visibility = if(mIsOptionsShown){ View.VISIBLE } else { View.GONE }
     }
 
     override fun onPokemonLoaded() {
