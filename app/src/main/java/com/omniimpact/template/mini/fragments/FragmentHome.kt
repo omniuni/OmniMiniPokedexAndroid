@@ -19,10 +19,13 @@ import com.omniimpact.template.mini.utilities.UtilityPokemonLoader
 
 class FragmentHome: Fragment(), UtilityPokemonLoader.IOnLoad, AdapterRecyclerViewPokemonList.IOnUpdate {
 
+    companion object {
+        private var mIsOptionsShown = false
+    }
+
     private lateinit var mFragmentViewBinding: ActivityMainFragmentHomeBinding
     private lateinit var mAdapter: AdapterRecyclerViewPokemonList
     private lateinit var mRecyclerViewScrollState: Parcelable
-    private var mIsOptionsShown = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
