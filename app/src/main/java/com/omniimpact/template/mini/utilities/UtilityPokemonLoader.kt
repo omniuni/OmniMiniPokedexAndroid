@@ -1,5 +1,6 @@
 package com.omniimpact.template.mini.utilities
 
+import com.omniimpact.template.mini.fragments.FragmentDetails
 import com.omniimpact.template.mini.models.ModelPokemonList
 import com.omniimpact.template.mini.models.ModelPokemonListItem
 import com.squareup.moshi.Moshi
@@ -54,6 +55,12 @@ object UtilityPokemonLoader {
             return ModelPokemonList(arrayListOf())
         }
         return mPokemonList
+    }
+
+    fun getPokemonListItemById(id: Int): ModelPokemonListItem{
+        return mPokemonList.results.first {
+            it.id == id
+        }
     }
 
     fun getLoadedPokemonListCount(): Int{

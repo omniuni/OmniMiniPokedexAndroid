@@ -9,5 +9,5 @@ data class ModelPokemonListItem (
     @Transient
     var id: Int = 0,
     @Transient
-    var iconUrl: String = String(),
+    var iconUrl: String = String()
 )

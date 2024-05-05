@@ -20,15 +20,16 @@ import java.lang.Exception
 
 class AdapterRecyclerViewPokemonList: RecyclerView.Adapter<AdapterRecyclerViewPokemonList.ViewHolder>() {
 
-    interface IOnUpdate{
+    interface IOnListActions{
         fun onListUpdated()
+        fun onItemClicked(item: ModelPokemonListItem, imageView: ImageView, textView: TextView)
     }
 
     private lateinit var mItemBinding: ListItemPokemonBinding
     private var mFilter = String()
     private var mFilteredItems: List<ModelPokemonListItem> = listOf()
     private var mShouldSortAlphabetical: Boolean = false
-    private var mUpdateCallback: IOnUpdate = object : IOnUpdate{ override fun onListUpdated() {} }
+    private lateinit var mUpdateCallback: IOnListActions
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateItems(){
@@ -43,7 +44,7 @@ class AdapterRecyclerViewPokemonList: RecyclerView.Adapter<AdapterRecyclerViewPo
             mFilteredItems = mFilteredItems.sortedWith(compareBy { it.name })
         }
         notifyDataSetChanged()
-        mUpdateCallback.onListUpdated()
+        if(this::mUpdateCallback.isInitialized) mUpdateCallback.onListUpdated()
     }
 
     fun sortItemsAlphabetical(shouldSortAlphabetical: Boolean = false){
@@ -51,7 +52,7 @@ class AdapterRecyclerViewPokemonList: RecyclerView.Adapter<AdapterRecyclerViewPo
         updateItems()
     }
 
-    fun setUpdateCallback(callback: IOnUpdate){
+    fun setUpdateCallback(callback: IOnListActions){
         mUpdateCallback = callback
     }
 
@@ -82,8 +83,13 @@ class AdapterRecyclerViewPokemonList: RecyclerView.Adapter<AdapterRecyclerViewPo
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mFilteredItems[position]
         holder.tvName.text = item.name.replaceFirstChar { it.titlecase() }
+        holder.tvName.tag = item.name
         holder.cvBackground.backgroundTintList = ColorStateList.valueOf(holder.cvBackground.context.getColor(R.color.md_theme_surfaceContainer))
         Picasso.get().load(item.iconUrl).fit().centerInside().into(holder.ivIcon, PicassoTintOnLoad(holder.cvBackground, holder.ivIcon))
+        holder.ivIcon.tag = item.iconUrl
+        holder.cvBackground.setOnClickListener {
+            mUpdateCallback.onItemClicked(item, holder.ivIcon, holder.tvName)
+        }
     }
 
     inner class PicassoTintOnLoad : Callback {

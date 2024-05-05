@@ -29,11 +29,6 @@ class ActivityMain: AppCompatActivity() {
         setSupportActionBar(mActivityViewBinding.idToolbar)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_home, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
     private fun updateViewForInsets(windowInsets: WindowInsetsCompat){
         val insetValues = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
         mActivityViewBinding.idToolbar.updatePadding(top = insetValues.top, right = insetValues.right)

@@ -4,9 +4,14 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,10 +19,12 @@ import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.omniimpact.template.mini.R
 import com.omniimpact.template.mini.databinding.ActivityMainFragmentHomeBinding
 import com.omniimpact.template.mini.models.ModelPokemonList
+import com.omniimpact.template.mini.models.ModelPokemonListItem
 import com.omniimpact.template.mini.utilities.AdapterRecyclerViewPokemonList
+import com.omniimpact.template.mini.utilities.UtilityFragmentManager
 import com.omniimpact.template.mini.utilities.UtilityPokemonLoader
 
-class FragmentHome: Fragment(), UtilityPokemonLoader.IOnLoad, AdapterRecyclerViewPokemonList.IOnUpdate {
+class FragmentHome: Fragment(), UtilityPokemonLoader.IOnLoad, AdapterRecyclerViewPokemonList.IOnListActions {
 
     companion object {
         private var mIsOptionsShown = false
@@ -29,7 +36,12 @@ class FragmentHome: Fragment(), UtilityPokemonLoader.IOnLoad, AdapterRecyclerVie
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        postponeEnterTransition()
         setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.menu_home, menu)
     }
 
     override fun onCreateView(
@@ -43,7 +55,6 @@ class FragmentHome: Fragment(), UtilityPokemonLoader.IOnLoad, AdapterRecyclerVie
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         UtilityPokemonLoader.load(this)
     }
 
@@ -67,6 +78,7 @@ class FragmentHome: Fragment(), UtilityPokemonLoader.IOnLoad, AdapterRecyclerVie
     }
 
     private fun updateMenu(){
+        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         mFragmentViewBinding.idCvToolbar.visibility = if(mIsOptionsShown){ View.VISIBLE } else { View.GONE }
     }
 
@@ -98,6 +110,8 @@ class FragmentHome: Fragment(), UtilityPokemonLoader.IOnLoad, AdapterRecyclerVie
         }
         if(this::mRecyclerViewScrollState.isInitialized){
             mFragmentViewBinding.idRvPokemon.layoutManager?.onRestoreInstanceState(mRecyclerViewScrollState)
+            // This helps prevent slight flickering on returning to the home fragment
+            startPostponedEnterTransition()
         }
     }
 
@@ -121,6 +135,28 @@ class FragmentHome: Fragment(), UtilityPokemonLoader.IOnLoad, AdapterRecyclerVie
                 UtilityPokemonLoader.getLoadedPokemonListCount()
             )
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onItemClicked(item: ModelPokemonListItem, imageView: ImageView, textView: TextView) {
+        val detailsFragment = FragmentDetails()
+        val argumentsBundle = Bundle()
+        argumentsBundle.putInt(FragmentDetails.KEY_ID, item.id)
+        val bannerView: View = mFragmentViewBinding.idVBanner ?: View(requireContext())
+        val animationsMap: Map<View, String> = mapOf(
+            imageView to FragmentDetails.KEY_TRANSITION_TARGET_IMAGE_HEADER,
+            textView to FragmentDetails.KEY_TRANSITION_TARGET_TEXT_HEADER,
+            bannerView to FragmentDetails.KEY_TRANSITION_TARGET_BANNER
+        )
+        UtilityFragmentManager.
+            using(parentFragmentManager).
+            load(detailsFragment).
+            with(argumentsBundle, animationsMap).
+            into(view?.parent as ViewGroup).
+            now()
     }
 
 }
