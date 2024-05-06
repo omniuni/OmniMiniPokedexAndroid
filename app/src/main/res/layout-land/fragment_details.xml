@@ -20,6 +20,7 @@
 					android:background="@color/md_theme_surfaceBright_mediumContrast"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
+					app:strokeWidth="0dp"
 					app:contentPadding="@dimen/margin_standard"
 					app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialCardView.RoundedTopLeft">
 
