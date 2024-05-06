@@ -10,7 +10,7 @@
 
     <ImageView
         android:id="@+id/id_iv_pokemon_icon"
-        android:layout_width="@dimen/icon_list_large"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/icon_list_large"
         android:layout_marginTop="@dimen/margin_standard"
         android:layout_gravity="center_horizontal"
@@ -20,7 +20,7 @@
         android:id="@+id/id_tv_pokemon_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="116dp"
+        android:layout_marginTop="96dp"
         android:layout_marginBottom="@dimen/margin_standard"
         style="@style/TextAppearance.AppCompat.Subhead"
         android:textStyle="bold"

@@ -40,11 +40,9 @@ class FragmentDetails: Fragment() {
         mSourceItem = UtilityPokemonLoader.getPokemonListItemById(mPokemonId)
         sharedElementEnterTransition = TransitionInflater.from(requireContext()).inflateTransition(R.transition.transitions_standard)
         postponeEnterTransition()
-        setHasOptionsMenu(true)
-        (requireActivity() as AppCompatActivity).supportActionBar?.also{
-            it.setDisplayHomeAsUpEnabled(true)
-        }
     }
+
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
@@ -66,6 +64,10 @@ class FragmentDetails: Fragment() {
     }
 
     private fun updateBaseViews(){
+        setHasOptionsMenu(true)
+        (requireActivity() as AppCompatActivity).supportActionBar?.also{
+            it.setDisplayHomeAsUpEnabled(true)
+        }
         mFragmentViewBinding.idTvPokemonName.text = mSourceItem.name.replaceFirstChar { it.titlecase() }
         Picasso.get().load(mSourceItem.iconUrl).fit().centerInside().into(mFragmentViewBinding.idIvPokemonIcon, OnPicassoImageLoadedDoEnterTransition())
     }

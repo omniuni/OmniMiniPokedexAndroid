@@ -36,7 +36,6 @@ class FragmentHome: Fragment(), UtilityPokemonLoader.IOnLoad, AdapterRecyclerVie
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        postponeEnterTransition()
         setHasOptionsMenu(true)
     }
 
@@ -110,8 +109,6 @@ class FragmentHome: Fragment(), UtilityPokemonLoader.IOnLoad, AdapterRecyclerVie
         }
         if(this::mRecyclerViewScrollState.isInitialized){
             mFragmentViewBinding.idRvPokemon.layoutManager?.onRestoreInstanceState(mRecyclerViewScrollState)
-            // This helps prevent slight flickering on returning to the home fragment
-            startPostponedEnterTransition()
         }
     }
 
@@ -135,10 +132,6 @@ class FragmentHome: Fragment(), UtilityPokemonLoader.IOnLoad, AdapterRecyclerVie
                 UtilityPokemonLoader.getLoadedPokemonListCount()
             )
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
     }
 
     override fun onItemClicked(item: ModelPokemonListItem, imageView: ImageView, textView: TextView) {
