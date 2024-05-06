@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePadding
 import com.omniimpact.template.mini.databinding.ActivityMainBinding
 
 class ActivityMain : AppCompatActivity() {
@@ -30,7 +29,7 @@ class ActivityMain : AppCompatActivity() {
 
 	private fun updateViewForInsets(windowInsets: WindowInsetsCompat) {
 		val insetValues = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-		mActivityViewBinding.idToolbar.updatePadding(top = insetValues.top, right = insetValues.right)
+		mActivityViewBinding.idFlStatusBar.minimumHeight = insetValues.top
 		mActivityViewBinding.idFlNavigation.minimumHeight = insetValues.bottom
 		mActivityViewBinding.idFcvActivityMain.updateLayoutParams<MarginLayoutParams> {
 			rightMargin = insetValues.right

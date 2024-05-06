@@ -6,14 +6,22 @@
 		android:layout_height="match_parent"
 		tools:context=".activities.ActivityMain">
 
+	<FrameLayout
+			android:id="@+id/id_fl_status_bar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:minHeight="@dimen/margin_standard"
+			android:background="@color/md_theme_primaryContainer"/>
+
 	<!-- Apply top padding here for window insets. -->
-	<androidx.appcompat.widget.Toolbar
+	<com.google.android.material.appbar.MaterialToolbar
 			android:id="@+id/id_toolbar"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:background="?attr/colorPrimary"
 			android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-			app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight" />
+			app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"
+			android:layout_below="@id/id_fl_status_bar"/>
 
 	<androidx.fragment.app.FragmentContainerView
 			android:id="@+id/id_fcv_activity_main"

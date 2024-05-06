@@ -67,21 +67,21 @@ class FragmentDetails : Fragment() {
 		(requireActivity() as AppCompatActivity).supportActionBar?.also {
 			it.setDisplayHomeAsUpEnabled(true)
 		}
-		mFragmentViewBinding.idTvPokemonName.text = mSourceItem.name.replaceFirstChar { it.titlecase() }
+		mFragmentViewBinding.idLlBanner.idTvPokemonName.text = mSourceItem.name.replaceFirstChar { it.titlecase() }
 		Picasso.get().load(mSourceItem.iconUrl).fit().centerInside()
-			.into(mFragmentViewBinding.idIvPokemonIcon, OnPicassoImageLoadedDoEnterTransition())
+			.into(mFragmentViewBinding.idLlBanner.idIvPokemonIcon, OnPicassoImageLoadedDoEnterTransition())
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		ViewCompat.setTransitionName(
-			mFragmentViewBinding.idIvPokemonIcon,
+			mFragmentViewBinding.idLlBanner.idIvPokemonIcon,
 			KEY_TRANSITION_TARGET_IMAGE_HEADER
 		)
 		ViewCompat.setTransitionName(
-			mFragmentViewBinding.idTvPokemonName,
+			mFragmentViewBinding.idLlBanner.idTvPokemonName,
 			KEY_TRANSITION_TARGET_TEXT_HEADER
 		)
-		ViewCompat.setTransitionName(mFragmentViewBinding.idVBanner, KEY_TRANSITION_TARGET_BANNER)
+		ViewCompat.setTransitionName(mFragmentViewBinding.idLlBanner.root, KEY_TRANSITION_TARGET_BANNER)
 	}
 
 	inner class OnPicassoImageLoadedDoEnterTransition : Callback {

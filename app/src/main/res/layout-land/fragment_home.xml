@@ -12,7 +12,7 @@
 
 	<androidx.cardview.widget.CardView
 			android:id="@+id/id_cv_toolbar"
-			android:layout_width="200dp"
+			android:layout_width="@dimen/layout_sidebar_width"
 			android:layout_height="match_parent"
 			android:layout_marginEnd="@dimen/margin_half">
 

@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.omniimpact.template.mini.R
-import com.omniimpact.template.mini.databinding.ActivityMainFragmentHomeBinding
+import com.omniimpact.template.mini.databinding.FragmentHomeBinding
 import com.omniimpact.template.mini.models.ModelPokemonList
 import com.omniimpact.template.mini.models.ModelPokemonListItem
 import com.omniimpact.template.mini.utilities.AdapterRecyclerViewPokemonList
@@ -31,7 +31,7 @@ class FragmentHome : Fragment(), UtilityPokemonLoader.IOnLoad,
 		private var mIsOptionsShown = false
 	}
 
-	private lateinit var mFragmentViewBinding: ActivityMainFragmentHomeBinding
+	private lateinit var mFragmentViewBinding: FragmentHomeBinding
 	private lateinit var mAdapter: AdapterRecyclerViewPokemonList
 	private lateinit var mRecyclerViewScrollState: Parcelable
 
@@ -49,7 +49,7 @@ class FragmentHome : Fragment(), UtilityPokemonLoader.IOnLoad,
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
-		mFragmentViewBinding = ActivityMainFragmentHomeBinding.inflate(layoutInflater)
+		mFragmentViewBinding = FragmentHomeBinding.inflate(layoutInflater)
 		updateMenu()
 		return mFragmentViewBinding.root
 	}
@@ -148,11 +148,9 @@ class FragmentHome : Fragment(), UtilityPokemonLoader.IOnLoad,
 		val detailsFragment = FragmentDetails()
 		val argumentsBundle = Bundle()
 		argumentsBundle.putInt(FragmentDetails.KEY_ID, item.id)
-		val bannerView: View = mFragmentViewBinding.idVBanner ?: View(requireContext())
 		val animationsMap: Map<View, String> = mapOf(
 			imageView to FragmentDetails.KEY_TRANSITION_TARGET_IMAGE_HEADER,
-			textView to FragmentDetails.KEY_TRANSITION_TARGET_TEXT_HEADER,
-			bannerView to FragmentDetails.KEY_TRANSITION_TARGET_BANNER
+			textView to FragmentDetails.KEY_TRANSITION_TARGET_TEXT_HEADER
 		)
 		UtilityFragmentManager.using(parentFragmentManager).load(detailsFragment)
 			.with(argumentsBundle, animationsMap).into(view?.parent as ViewGroup).now()

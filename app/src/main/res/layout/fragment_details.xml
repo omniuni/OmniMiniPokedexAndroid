@@ -1,35 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:animateLayoutChanges="true">
 
-	<LinearLayout
-			android:id="@+id/id_v_banner"
+	<include
+			android:id="@+id/id_ll_banner"
+			layout="@layout/include_fragment_sidebar_details"/>
+
+	<FrameLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="match_parent"
 			android:background="?colorPrimary"
-			android:orientation="vertical"
-			android:padding="@dimen/margin_standard">
+			android:layout_below="@id/id_ll_banner">
 
-		<TextView
-				android:id="@+id/id_tv_pokemon_name"
-				style="@style/TextAppearance.Material3.HeadlineLarge"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center_horizontal"
-				android:textColor="?colorOnSurface" />
+		<com.google.android.material.card.MaterialCardView
+				android:background="@color/md_theme_surfaceBright_mediumContrast"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialCardView.RoundedTop"
+				app:contentPadding="@dimen/margin_standard">
 
-		<ImageView
-				android:id="@+id/id_iv_pokemon_icon"
-				android:layout_width="@dimen/icon_header_large"
-				android:layout_height="@dimen/icon_header_large"
-				android:layout_gravity="center_horizontal"
-				android:layout_marginTop="@dimen/margin_standard"
-				tools:ignore="ContentDescription" />
+			<include layout="@layout/include_fragment_details"/>
 
-	</LinearLayout>
+		</com.google.android.material.card.MaterialCardView>
 
+	</FrameLayout>
 
 </RelativeLayout>
