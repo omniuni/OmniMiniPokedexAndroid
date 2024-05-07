@@ -20,13 +20,12 @@ jobs:
         distribution: 'temurin'
         cache: gradle
 
-    - name: Get tags
-      run: git fetch --tags origin
-
     - name: Setup Android SDK
       uses: android-actions/setup-android@v2.0.10
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+    - name: Get tags
+      run: git fetch --tags origin
     - name: Build with Gradle
       run: ./gradlew assembleAppDebug
