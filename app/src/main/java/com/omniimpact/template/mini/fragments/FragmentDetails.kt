@@ -11,13 +11,17 @@ import androidx.fragment.app.Fragment
 import androidx.transition.TransitionInflater
 import com.omniimpact.template.mini.R
 import com.omniimpact.template.mini.databinding.FragmentDetailsBinding
+import com.omniimpact.template.mini.databinding.ListItemPokemonEvolutionBinding
+import com.omniimpact.template.mini.models.ModelPokemonEvolution
 import com.omniimpact.template.mini.models.ModelPokemonEvolutionChain
 import com.omniimpact.template.mini.models.ModelPokemonListItem
+import com.omniimpact.template.mini.models.ModelPokemonSpecies
 import com.omniimpact.template.mini.utilities.UtilityPokemonLoader
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
-class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain {
+class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
+	UtilityPokemonLoader.IOnSpecies {
 
 	companion object {
 		const val KEY_ID = "id"
@@ -30,6 +34,7 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain {
 	private var mPokemonId: Int = 0
 	private lateinit var mSourceItem: ModelPokemonListItem
 
+	private lateinit var mPokemonSpecies: ModelPokemonSpecies
 	private lateinit var mPokemonEvolutionChain: ModelPokemonEvolutionChain
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,44 +95,62 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain {
 	inner class OnPicassoImageLoadedDoEnterTransition : Callback {
 		override fun onSuccess() {
 			startPostponedEnterTransition()
-			continueLoad()
+			continueLoadSpecies()
 		}
 
 		override fun onError(e: Exception?) {
 			startPostponedEnterTransition()
-			continueLoad()
+			continueLoadSpecies()
 		}
 
 	}
 
-	private fun continueLoad(){
-		getEvolutionChain()
+	private fun continueLoadSpecies(){
+		UtilityPokemonLoader.loadSpecies(this, mPokemonId)
+	}
+
+	// Species
+
+	override fun onSpeciesReady() {
+		mPokemonSpecies = UtilityPokemonLoader.getPokemonSpecies(mPokemonId)
+		continueLoadEvolutionChain()
 	}
 
 	// Evolution Chain
 
-	private fun getEvolutionChain(){
-		UtilityPokemonLoader.loadEvolution(this, mPokemonId)
+	private fun continueLoadEvolutionChain(){
+		UtilityPokemonLoader.loadEvolution(this, mPokemonSpecies.evolutionChain.id)
 	}
 
 	override fun onEvolutionChainReady() {
-		mPokemonEvolutionChain = UtilityPokemonLoader.getPokemonEvolutionChain(mPokemonId)
+		mPokemonEvolutionChain = UtilityPokemonLoader.getPokemonEvolutionChain(mPokemonSpecies.evolutionChain.id)
 		updateEvolutionChainViews()
 	}
 
 	private fun updateEvolutionChainViews(){
-		mPokemonEvolutionChain.evolvesTo[0].also { evolution ->
-			var id = evolution.species.url.takeLastWhile { it.isDigit() || it == '/' }.filter { it.isDigit() }.toInt()
+		addEvolutionView(mPokemonEvolutionChain)
+	}
+
+	private fun addEvolutionView(evolution: ModelPokemonEvolutionChain){
+		val evolutionView = ListItemPokemonEvolutionBinding.inflate(layoutInflater, mFragmentViewBinding.idIncludeDetails.idLlEvolutions, true)
+		if(evolution.evolutionDetails.isNotEmpty()){
 			evolution.evolutionDetails[0].also {
-				mFragmentViewBinding.idIncludeDetails.idMinLevel.text = it.minLevel.toString()
+				evolutionView.idMinLevel.text = it.minLevel.toString()
 			}
-			mFragmentViewBinding.idIncludeDetails.idTvPokemonName.text = evolution.species.name
-			if(evolution.species.iconUrl.isEmpty()){
-				evolution.species.iconUrl = "${UtilityPokemonLoader.URL_POKEMON_SPRITES_BASE}$id.png"
-			}
-			Picasso.get().load(evolution.species.iconUrl).fit().into(mFragmentViewBinding.idIncludeDetails.idIvIcon)
+		} else {
+			evolutionView.idMinLevel.text = "0"
+		}
+		evolutionView.idTvPokemonName.text = evolution.species.name.replaceFirstChar { it.titlecase() }
+		val evolutionSpeciesId: Int =  evolution.species.url.takeLastWhile { it.isDigit() || it == '/' }.filter { it.isDigit() }.toInt()
+		if(evolution.species.iconUrl.isEmpty()){
+			evolution.species.iconUrl = "${UtilityPokemonLoader.URL_POKEMON_SPRITES_BASE}$evolutionSpeciesId.png"
+		}
+		Picasso.get().load(evolution.species.iconUrl).fit().into(evolutionView.idIvIcon)
+		if(evolution.evolvesTo.isNotEmpty()){
+			addEvolutionView(evolution.evolvesTo[0])
 		}
 	}
+
 
 
 }

@@ -22,7 +22,7 @@ data class ModelPokemonEvolutionChain(
 @JsonClass(generateAdapter = true)
 data class ModelPokemonEvolutionChainEvolutionDetails(
 	@Json(name = "min_level")
-	val minLevel: Int
+	val minLevel: Int? = 0
 )
 
 @JsonClass(generateAdapter = true)
