@@ -116,6 +116,10 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 		continueLoadEvolutionChain()
 	}
 
+	override fun onSpeciesFailed() {
+		mFragmentViewBinding.idIncludeDetails.idCvEvolutions.visibility = View.GONE
+	}
+
 	// Evolution Chain
 
 	private fun continueLoadEvolutionChain(){
@@ -128,6 +132,7 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 	}
 
 	private fun updateEvolutionChainViews(){
+		mFragmentViewBinding.idIncludeDetails.idLlEvolutions.removeAllViews()
 		addEvolutionView(mPokemonEvolutionChain)
 	}
 

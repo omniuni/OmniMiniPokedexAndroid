@@ -15,6 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.io.FileNotFoundException
 import java.net.URL
 
 object UtilityPokemonLoader {
@@ -35,6 +36,7 @@ object UtilityPokemonLoader {
 
 	interface IOnSpecies {
 		fun onSpeciesReady()
+		fun onSpeciesFailed()
 	}
 
 	interface IOnEvolutionChain {
@@ -77,8 +79,15 @@ object UtilityPokemonLoader {
 		}
 
 		loadScope.launch {
-			val jsonResult = URL(URL_POKEMON_SPECIES+pokemonId).readText()
-
+			var jsonResult = String()
+			try {
+				jsonResult = URL(URL_POKEMON_SPECIES + pokemonId).readText()
+			} catch (e: FileNotFoundException) {
+				launch(Dispatchers.Main) {
+					caller.onSpeciesFailed()
+				}
+				return@launch
+			}
 			val moshi: Moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
 			val pokemonSpeciesAdapter = moshi.adapter(ModelPokemonSpecies::class.java)
 			pokemonSpeciesAdapter.fromJson(jsonResult)?.also { species ->
