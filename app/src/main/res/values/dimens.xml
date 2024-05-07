@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<dimen name="layout_sidebar_width">220dp</dimen>
+	<dimen name="margin_standard">12dp</dimen>
+	<dimen name="margin_half">6dp</dimen>
+	<dimen name="margin_quarter">3dp</dimen>
+	<dimen name="padding_standard">8dp</dimen>
+	<dimen name="icon_mini">18dp</dimen>
+	<dimen name="icon_small">32dp</dimen>
+	<dimen name="icon_medium">64dp</dimen>
+	<dimen name="icon_list_large">72dp</dimen>
+	<dimen name="icon_large">100dp</dimen>
+	<dimen name="icon_header_large">140dp</dimen>
+	<dimen name="size_chip_medium">120dp</dimen>
+	<dimen name="layout_divider">0.7dp</dimen>
+</resources>

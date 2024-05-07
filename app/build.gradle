@@ -1,11 +1,11 @@
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
-    id("com.google.devtools.ksp").version("1.9.23-1.0.20")
+	alias(libs.plugins.androidApplication)
+	alias(libs.plugins.jetbrainsKotlinAndroid)
+	id("com.google.devtools.ksp").version("1.9.23-1.0.20")
 }
 
 kotlin {
-    jvmToolchain 17
+	jvmToolchain 17
 }
 
 // Load keystore properties for debug builds
@@ -14,81 +14,88 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-    namespace 'com.omniimpact.template.mini'
-    compileSdk 34
+	namespace 'com.omniimpact.template.mini'
+	compileSdk 34
 
-    signingConfigs {
-        config {
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-        }
-    }
+	signingConfigs {
+		config {
+			storeFile file(keystoreProperties['storeFile'])
+			storePassword keystoreProperties['storePassword']
+			keyAlias keystoreProperties['keyAlias']
+			keyPassword keystoreProperties['keyPassword']
+		}
+	}
 
-    defaultConfig {
-        applicationId "com.omniimpact.template.mini"
-        minSdk 27
-        targetSdk 34
-        // https://semver.org/
-        versionName androidGitVersion.name()
-        versionCode androidGitVersion.code()
-        archivesBaseName = "$applicationId-$versionCode-$versionName"
+	defaultConfig {
+		applicationId "com.omniimpact.template.mini"
+		minSdk 27
+		targetSdk 34
+		// https://semver.org/
+		versionName androidGitVersion.name()
+		versionCode androidGitVersion.code()
+		archivesBaseName = "$applicationId-$versionCode-$versionName"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary true
-        }
+		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+		vectorDrawables {
+			useSupportLibrary true
+		}
 
-        buildConfigField("String", "APP_VERSION_NAME", "\"$versionName\"")
-        buildConfigField("int", "APP_VERSION_CODE", "$versionCode")
+		buildConfigField("String", "APP_VERSION_NAME", "\"$versionName\"")
+		buildConfigField("int", "APP_VERSION_CODE", "$versionCode")
 
-        signingConfig signingConfigs.config
+		signingConfig signingConfigs.config
 
-    }
+	}
 
-    flavorDimensions += "devTools"
-    productFlavors {
-        devTools{
-            dimension "devTools"
-        }
-        app{
-            dimension "devTools"
-        }
-    }
-    buildTypes {
-        debug {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            testProguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            applicationIdSuffix ".debug"
-        }
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            testProguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            applicationIdSuffix ".app"
-        }
-    }
-    buildFeatures {
-        viewBinding true
-        buildConfig true
-    }
+	flavorDimensions += "devTools"
+	productFlavors {
+		devTools {
+			dimension "devTools"
+		}
+		app {
+			dimension "devTools"
+		}
+	}
+	buildTypes {
+		debug {
+			minifyEnabled true
+			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+			testProguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+			applicationIdSuffix ".debug"
+		}
+		release {
+			minifyEnabled true
+			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+			testProguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+			applicationIdSuffix ".app"
+		}
+	}
+	buildFeatures {
+		viewBinding true
+		buildConfig true
+	}
 
 }
 
 dependencies {
-    // Google Libraries
-    implementation libs.androidx.core.ktx
-    implementation libs.androidx.lifecycle.runtime.ktx
-    implementation libs.material
+	// Google Libraries
+	implementation libs.androidx.core.ktx
+	implementation libs.androidx.lifecycle.runtime.ktx
+	implementation libs.material
 
-    // Supporting Libraries
-    // https://github.com/square/moshi
-    ksp(libs.moshi.kotlin.codegen)
+	// Supporting Libraries
+	// https://github.com/square/moshi
+	ksp(libs.moshi.kotlin.codegen)
+	implementation libs.moshi.kotlin
 
-    // Testing Libraries
-    testImplementation libs.junit
-    androidTestImplementation libs.androidx.junit
-    androidTestImplementation libs.androidx.espresso.core
+	// Picasso
+	implementation libs.picasso
+
+	// Palette
+	implementation libs.palette
+
+	// Testing Libraries
+	testImplementation libs.junit
+	androidTestImplementation libs.androidx.junit
+	androidTestImplementation libs.androidx.espresso.core
 }
