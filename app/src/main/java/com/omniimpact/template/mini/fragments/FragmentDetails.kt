@@ -1,27 +1,31 @@
 package com.omniimpact.template.mini.fragments
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.transition.TransitionInflater
 import com.omniimpact.template.mini.R
 import com.omniimpact.template.mini.databinding.FragmentDetailsBinding
 import com.omniimpact.template.mini.databinding.ListItemPokemonEvolutionBinding
-import com.omniimpact.template.mini.models.ModelPokemonEvolution
+import com.omniimpact.template.mini.databinding.ListItemTypeChipBinding
+import com.omniimpact.template.mini.models.ModelPokemonDetails
 import com.omniimpact.template.mini.models.ModelPokemonEvolutionChain
 import com.omniimpact.template.mini.models.ModelPokemonListItem
 import com.omniimpact.template.mini.models.ModelPokemonSpecies
+import com.omniimpact.template.mini.utilities.UtilityFragmentManager
 import com.omniimpact.template.mini.utilities.UtilityPokemonLoader
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
 class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
-	UtilityPokemonLoader.IOnSpecies {
+	UtilityPokemonLoader.IOnSpecies, UtilityPokemonLoader.IOnDetails {
 
 	companion object {
 		const val KEY_ID = "id"
@@ -35,6 +39,7 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 	private lateinit var mSourceItem: ModelPokemonListItem
 
 	private lateinit var mPokemonSpecies: ModelPokemonSpecies
+	private lateinit var mPokemonDetails: ModelPokemonDetails
 	private lateinit var mPokemonEvolutionChain: ModelPokemonEvolutionChain
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,24 +100,28 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 	inner class OnPicassoImageLoadedDoEnterTransition : Callback {
 		override fun onSuccess() {
 			startPostponedEnterTransition()
-			continueLoadSpecies()
+			continueLoad()
 		}
 
 		override fun onError(e: Exception?) {
 			startPostponedEnterTransition()
-			continueLoadSpecies()
+			continueLoad()
 		}
 
 	}
 
-	private fun continueLoadSpecies(){
+	private fun continueLoad(){
 		UtilityPokemonLoader.loadSpecies(this, mPokemonId)
+		UtilityPokemonLoader.loadDetails(this, mPokemonId)
 	}
 
 	// Species
 
 	override fun onSpeciesReady() {
 		mPokemonSpecies = UtilityPokemonLoader.getPokemonSpecies(mPokemonId)
+
+		mFragmentViewBinding.idIncludeDetails.idTvFlavor.text = mPokemonSpecies.defaultFlavorText
+
 		continueLoadEvolutionChain()
 	}
 
@@ -151,11 +160,56 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 			evolution.species.iconUrl = "${UtilityPokemonLoader.URL_POKEMON_SPRITES_BASE}$evolutionSpeciesId.png"
 		}
 		Picasso.get().load(evolution.species.iconUrl).fit().into(evolutionView.idIvIcon)
+		evolutionView.root.setOnClickListener {
+			val detailsFragment = FragmentDetails()
+			val argumentsBundle = Bundle()
+			argumentsBundle.putInt(KEY_ID, evolutionSpeciesId)
+			UtilityFragmentManager.using(parentFragmentManager).load(detailsFragment)
+				.with(argumentsBundle).into(view?.parent as ViewGroup).now()
+		}
 		if(evolution.evolvesTo.isNotEmpty()){
 			addEvolutionView(evolution.evolvesTo[0])
 		}
 	}
 
+	// Details
+
+	override fun onDetailsReady() {
+		mPokemonDetails = UtilityPokemonLoader.getPokemonDetails(mPokemonId)
+		updateTypes()
+	}
+
+	private fun updateTypes(){
+		mFragmentViewBinding.idLlBanner.idLlChips.removeAllViews()
+		mPokemonDetails.types.forEach { modelPokemonDetailsTypes ->
+			val typeChipView = ListItemTypeChipBinding.inflate(layoutInflater, mFragmentViewBinding.idLlBanner.idLlChips, true)
+			typeChipView.idTvType.text = modelPokemonDetailsTypes.type.name
+			typeChipView.idCvTypeChip.backgroundTintList = when(modelPokemonDetailsTypes.type.name){
+				"normal" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_normal))
+				"fire" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_fire))
+				"water" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_water))
+				"electric" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_electric))
+				"grass" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_grass))
+				"ice" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_ice))
+				"fighting" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_fighting))
+				"poison" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_poison))
+				"ground" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_ground))
+				"flying" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_flying))
+				"psychic" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_psychic))
+				"bug" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_bug))
+				"rock" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_rock))
+				"ghost" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_ghost))
+				"dragon" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_dragon))
+				"dark" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_dark))
+				"steel" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_steel))
+				"fairy" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_fairy))
+				"stellar" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_stellar))
+				"shadow" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_shadow))
+				else -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_unknown))
+			}
+		}
+
+	}
 
 
 }

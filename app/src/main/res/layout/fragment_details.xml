@@ -23,9 +23,13 @@
 				app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialCardView.RoundedTop"
 				app:contentPadding="@dimen/margin_standard">
 
-			<include
-					android:id="@+id/id_include_details"
-					layout="@layout/include_fragment_details"/>
+				<ScrollView
+						android:layout_width="match_parent"
+						android:layout_height="match_parent">
+							<include
+									android:id="@+id/id_include_details"
+									layout="@layout/include_fragment_details"/>
+				</ScrollView>
 
 		</com.google.android.material.card.MaterialCardView>
 

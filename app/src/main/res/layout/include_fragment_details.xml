@@ -5,7 +5,7 @@
 		xmlns:app="http://schemas.android.com/apk/res-auto">
 
 	<com.google.android.material.card.MaterialCardView
-			android:id="@+id/id_cv_evolutions"
+			android:id="@+id/id_cv_flavor"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_margin="@dimen/margin_half"
@@ -16,14 +16,44 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			style="@style/TextAppearance.Material3.TitleMedium"
-			android:text="@string/label_evolutions"/>
+			android:text="@string/label_description"/>
 
 		<View
-			android:id="@+id/id_v_divider"
 			android:layout_width="match_parent"
 			android:layout_height="@dimen/layout_divider"
 			android:layout_marginTop="26dp"
 			android:background="@color/md_theme_secondaryFixed_mediumContrast"/>
+
+		<TextView
+				android:id="@+id/id_tv_flavor"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				style="@style/TextAppearance.Material3.BodyMedium"
+				android:layout_marginTop="30dp"/>
+
+	</com.google.android.material.card.MaterialCardView>
+
+
+	<com.google.android.material.card.MaterialCardView
+			android:id="@+id/id_cv_evolutions"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="@dimen/margin_half"
+			android:layout_below="@id/id_cv_flavor"
+			android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
+			app:contentPadding="@dimen/margin_half">
+
+		<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				style="@style/TextAppearance.Material3.TitleMedium"
+				android:text="@string/label_evolutions"/>
+
+		<View
+				android:layout_width="match_parent"
+				android:layout_height="@dimen/layout_divider"
+				android:layout_marginTop="26dp"
+				android:background="@color/md_theme_secondaryFixed_mediumContrast"/>
 
 		<HorizontalScrollView
 				android:layout_width="match_parent"
@@ -32,15 +62,14 @@
 				android:fadingEdgeLength="@dimen/icon_small"
 				android:foregroundGravity="center"
 				android:layout_marginTop="26dp">
-				<LinearLayout
-						android:id="@+id/id_ll_evolutions"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:orientation="horizontal"
-						android:padding="@dimen/margin_half"/>
+			<LinearLayout
+					android:id="@+id/id_ll_evolutions"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:padding="@dimen/margin_half"/>
 		</HorizontalScrollView>
 
 	</com.google.android.material.card.MaterialCardView>
-
 
 </RelativeLayout>

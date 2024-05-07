@@ -5,6 +5,7 @@
 
 	<string name="label_encountered">Encountered</string>
 	<string name="label_alphabetical">Alphabetical</string>
+	<string name="label_description">Description</string>
 	<string name="label_evolutions">Evolutions</string>
 
 	<string name="a_of_b">%1$d of %2$d</string>

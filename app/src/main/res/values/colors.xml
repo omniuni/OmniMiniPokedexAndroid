@@ -16,6 +16,7 @@
 	<color name="md_theme_errorContainer">#FFDAD6</color>
 	<color name="md_theme_onErrorContainer">#410002</color>
 	<color name="md_theme_background">#FFF8F4</color>
+	<color name="md_theme_background_tint">#4DFFF8F4</color>
 	<color name="md_theme_onBackground">#211B13</color>
 	<color name="md_theme_surface">#FFF8F4</color>
 	<color name="md_theme_onSurface">#211B13</color>
@@ -140,4 +141,26 @@
 	<color name="md_theme_surfaceContainer_highContrast">#F9ECDF</color>
 	<color name="md_theme_surfaceContainerHigh_highContrast">#F3E6DA</color>
 	<color name="md_theme_surfaceContainerHighest_highContrast">#EDE0D4</color>
+	<!-- Type Colors -->
+	<color name="type_normal">#A7A67F</color>
+	<color name="type_fire">#DE8C44</color>
+	<color name="type_water">#5897C7</color>
+	<color name="type_electric">#C8A741</color>
+	<color name="type_grass">#71C353</color>
+	<color name="type_ice">#82B7B9</color>
+	<color name="type_fighting">#C05E5E</color>
+	<color name="type_poison">#986BB0</color>
+	<color name="type_ground">#C8AF86</color>
+	<color name="type_flying">#8F86C7</color>
+	<color name="type_psychic">#D76C8D</color>
+	<color name="type_bug">#A1AE58</color>
+	<color name="type_rock">#B58A5C</color>
+	<color name="type_ghost">#9584A5</color>
+	<color name="type_dragon">#8473D1</color>
+	<color name="type_dark">#866C5A</color>
+	<color name="type_steel">#7E8B8E</color>
+	<color name="type_fairy">#C187B5</color>
+	<color name="type_stellar">#63A59F</color>
+	<color name="type_shadow">#6D8B9B</color>
+	<color name="type_unknown">#787878</color>
 </resources>

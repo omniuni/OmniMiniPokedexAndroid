@@ -6,7 +6,7 @@
 		android:layout_height="match_parent"
 		android:background="?colorPrimary"
 		android:orientation="vertical"
-		android:gravity="center_vertical"
+		android:gravity="center"
 		android:padding="@dimen/margin_standard">
 
 	<TextView
@@ -14,17 +14,20 @@
 			style="@style/TextAppearance.Material3.HeadlineLarge"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_gravity="center_horizontal"
 			android:textColor="?colorOnSurface" />
 
 	<ImageView
 			android:id="@+id/id_iv_pokemon_icon"
 			android:layout_width="@dimen/icon_header_large"
 			android:layout_height="@dimen/icon_header_large"
-			android:layout_gravity="center_horizontal"
 			android:layout_marginTop="@dimen/margin_standard"
 			tools:ignore="ContentDescription" />
 
+	<LinearLayout
+			android:id="@+id/id_ll_chips"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"/>
 
 
 </LinearLayout>

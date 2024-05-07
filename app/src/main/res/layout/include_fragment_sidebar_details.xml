@@ -5,6 +5,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:background="?colorPrimary"
+		android:gravity="center_horizontal"
 		android:orientation="vertical"
 		android:padding="@dimen/margin_standard">
 
@@ -13,15 +14,28 @@
 			style="@style/TextAppearance.Material3.HeadlineLarge"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_gravity="center_horizontal"
 			android:textColor="?colorOnSurface" />
 
-	<ImageView
-			android:id="@+id/id_iv_pokemon_icon"
-			android:layout_width="@dimen/icon_header_large"
-			android:layout_height="@dimen/icon_header_large"
-			android:layout_gravity="center_horizontal"
-			android:layout_marginTop="@dimen/margin_standard"
-			tools:ignore="ContentDescription" />
+	<RelativeLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+
+		<ImageView
+				android:id="@+id/id_iv_pokemon_icon"
+				android:layout_width="@dimen/icon_header_large"
+				android:layout_height="@dimen/icon_header_large"
+				android:layout_marginTop="@dimen/margin_standard"
+				tools:ignore="ContentDescription" />
+
+		<LinearLayout
+				android:id="@+id/id_ll_chips"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				android:layout_centerVertical="true"
+				android:layout_toEndOf="@id/id_iv_pokemon_icon"/>
+
+	</RelativeLayout>
+
 
 </LinearLayout>

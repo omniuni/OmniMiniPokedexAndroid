@@ -1,9 +1,8 @@
 package com.omniimpact.template.mini.utilities
 
-import android.view.Display.Mode
+import com.omniimpact.template.mini.models.ModelPokemonDetails
 import com.omniimpact.template.mini.models.ModelPokemonEvolution
 import com.omniimpact.template.mini.models.ModelPokemonEvolutionChain
-import com.omniimpact.template.mini.models.ModelPokemonEvolutionChainEvolutionDetails
 import com.omniimpact.template.mini.models.ModelPokemonEvolutionChainEvolutionSpecies
 import com.omniimpact.template.mini.models.ModelPokemonList
 import com.omniimpact.template.mini.models.ModelPokemonListItem
@@ -26,12 +25,18 @@ object UtilityPokemonLoader {
 	private const val URL_POKEMON_LIST = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=3000"
 	private const val URL_POKEMON_SPECIES = "https://pokeapi.co/api/v2/pokemon-species/"
 	private const val URL_POKEMON_EVOLUTIONS = "https://pokeapi.co/api/v2/evolution-chain/"
+	private const val URL_POKEMON_DETAILS = "https://pokeapi.co/api/v2/pokemon/"
 	private lateinit var mPokemonList: ModelPokemonList
 	private val mPokemonSpeciesMap: MutableMap<Int, ModelPokemonSpecies> = mutableMapOf()
 	private val mPokemonEvolutionsMap: MutableMap<Int, ModelPokemonEvolutionChain> = mutableMapOf()
+	private val mPokemonDetailsMap: MutableMap<Int, ModelPokemonDetails> = mutableMapOf()
 
 	interface IOnLoad {
 		fun onPokemonLoaded()
+	}
+
+	interface IOnDetails {
+		fun onDetailsReady()
 	}
 
 	interface IOnSpecies {
@@ -79,7 +84,7 @@ object UtilityPokemonLoader {
 		}
 
 		loadScope.launch {
-			var jsonResult = String()
+			val jsonResult: String
 			try {
 				jsonResult = URL(URL_POKEMON_SPECIES + pokemonId).readText()
 			} catch (e: FileNotFoundException) {
@@ -91,15 +96,49 @@ object UtilityPokemonLoader {
 			val moshi: Moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
 			val pokemonSpeciesAdapter = moshi.adapter(ModelPokemonSpecies::class.java)
 			pokemonSpeciesAdapter.fromJson(jsonResult)?.also { species ->
+
+				// Extract the evolution chain ID
 				species.evolutionChain.also { evolutionChain ->
 					evolutionChain.id = evolutionChain.url.takeLastWhile { it.isDigit() || it == '/' }.filter { it.isDigit() }.toInt()
 				}
+
+				// Get the default flavor text (last English flavor text)
+				species.flavorTextEntries.forEach { flavorTextEntry ->
+					if(flavorTextEntry.language.name.equals("en", ignoreCase = true)){
+						species.defaultFlavorText = flavorTextEntry.flavorText
+					}
+				}
+				species.defaultFlavorText = species.defaultFlavorText.replace("\\s+".toRegex(), " ")
+
+				// Cache it
 				mPokemonSpeciesMap[pokemonId] = species
 				launch(Dispatchers.Main) {
 					caller.onSpeciesReady()
 				}
 			}
 
+		}
+
+	}
+
+	fun loadDetails(caller: IOnDetails, pokemonId: Int){
+
+		if(mPokemonDetailsMap.containsKey(pokemonId)){
+			caller.onDetailsReady()
+		}
+
+		loadScope.launch {
+			val jsonResult = URL(URL_POKEMON_DETAILS+pokemonId).readText()
+			val moshi: Moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
+			val pokemonDetailsAdapter = moshi.adapter(ModelPokemonDetails::class.java)
+			pokemonDetailsAdapter.fromJson(jsonResult)?.also { pokemonDetails ->
+
+
+				mPokemonDetailsMap[pokemonId] = pokemonDetails
+				launch(Dispatchers.Main) {
+					caller.onDetailsReady()
+				}
+			}
 		}
 
 	}
@@ -151,7 +190,18 @@ object UtilityPokemonLoader {
 			id = 0,
 			evolutionChain = ModelPokemonSpeciesEvolutionChain(
 				url = String()
-			)
+			),
+			flavorTextEntries = listOf()
+		)
+	}
+
+	fun getPokemonDetails(pokemonId: Int): ModelPokemonDetails{
+		mPokemonDetailsMap[pokemonId]?.also {
+			return it
+		}
+		return ModelPokemonDetails(
+			id = 0,
+			types = listOf()
 		)
 	}
 
