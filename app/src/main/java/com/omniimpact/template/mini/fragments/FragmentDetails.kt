@@ -11,12 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.transition.TransitionInflater
 import com.omniimpact.template.mini.R
 import com.omniimpact.template.mini.databinding.FragmentDetailsBinding
+import com.omniimpact.template.mini.models.ModelPokemonEvolutionChain
 import com.omniimpact.template.mini.models.ModelPokemonListItem
 import com.omniimpact.template.mini.utilities.UtilityPokemonLoader
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
-class FragmentDetails : Fragment() {
+class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain {
 
 	companion object {
 		const val KEY_ID = "id"
@@ -28,6 +29,8 @@ class FragmentDetails : Fragment() {
 	private lateinit var mFragmentViewBinding: FragmentDetailsBinding
 	private var mPokemonId: Int = 0
 	private lateinit var mSourceItem: ModelPokemonListItem
+
+	private lateinit var mPokemonEvolutionChain: ModelPokemonEvolutionChain
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -87,12 +90,44 @@ class FragmentDetails : Fragment() {
 	inner class OnPicassoImageLoadedDoEnterTransition : Callback {
 		override fun onSuccess() {
 			startPostponedEnterTransition()
+			continueLoad()
 		}
 
 		override fun onError(e: Exception?) {
 			startPostponedEnterTransition()
+			continueLoad()
 		}
 
 	}
+
+	private fun continueLoad(){
+		getEvolutionChain()
+	}
+
+	// Evolution Chain
+
+	private fun getEvolutionChain(){
+		UtilityPokemonLoader.loadEvolution(this, mPokemonId)
+	}
+
+	override fun onEvolutionChainReady() {
+		mPokemonEvolutionChain = UtilityPokemonLoader.getPokemonEvolutionChain(mPokemonId)
+		updateEvolutionChainViews()
+	}
+
+	private fun updateEvolutionChainViews(){
+		mPokemonEvolutionChain.evolvesTo[0].also { evolution ->
+			var id = evolution.species.url.takeLastWhile { it.isDigit() || it == '/' }.filter { it.isDigit() }.toInt()
+			evolution.evolutionDetails[0].also {
+				mFragmentViewBinding.idIncludeDetails.idMinLevel.text = it.minLevel.toString()
+			}
+			mFragmentViewBinding.idIncludeDetails.idTvPokemonName.text = evolution.species.name
+			if(evolution.species.iconUrl.isEmpty()){
+				evolution.species.iconUrl = "${UtilityPokemonLoader.URL_POKEMON_SPRITES_BASE}$id.png"
+			}
+			Picasso.get().load(evolution.species.iconUrl).fit().into(mFragmentViewBinding.idIncludeDetails.idIvIcon)
+		}
+	}
+
 
 }
