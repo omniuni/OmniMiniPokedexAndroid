@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="32"
+   height="32"
+   viewBox="0 0 32 32"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="id_dmg_double.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#878787"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#464646"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="15.882714"
+     inkscape:cx="53.045089"
+     inkscape:cy="11.364556"
+     inkscape:window-width="3440"
+     inkscape:window-height="1412"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid160" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path7927"
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-opacity:1"
+       inkscape:transform-center-x="-0.46043639"
+       inkscape:transform-center-y="-0.75711831"
+       d="M -20.351598 -9.4144134 L -8.2896942 -1.1323196 L -15.044557 0.30073913 L -4.8915492 2.7542926 L -8.4590801 19.915637 L -0.61715373 9.124986 L 0.92059779 16.370974 L 3.4071659 6.0825144 L 21.713067 10.646544 L 9.2069102 2.0581396 L 16.990592 0.40734396 L 6.3841026 -2.1554219 L 9.8187037 -18.682938 L 2.5179274 -8.635664 L 1.0272824 -15.663459 L -1.6128649 -4.740882 L -20.351598 -9.4144134 z "
+       transform="matrix(0.94048638,0.29730018,-0.38207351,0.96522355,15.564887,15.305516)" />
+  </g>
+</svg>
