@@ -35,11 +35,112 @@
 
 
 	<com.google.android.material.card.MaterialCardView
+			android:id="@+id/id_cv_strength"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/id_cv_flavor"
+			android:layout_margin="@dimen/margin_half"
+			android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
+			app:contentPadding="@dimen/margin_half">
+
+		<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				style="@style/TextAppearance.Material3.TitleMedium"
+				android:layout_gravity="center_horizontal"
+				android:text="@string/label_strength"/>
+
+		<View
+				android:layout_width="match_parent"
+				android:layout_height="@dimen/layout_divider"
+				android:layout_marginTop="26dp"
+				android:background="@color/md_theme_secondaryFixed_mediumContrast"/>
+
+		<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:baselineAligned="false"
+				android:orientation="horizontal"
+				android:weightSum="2">
+
+			<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="30dp"
+				android:layout_weight="1"
+				android:orientation="vertical">
+				<include layout="@layout/list_item_type_sw_chip" />
+			</LinearLayout>
+			<LinearLayout
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp"
+					android:layout_weight="1"
+					android:orientation="vertical">
+				<include layout="@layout/list_item_type_sw_chip" />
+			</LinearLayout>
+
+		</LinearLayout>
+
+	</com.google.android.material.card.MaterialCardView>
+
+
+	<com.google.android.material.card.MaterialCardView
+			android:id="@+id/id_cv_weakness"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/id_cv_strength"
+			android:layout_margin="@dimen/margin_half"
+			android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
+			app:contentPadding="@dimen/margin_half">
+
+		<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				style="@style/TextAppearance.Material3.TitleMedium"
+				android:layout_gravity="center_horizontal"
+				android:text="@string/label_weakness"/>
+
+		<View
+				android:layout_width="match_parent"
+				android:layout_height="@dimen/layout_divider"
+				android:layout_marginTop="26dp"
+				android:background="@color/md_theme_secondaryFixed_mediumContrast"/>
+
+		<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:baselineAligned="false"
+				android:orientation="horizontal"
+				android:weightSum="2">
+
+			<LinearLayout
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp"
+					android:layout_weight="1"
+					android:orientation="vertical">
+				<include layout="@layout/list_item_type_sw_chip" />
+			</LinearLayout>
+			<LinearLayout
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp"
+					android:layout_weight="1"
+					android:orientation="vertical">
+				<include layout="@layout/list_item_type_sw_chip" />
+			</LinearLayout>
+
+		</LinearLayout>
+
+	</com.google.android.material.card.MaterialCardView>
+
+	<com.google.android.material.card.MaterialCardView
 			android:id="@+id/id_cv_evolutions"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_margin="@dimen/margin_half"
-			android:layout_below="@id/id_cv_flavor"
+			android:layout_below="@id/id_cv_weakness"
 			android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
 			app:contentPadding="@dimen/margin_half">
 

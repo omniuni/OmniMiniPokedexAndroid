@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools"
 		android:id="@+id/id_cv_type_chip"
-		android:layout_width="@dimen/size_chip_medium"
-		android:layout_marginVertical="@dimen/margin_half"
+		android:layout_width="match_parent"
+		android:layout_margin="@dimen/margin_quarter"
 		android:layout_height="wrap_content">
 		<com.google.android.material.card.MaterialCardView
 				android:layout_width="match_parent"
 				app:contentPadding="@dimen/margin_quarter"
+				android:layout_margin="@dimen/margin_quarter"
 				app:strokeWidth="0dp"
 				android:backgroundTint="@color/md_theme_background_tint"
 				android:layout_height="match_parent">
@@ -21,5 +23,17 @@
 					style="@style/TextAppearance.Material3.LabelMedium"
 					android:shadowRadius="3"
 					android:text="@string/placeholder_type"/>
+			<com.google.android.material.card.MaterialCardView
+					android:id="@+id/id_cv_type_contributing"
+					android:layout_width="@dimen/icon_mini"
+					android:layout_height="@dimen/icon_mini"
+					app:cardBackgroundColor="@color/md_theme_inverseSurface_highContrast"/>
+			<ImageView
+					android:layout_width="@dimen/icon_mini"
+					android:layout_height="@dimen/icon_mini"
+					android:layout_gravity="end"
+					android:src="@drawable/id_dmg_double"
+					app:tint="@color/md_theme_inverseSurface_highContrast"
+					tools:ignore="ContentDescription" />
 		</com.google.android.material.card.MaterialCardView>
 </com.google.android.material.card.MaterialCardView>

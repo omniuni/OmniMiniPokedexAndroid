@@ -18,13 +18,13 @@
 
 	<RelativeLayout
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content"
+			android:layout_marginTop="@dimen/margin_quarter">
 
 		<ImageView
 				android:id="@+id/id_iv_pokemon_icon"
 				android:layout_width="@dimen/icon_header_large"
 				android:layout_height="@dimen/icon_header_large"
-				android:layout_marginTop="@dimen/margin_standard"
 				tools:ignore="ContentDescription" />
 
 		<LinearLayout
@@ -32,6 +32,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:orientation="vertical"
+				android:layout_marginStart="@dimen/margin_standard"
 				android:layout_centerVertical="true"
 				android:layout_toEndOf="@id/id_iv_pokemon_icon"/>
 
