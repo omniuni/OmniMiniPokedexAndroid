@@ -14,7 +14,7 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-	namespace 'com.omniimpact.template.mini'
+	namespace 'com.omniimpact.mini.pokedex'
 	compileSdk 34
 
 	signingConfigs {
@@ -27,7 +27,7 @@ android {
 	}
 
 	defaultConfig {
-		applicationId "com.omniimpact.template.mini"
+		applicationId "com.omniimpact.mini.pokedex"
 		minSdk 27
 		targetSdk 34
 		// https://semver.org/

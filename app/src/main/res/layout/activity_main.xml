@@ -25,7 +25,7 @@
 
 	<androidx.fragment.app.FragmentContainerView
 			android:id="@+id/id_fcv_activity_main"
-			android:name="com.omniimpact.template.mini.fragments.FragmentHome"
+			android:name="com.omniimpact.mini.pokedex.fragments.FragmentHome"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:layout_above="@id/id_fl_navigation"

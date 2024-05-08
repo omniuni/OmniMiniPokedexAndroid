@@ -20,7 +20,7 @@
 
 	<androidx.fragment.app.FragmentContainerView
 			android:id="@+id/id_fcv_activity_dev_main"
-			android:name="com.omniimpact.template.mini.fragments.FragmentDevToolsHome"
+			android:name="com.omniimpact.mini.pokedex.fragments.FragmentDevToolsHome"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			app:layout_behavior="@string/appbar_scrolling_view_behavior" />

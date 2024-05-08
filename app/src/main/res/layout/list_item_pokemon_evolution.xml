@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:id="@+id/id_rv_evolution_container"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content">
+		xmlns:tools="http://schemas.android.com/tools"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:id="@+id/id_rv_evolution_container"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+
 	<androidx.appcompat.widget.AppCompatTextView
 		android:id="@+id/id_min_level"
 		android:layout_width="@dimen/icon_small"
@@ -16,19 +18,22 @@
 		android:lineSpacingMultiplier="0"
 		android:lines="1"
 		android:gravity="center"/>
+
 	<ImageView
 		android:id="@+id/id_iv_icon"
 		android:layout_width="@dimen/icon_medium"
 		android:layout_height="@dimen/icon_medium"
 		android:layout_toEndOf="@id/id_min_level"
-		android:layout_marginStart="@dimen/margin_standard"
+		android:layout_marginHorizontal="@dimen/margin_half"
 		tools:ignore="ContentDescription" />
+
 	<View
 		android:id="@+id/id_carat"
 		android:layout_width="@dimen/icon_mini"
 		android:layout_height="@dimen/icon_medium"
 		android:layout_toEndOf="@id/id_iv_icon"
 		android:layout_marginEnd="@dimen/margin_standard"/>
+
 	<View
 		android:id="@+id/id_v_divider"
 		android:layout_width="@dimen/icon_large"
@@ -37,6 +42,7 @@
 		android:layout_alignEnd="@id/id_carat"
 		android:layout_alignParentStart="true"
 		android:background="@color/md_theme_secondaryFixed_mediumContrast"/>
+
 	<TextView
 		android:id="@+id/id_tv_pokemon_name"
 		android:layout_width="wrap_content"
@@ -47,4 +53,16 @@
 		android:layout_marginTop="@dimen/margin_half"
 		android:textAlignment="center"
 		android:text="@string/placeholder_name"/>
+
+	<ImageView
+			android:layout_width="@dimen/icon_mini"
+			android:layout_height="@dimen/icon_mini"
+			android:layout_marginVertical="@dimen/margin_half"
+			android:layout_marginHorizontal="@dimen/margin_quarter"
+			android:layout_above="@id/id_v_divider"
+			android:layout_alignEnd="@id/id_v_divider"
+			android:src="@drawable/ic_clickable"
+			app:tint="@color/md_theme_onBackground"
+			tools:ignore="ContentDescription" />
+
 </RelativeLayout>
