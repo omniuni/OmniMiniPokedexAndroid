@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.omniimpact.mini.pokedex.BuildConfig
 import com.omniimpact.mini.pokedex.databinding.ActivityMainDevFragmentHomeBinding
+import com.squareup.picasso.BuildConfig
 
 class FragmentDevToolsHome : Fragment() {
 
