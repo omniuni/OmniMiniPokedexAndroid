@@ -1,4 +1,4 @@
-package com.omniimpact.template.mini.fragments
+package com.omniimpact.mini.pokedex.fragments
 
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -15,12 +15,12 @@ import com.omniimpact.mini.pokedex.R
 import com.omniimpact.mini.pokedex.databinding.FragmentDetailsBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemPokemonEvolutionBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemTypeChipBinding
-import com.omniimpact.template.mini.models.ModelPokemonDetails
-import com.omniimpact.template.mini.models.ModelPokemonEvolutionChain
-import com.omniimpact.template.mini.models.ModelPokemonListItem
-import com.omniimpact.template.mini.models.ModelPokemonSpecies
-import com.omniimpact.template.mini.utilities.UtilityFragmentManager
-import com.omniimpact.template.mini.utilities.UtilityPokemonLoader
+import com.omniimpact.mini.pokedex.models.ModelPokemonDetails
+import com.omniimpact.mini.pokedex.models.ModelPokemonEvolutionChain
+import com.omniimpact.mini.pokedex.models.ModelPokemonListItem
+import com.omniimpact.mini.pokedex.models.ModelPokemonSpecies
+import com.omniimpact.mini.pokedex.utilities.UtilityFragmentManager
+import com.omniimpact.mini.pokedex.utilities.UtilityPokemonLoader
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 

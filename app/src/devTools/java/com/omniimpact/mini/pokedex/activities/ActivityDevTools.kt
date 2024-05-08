@@ -1,9 +1,9 @@
-package com.omniimpact.template.mini.activities
+package com.omniimpact.mini.pokedex.activities
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.omniimpact.template.mini.databinding.ActivityMainDevBinding
+import com.omniimpact.mini.pokedex.databinding.ActivityMainDevBinding
 
 class ActivityDevTools : AppCompatActivity() {
 

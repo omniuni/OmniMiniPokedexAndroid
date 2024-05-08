@@ -1,4 +1,4 @@
-package com.omniimpact.template.mini.utilities
+package com.omniimpact.mini.pokedex.utilities
 
 import android.os.Bundle
 import android.view.View

@@ -1,4 +1,4 @@
-package com.omniimpact.template.mini.activities
+package com.omniimpact.mini.pokedex.activities
 
 import android.os.Bundle
 import android.view.ViewGroup.MarginLayoutParams

@@ -1,4 +1,4 @@
-package com.omniimpact.template.mini.fragments
+package com.omniimpact.mini.pokedex.fragments
 
 import android.os.Bundle
 import android.os.Parcelable
@@ -18,11 +18,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.omniimpact.mini.pokedex.R
 import com.omniimpact.mini.pokedex.databinding.FragmentHomeBinding
-import com.omniimpact.template.mini.models.ModelPokemonList
-import com.omniimpact.template.mini.models.ModelPokemonListItem
-import com.omniimpact.template.mini.utilities.AdapterRecyclerViewPokemonList
-import com.omniimpact.template.mini.utilities.UtilityFragmentManager
-import com.omniimpact.template.mini.utilities.UtilityPokemonLoader
+import com.omniimpact.mini.pokedex.models.ModelPokemonList
+import com.omniimpact.mini.pokedex.models.ModelPokemonListItem
+import com.omniimpact.mini.pokedex.utilities.AdapterRecyclerViewPokemonList
+import com.omniimpact.mini.pokedex.utilities.UtilityFragmentManager
+import com.omniimpact.mini.pokedex.utilities.UtilityPokemonLoader
 
 class FragmentHome : Fragment(), UtilityPokemonLoader.IOnLoad,
 	AdapterRecyclerViewPokemonList.IOnListActions {

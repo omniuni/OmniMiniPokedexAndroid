@@ -1,13 +1,13 @@
-package com.omniimpact.template.mini.utilities
+package com.omniimpact.mini.pokedex.utilities
 
-import com.omniimpact.template.mini.models.ModelPokemonDetails
-import com.omniimpact.template.mini.models.ModelPokemonEvolution
-import com.omniimpact.template.mini.models.ModelPokemonEvolutionChain
-import com.omniimpact.template.mini.models.ModelPokemonEvolutionChainEvolutionSpecies
-import com.omniimpact.template.mini.models.ModelPokemonList
-import com.omniimpact.template.mini.models.ModelPokemonListItem
-import com.omniimpact.template.mini.models.ModelPokemonSpecies
-import com.omniimpact.template.mini.models.ModelPokemonSpeciesEvolutionChain
+import com.omniimpact.mini.pokedex.models.ModelPokemonDetails
+import com.omniimpact.mini.pokedex.models.ModelPokemonEvolution
+import com.omniimpact.mini.pokedex.models.ModelPokemonEvolutionChain
+import com.omniimpact.mini.pokedex.models.ModelPokemonEvolutionChainEvolutionSpecies
+import com.omniimpact.mini.pokedex.models.ModelPokemonList
+import com.omniimpact.mini.pokedex.models.ModelPokemonListItem
+import com.omniimpact.mini.pokedex.models.ModelPokemonSpecies
+import com.omniimpact.mini.pokedex.models.ModelPokemonSpeciesEvolutionChain
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.CoroutineScope

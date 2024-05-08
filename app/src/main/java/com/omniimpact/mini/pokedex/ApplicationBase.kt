@@ -1,4 +1,4 @@
-package com.omniimpact.template.mini
+package com.omniimpact.mini.pokedex
 
 import android.app.Application
 

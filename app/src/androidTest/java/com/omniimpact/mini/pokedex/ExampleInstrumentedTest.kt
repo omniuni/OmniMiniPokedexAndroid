@@ -1,4 +1,4 @@
-package com.omniimpact.template.mini
+package com.omniimpact.mini.pokedex
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry

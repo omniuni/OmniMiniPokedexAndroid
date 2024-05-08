@@ -1,12 +1,12 @@
-package com.omniimpact.template.mini.fragments
+package com.omniimpact.mini.pokedex.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.omniimpact.template.mini.BuildConfig
-import com.omniimpact.template.mini.databinding.ActivityMainDevFragmentHomeBinding
+import com.omniimpact.mini.pokedex.BuildConfig
+import com.omniimpact.mini.pokedex.databinding.ActivityMainDevFragmentHomeBinding
 
 class FragmentDevToolsHome : Fragment() {
 

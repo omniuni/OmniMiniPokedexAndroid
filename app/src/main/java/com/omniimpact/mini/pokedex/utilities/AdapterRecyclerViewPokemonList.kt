@@ -1,4 +1,4 @@
-package com.omniimpact.template.mini.utilities
+package com.omniimpact.mini.pokedex.utilities
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
@@ -13,7 +13,7 @@ import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
 import com.omniimpact.mini.pokedex.R
 import com.omniimpact.mini.pokedex.databinding.ListItemPokemonBinding
-import com.omniimpact.template.mini.models.ModelPokemonListItem
+import com.omniimpact.mini.pokedex.models.ModelPokemonListItem
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
