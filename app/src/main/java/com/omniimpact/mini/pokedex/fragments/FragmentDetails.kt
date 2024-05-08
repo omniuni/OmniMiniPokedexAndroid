@@ -149,10 +149,10 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 		val evolutionView = ListItemPokemonEvolutionBinding.inflate(layoutInflater, mFragmentViewBinding.idIncludeDetails.idLlEvolutions, true)
 		if(evolution.evolutionDetails.isNotEmpty()){
 			evolution.evolutionDetails[0].also {
-				evolutionView.idMinLevel.text = it.minLevel.toString()
+				evolutionView.idMinLevel.text = it.minLevel?.toString() ?: "?"
 			}
 		} else {
-			evolutionView.idMinLevel.text = "0"
+			evolutionView.idMinLevel.text = "⟡"
 		}
 		evolutionView.idTvPokemonName.text = evolution.species.name.replaceFirstChar { it.titlecase() }
 		val evolutionSpeciesId: Int =  evolution.species.url.takeLastWhile { it.isDigit() || it == '/' }.filter { it.isDigit() }.toInt()

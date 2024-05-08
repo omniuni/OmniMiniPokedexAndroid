@@ -25,8 +25,8 @@
      inkscape:document-units="px"
      showgrid="true"
      inkscape:zoom="18.495629"
-     inkscape:cx="13.219339"
-     inkscape:cy="16.490382"
+     inkscape:cx="13.21934"
+     inkscape:cy="16.490383"
      inkscape:window-width="1640"
      inkscape:window-height="997"
      inkscape:window-x="47"
@@ -50,11 +50,11 @@
      inkscape:groupmode="layer"
      id="layer1">
     <ellipse
-       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.0873902;stroke-dasharray:none;stroke-opacity:0.0358566"
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.0909243;stroke-dasharray:none;stroke-opacity:0.0358566"
        id="path1"
-       cx="15.544212"
+       cx="16.030813"
        cy="23.492035"
-       rx="14.415114"
+       rx="15.604585"
        ry="5.4400206" />
   </g>
 </svg>

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -70,6 +71,7 @@ class AdapterRecyclerViewPokemonList :
 		var tvName: TextView = viewBinding.idTvPokemonName
 		var ivIcon: ImageView = viewBinding.idIvPokemonIcon
 		var cvBackground: CardView = viewBinding.idCvBackground
+		var ivPlatform: ImageView = viewBinding.idIvPokemonGround
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -89,21 +91,22 @@ class AdapterRecyclerViewPokemonList :
 		holder.cvBackground.backgroundTintList =
 			ColorStateList.valueOf(holder.cvBackground.context.getColor(R.color.md_theme_surfaceContainer))
 		Picasso.get().load(item.iconUrl).fit().centerInside()
-			.into(holder.ivIcon, PicassoTintOnLoad(holder.cvBackground, holder.ivIcon))
+			.into(holder.ivIcon, PicassoTintOnLoad(holder.ivPlatform, holder.ivIcon))
 		holder.ivIcon.tag = item.iconUrl
 		holder.cvBackground.setOnClickListener {
 			mUpdateCallback.onItemClicked(item, holder.ivIcon, holder.tvName)
 		}
+		holder.ivPlatform.visibility = View.INVISIBLE
 	}
 
 	inner class PicassoTintOnLoad : Callback {
 
-		private val mCardView: CardView
+		private val mGroundView: ImageView
 		private val mImageView: ImageView
 
 		@Suppress("ConvertSecondaryConstructorToPrimary")
-		constructor(cardView: CardView, imageView: ImageView) {
-			mCardView = cardView
+		constructor(groundView: ImageView, imageView: ImageView) {
+			mGroundView = groundView
 			mImageView = imageView
 		}
 
@@ -125,7 +128,8 @@ class AdapterRecyclerViewPokemonList :
 								it.getMutedColor(mImageView.context.getColor(R.color.md_theme_surfaceContainer))
 							}
 						}
-					mCardView.backgroundTintList = ColorStateList.valueOf(color)
+					mGroundView.imageTintList = ColorStateList.valueOf(color)
+					mGroundView.visibility = View.VISIBLE
 				}
 			}
 		}
