@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.omniimpact.template.mini.R
+import com.omniimpact.mini.pokedex.R
 
 class UtilityFragmentManager {
 

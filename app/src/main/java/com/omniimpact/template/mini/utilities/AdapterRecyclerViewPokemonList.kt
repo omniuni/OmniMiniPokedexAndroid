@@ -11,8 +11,8 @@ import androidx.cardview.widget.CardView
 import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
-import com.omniimpact.template.mini.R
-import com.omniimpact.template.mini.databinding.ListItemPokemonBinding
+import com.omniimpact.mini.pokedex.R
+import com.omniimpact.mini.pokedex.databinding.ListItemPokemonBinding
 import com.omniimpact.template.mini.models.ModelPokemonListItem
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso

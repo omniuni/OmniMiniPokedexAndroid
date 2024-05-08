@@ -16,8 +16,8 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import com.omniimpact.template.mini.R
-import com.omniimpact.template.mini.databinding.FragmentHomeBinding
+import com.omniimpact.mini.pokedex.R
+import com.omniimpact.mini.pokedex.databinding.FragmentHomeBinding
 import com.omniimpact.template.mini.models.ModelPokemonList
 import com.omniimpact.template.mini.models.ModelPokemonListItem
 import com.omniimpact.template.mini.utilities.AdapterRecyclerViewPokemonList

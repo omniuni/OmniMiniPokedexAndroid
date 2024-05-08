@@ -11,10 +11,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.transition.TransitionInflater
-import com.omniimpact.template.mini.R
-import com.omniimpact.template.mini.databinding.FragmentDetailsBinding
-import com.omniimpact.template.mini.databinding.ListItemPokemonEvolutionBinding
-import com.omniimpact.template.mini.databinding.ListItemTypeChipBinding
+import com.omniimpact.mini.pokedex.R
+import com.omniimpact.mini.pokedex.databinding.FragmentDetailsBinding
+import com.omniimpact.mini.pokedex.databinding.ListItemPokemonEvolutionBinding
+import com.omniimpact.mini.pokedex.databinding.ListItemTypeChipBinding
 import com.omniimpact.template.mini.models.ModelPokemonDetails
 import com.omniimpact.template.mini.models.ModelPokemonEvolutionChain
 import com.omniimpact.template.mini.models.ModelPokemonListItem
