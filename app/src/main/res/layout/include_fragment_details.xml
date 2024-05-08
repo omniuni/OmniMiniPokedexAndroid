@@ -64,14 +64,14 @@
 				android:weightSum="2">
 
 			<LinearLayout
+				android:id="@+id/id_ll_strength_major"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="30dp"
 				android:layout_weight="1"
-				android:orientation="vertical">
-				<include layout="@layout/list_item_type_sw_chip" />
-			</LinearLayout>
+				android:orientation="vertical"/>
 			<LinearLayout
+					android:id="@+id/id_ll_strength_minor"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="30dp"

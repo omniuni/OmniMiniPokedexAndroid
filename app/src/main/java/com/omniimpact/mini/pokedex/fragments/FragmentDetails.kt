@@ -15,6 +15,7 @@ import com.omniimpact.mini.pokedex.R
 import com.omniimpact.mini.pokedex.databinding.FragmentDetailsBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemPokemonEvolutionBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemTypeChipBinding
+import com.omniimpact.mini.pokedex.databinding.ListItemTypeSwChipBinding
 import com.omniimpact.mini.pokedex.models.ModelPokemonDetails
 import com.omniimpact.mini.pokedex.models.ModelPokemonEvolutionChain
 import com.omniimpact.mini.pokedex.models.ModelPokemonListItem
@@ -177,6 +178,22 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 	override fun onDetailsReady() {
 		mPokemonDetails = UtilityPokemonLoader.getPokemonDetails(mPokemonId)
 		updateTypes()
+	}
+
+	override fun onTypeDetailsReady() {
+		mFragmentViewBinding.idIncludeDetails.idLlStrengthMajor.removeAllViews()
+		mPokemonDetails.types.forEach { typeSlot ->
+			val typeDetails = UtilityPokemonLoader.getPokemonTypeDetails(typeSlot.type.name)
+			typeDetails.damageRelations.doubleDamageTo.forEach {type ->
+				val typeChip = ListItemTypeSwChipBinding.inflate(
+					layoutInflater,
+					mFragmentViewBinding.idIncludeDetails.idLlStrengthMajor,
+					true
+				)
+				typeChip.idTvType.text = type.name
+			}
+		}
+
 	}
 
 	private fun updateTypes(){

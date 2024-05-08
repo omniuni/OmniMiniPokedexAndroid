@@ -1,6 +1,8 @@
 package com.omniimpact.mini.pokedex.utilities
 
+import com.omniimpact.mini.pokedex.models.ModelDamageRelations
 import com.omniimpact.mini.pokedex.models.ModelPokemonDetails
+import com.omniimpact.mini.pokedex.models.ModelPokemonDetailsType
 import com.omniimpact.mini.pokedex.models.ModelPokemonEvolution
 import com.omniimpact.mini.pokedex.models.ModelPokemonEvolutionChain
 import com.omniimpact.mini.pokedex.models.ModelPokemonEvolutionChainEvolutionSpecies
@@ -8,6 +10,7 @@ import com.omniimpact.mini.pokedex.models.ModelPokemonList
 import com.omniimpact.mini.pokedex.models.ModelPokemonListItem
 import com.omniimpact.mini.pokedex.models.ModelPokemonSpecies
 import com.omniimpact.mini.pokedex.models.ModelPokemonSpeciesEvolutionChain
+import com.omniimpact.mini.pokedex.models.ModelPokemonType
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.CoroutineScope
@@ -30,6 +33,7 @@ object UtilityPokemonLoader {
 	private val mPokemonSpeciesMap: MutableMap<Int, ModelPokemonSpecies> = mutableMapOf()
 	private val mPokemonEvolutionsMap: MutableMap<Int, ModelPokemonEvolutionChain> = mutableMapOf()
 	private val mPokemonDetailsMap: MutableMap<Int, ModelPokemonDetails> = mutableMapOf()
+	private val mPokemonTypesMap: MutableMap<String, ModelPokemonType> = mutableMapOf()
 
 	interface IOnLoad {
 		fun onPokemonLoaded()
@@ -37,6 +41,7 @@ object UtilityPokemonLoader {
 
 	interface IOnDetails {
 		fun onDetailsReady()
+		fun onTypeDetailsReady()
 	}
 
 	interface IOnSpecies {
@@ -128,17 +133,31 @@ object UtilityPokemonLoader {
 		}
 
 		loadScope.launch {
+
 			val jsonResult = URL(URL_POKEMON_DETAILS+pokemonId).readText()
 			val moshi: Moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
 			val pokemonDetailsAdapter = moshi.adapter(ModelPokemonDetails::class.java)
 			pokemonDetailsAdapter.fromJson(jsonResult)?.also { pokemonDetails ->
-
-
 				mPokemonDetailsMap[pokemonId] = pokemonDetails
 				launch(Dispatchers.Main) {
 					caller.onDetailsReady()
 				}
 			}
+
+			mPokemonDetailsMap[pokemonId]?.types?.forEach { typeSlot ->
+				val typeName: String = typeSlot.type.name
+				if(!mPokemonTypesMap.containsKey(typeName)){
+					val typesResult = URL(typeSlot.type.url).readText()
+					val pokemonTypesAdapter = moshi.adapter(ModelPokemonType::class.java)
+					pokemonTypesAdapter.fromJson(typesResult)?.also {
+						mPokemonTypesMap[typeName] = it
+					}
+				}
+			}
+			launch(Dispatchers.Main) {
+				caller.onTypeDetailsReady()
+			}
+
 		}
 
 	}
@@ -202,6 +221,22 @@ object UtilityPokemonLoader {
 		return ModelPokemonDetails(
 			id = 0,
 			types = listOf()
+		)
+	}
+
+	fun getPokemonTypeDetails(type: String): ModelPokemonType{
+		mPokemonTypesMap[type]?.also {
+			return it
+		}
+		return ModelPokemonType(
+			damageRelations = ModelDamageRelations(
+				doubleDamageFrom = listOf(),
+				doubleDamageTo = listOf(),
+				halfDamageFrom = listOf(),
+				halfDamageTo = listOf(),
+				noDamageFrom = listOf(),
+				noDamageTo = listOf()
+			)
 		)
 	}
 
