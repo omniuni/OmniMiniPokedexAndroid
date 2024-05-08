@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -15,8 +16,11 @@ import com.omniimpact.mini.pokedex.R
 import com.omniimpact.mini.pokedex.databinding.FragmentDetailsBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemPokemonEvolutionBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemTypeChipBinding
+import com.omniimpact.mini.pokedex.databinding.ListItemTypeLabelHeaderBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemTypeSwChipBinding
 import com.omniimpact.mini.pokedex.models.ModelPokemonDetails
+import com.omniimpact.mini.pokedex.models.ModelPokemonDetailsType
+import com.omniimpact.mini.pokedex.models.ModelPokemonDetailsTypes
 import com.omniimpact.mini.pokedex.models.ModelPokemonEvolutionChain
 import com.omniimpact.mini.pokedex.models.ModelPokemonListItem
 import com.omniimpact.mini.pokedex.models.ModelPokemonSpecies
@@ -142,7 +146,7 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 	}
 
 	private fun updateEvolutionChainViews(){
-		mFragmentViewBinding.idIncludeDetails.idLlEvolutions.removeAllViews()
+		if(mFragmentViewBinding.idIncludeDetails.idLlEvolutions.childCount > 0) return
 		addEvolutionView(mPokemonEvolutionChain)
 	}
 
@@ -181,52 +185,152 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 	}
 
 	override fun onTypeDetailsReady() {
-		mFragmentViewBinding.idIncludeDetails.idLlStrengthMajor.removeAllViews()
+
+		val shouldPopulateStrengthMajor = mFragmentViewBinding.idIncludeDetails.idLlStrengthMajor.childCount == 0
+		val shouldPopulateDefenseMajor = mFragmentViewBinding.idIncludeDetails.idLlDefenseMajor.childCount == 0
+		val shouldPopulateDefenseMinor = mFragmentViewBinding.idIncludeDetails.idLlDefenseMinor.childCount == 0
+		val shouldPopulateDamageMinor = mFragmentViewBinding.idIncludeDetails.idLlDamageMinor.childCount == 0
+		val shouldPopulateDamageNone = mFragmentViewBinding.idIncludeDetails.idLlDamageNone.childCount == 0
+		val shouldPopulateWeaknessMajor = mFragmentViewBinding.idIncludeDetails.idLlWeaknessMajor.childCount == 0
+
 		mPokemonDetails.types.forEach { typeSlot ->
+
 			val typeDetails = UtilityPokemonLoader.getPokemonTypeDetails(typeSlot.type.name)
-			typeDetails.damageRelations.doubleDamageTo.forEach {type ->
-				val typeChip = ListItemTypeSwChipBinding.inflate(
-					layoutInflater,
+
+			if(shouldPopulateStrengthMajor){
+				populateTypeChips(
+					typeSlot,
+					typeDetails.damageRelations.doubleDamageTo,
 					mFragmentViewBinding.idIncludeDetails.idLlStrengthMajor,
-					true
+					R.drawable.ic_dmg_up,
+					R.string.label_double_damage
 				)
-				typeChip.idTvType.text = type.name
 			}
+			if(shouldPopulateDefenseMajor){
+				populateTypeChips(
+					typeSlot,
+					typeDetails.damageRelations.noDamageFrom,
+					mFragmentViewBinding.idIncludeDetails.idLlDefenseMajor,
+					R.drawable.ic_def_full,
+					R.string.label_full_defense
+				)
+			}
+			if(shouldPopulateDefenseMinor){
+				populateTypeChips(
+					typeSlot,
+					typeDetails.damageRelations.halfDamageFrom,
+					mFragmentViewBinding.idIncludeDetails.idLlDefenseMinor,
+					R.drawable.ic_def_high,
+					R.string.label_double_defense
+				)
+			}
+
+			if(shouldPopulateDamageMinor){
+				populateTypeChips(
+					typeSlot,
+					typeDetails.damageRelations.halfDamageTo,
+					mFragmentViewBinding.idIncludeDetails.idLlDamageMinor,
+					R.drawable.ic_dmg_down,
+					R.string.label_half_damage
+				)
+			}
+			if(shouldPopulateDamageNone){
+				populateTypeChips(
+					typeSlot,
+					typeDetails.damageRelations.noDamageTo,
+					mFragmentViewBinding.idIncludeDetails.idLlDamageNone,
+					R.drawable.ic_dmg_none,
+					R.string.label_no_damage
+				)
+			}
+			if(shouldPopulateWeaknessMajor){
+				populateTypeChips(
+					typeSlot,
+					typeDetails.damageRelations.doubleDamageFrom,
+					mFragmentViewBinding.idIncludeDetails.idLlWeaknessMajor,
+					R.drawable.ic_dmg_double,
+					R.string.label_half_defense
+				)
+			}
+
 		}
 
+	}
+
+	private fun populateTypeChips(
+		fromType: ModelPokemonDetailsTypes,
+		types: List<ModelPokemonDetailsType>,
+		target: LinearLayout,
+		drawableResource: Int,
+		headerResource: Int
+	){
+		if(target.childCount == 0) {
+			val typeChipHeader = ListItemTypeLabelHeaderBinding.inflate(
+				layoutInflater,
+				target,
+				true
+			)
+			typeChipHeader.idTvTitle.setText(headerResource)
+		}
+		if(types.isEmpty()){
+			val typeChip = ListItemTypeSwChipBinding.inflate(
+				layoutInflater,
+				target,
+				true
+			)
+			typeChip.idCvTypeChip.backgroundTintList = getColorStateListFromTypeName(String())
+			typeChip.idCvTypeContributing.backgroundTintList = getColorStateListFromTypeName(fromType.type.name)
+			typeChip.idTvType.text = resources.getString(R.string.label_none)
+			typeChip.idIvIcon.setImageResource(drawableResource)
+			return
+		}
+		types.forEach {type ->
+			val typeChip = ListItemTypeSwChipBinding.inflate(
+				layoutInflater,
+				target,
+				true
+			)
+			typeChip.idCvTypeChip.backgroundTintList = getColorStateListFromTypeName(type.name)
+			typeChip.idCvTypeContributing.backgroundTintList = getColorStateListFromTypeName(fromType.type.name)
+			typeChip.idTvType.text = type.name
+			typeChip.idIvIcon.setImageResource(drawableResource)
+		}
 	}
 
 	private fun updateTypes(){
-		mFragmentViewBinding.idLlBanner.idLlChips.removeAllViews()
+		if(mFragmentViewBinding.idLlBanner.idLlChips.childCount > 0) return
 		mPokemonDetails.types.forEach { modelPokemonDetailsTypes ->
 			val typeChipView = ListItemTypeChipBinding.inflate(layoutInflater, mFragmentViewBinding.idLlBanner.idLlChips, true)
 			typeChipView.idTvType.text = modelPokemonDetailsTypes.type.name
-			typeChipView.idCvTypeChip.backgroundTintList = when(modelPokemonDetailsTypes.type.name){
-				"normal" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_normal))
-				"fire" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_fire))
-				"water" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_water))
-				"electric" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_electric))
-				"grass" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_grass))
-				"ice" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_ice))
-				"fighting" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_fighting))
-				"poison" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_poison))
-				"ground" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_ground))
-				"flying" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_flying))
-				"psychic" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_psychic))
-				"bug" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_bug))
-				"rock" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_rock))
-				"ghost" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_ghost))
-				"dragon" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_dragon))
-				"dark" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_dark))
-				"steel" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_steel))
-				"fairy" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_fairy))
-				"stellar" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_stellar))
-				"shadow" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_shadow))
-				else -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_unknown))
-			}
+			typeChipView.idCvTypeChip.backgroundTintList = getColorStateListFromTypeName(modelPokemonDetailsTypes.type.name)
 		}
 
 	}
 
+	private fun getColorStateListFromTypeName(name: String): ColorStateList {
+		return when(name){
+			"normal" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_normal))
+			"fire" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_fire))
+			"water" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_water))
+			"electric" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_electric))
+			"grass" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_grass))
+			"ice" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_ice))
+			"fighting" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_fighting))
+			"poison" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_poison))
+			"ground" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_ground))
+			"flying" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_flying))
+			"psychic" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_psychic))
+			"bug" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_bug))
+			"rock" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_rock))
+			"ghost" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_ghost))
+			"dragon" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_dragon))
+			"dark" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_dark))
+			"steel" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_steel))
+			"fairy" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_fairy))
+			"stellar" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_stellar))
+			"shadow" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_shadow))
+			else -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_unknown))
+		}
+	}
 
 }

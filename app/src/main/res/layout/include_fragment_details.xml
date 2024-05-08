@@ -61,7 +61,7 @@
 				android:layout_height="wrap_content"
 				android:baselineAligned="false"
 				android:orientation="horizontal"
-				android:weightSum="2">
+				android:weightSum="3">
 
 			<LinearLayout
 				android:id="@+id/id_ll_strength_major"
@@ -71,14 +71,19 @@
 				android:layout_weight="1"
 				android:orientation="vertical"/>
 			<LinearLayout
-					android:id="@+id/id_ll_strength_minor"
+					android:id="@+id/id_ll_defense_major"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="30dp"
 					android:layout_weight="1"
-					android:orientation="vertical">
-				<include layout="@layout/list_item_type_sw_chip" />
-			</LinearLayout>
+					android:orientation="vertical"/>
+			<LinearLayout
+					android:id="@+id/id_ll_defense_minor"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp"
+					android:layout_weight="1"
+					android:orientation="vertical"/>
 
 		</LinearLayout>
 
@@ -112,24 +117,29 @@
 				android:layout_height="wrap_content"
 				android:baselineAligned="false"
 				android:orientation="horizontal"
-				android:weightSum="2">
+				android:weightSum="3">
 
 			<LinearLayout
+					android:id="@+id/id_ll_damage_minor"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="30dp"
 					android:layout_weight="1"
-					android:orientation="vertical">
-				<include layout="@layout/list_item_type_sw_chip" />
-			</LinearLayout>
+					android:orientation="vertical"/>
 			<LinearLayout
+					android:id="@+id/id_ll_damage_none"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="30dp"
 					android:layout_weight="1"
-					android:orientation="vertical">
-				<include layout="@layout/list_item_type_sw_chip" />
-			</LinearLayout>
+					android:orientation="vertical"/>
+			<LinearLayout
+					android:id="@+id/id_ll_weakness_major"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp"
+					android:layout_weight="1"
+					android:orientation="vertical"/>
 
 		</LinearLayout>
 

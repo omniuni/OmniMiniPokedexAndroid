@@ -20,13 +20,20 @@
 					android:backgroundTint="@color/md_theme_background_mediumContrast"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
+					app:cardPreventCornerOverlap="false"
 					app:strokeWidth="0dp"
-					app:contentPadding="@dimen/margin_standard"
 					app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialCardView.RoundedTopLeft">
 
-				<include
-					android:id="@+id/id_include_details"
-					layout="@layout/include_fragment_details"/>
+				<ScrollView
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:requiresFadingEdge="vertical"
+						android:padding="@dimen/margin_standard"
+						android:fadingEdgeLength="@dimen/margin_standard">
+					<include
+							android:id="@+id/id_include_details"
+							layout="@layout/include_fragment_details"/>
+				</ScrollView>
 
 			</com.google.android.material.card.MaterialCardView>
 

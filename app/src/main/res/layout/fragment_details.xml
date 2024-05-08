@@ -20,13 +20,14 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				app:strokeWidth="0dp"
-				app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialCardView.RoundedTop"
-				app:contentPadding="@dimen/margin_standard">
+				app:cardPreventCornerOverlap="false"
+				app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialCardView.RoundedTop">
 
 				<ScrollView
 						android:layout_width="match_parent"
 						android:layout_height="match_parent"
 						android:requiresFadingEdge="vertical"
+						android:padding="@dimen/margin_standard"
 						android:fadingEdgeLength="@dimen/margin_standard">
 							<include
 									android:id="@+id/id_include_details"

@@ -144,19 +144,19 @@
 	<!-- Type Colors -->
 	<color name="type_normal">#A7A67F</color>
 	<color name="type_fire">#DE8C44</color>
-	<color name="type_water">#5897C7</color>
-	<color name="type_electric">#C8A741</color>
+	<color name="type_water">#2093EC</color>
+	<color name="type_electric">#EDC23B</color>
 	<color name="type_grass">#71C353</color>
 	<color name="type_ice">#82B7B9</color>
 	<color name="type_fighting">#C05E5E</color>
-	<color name="type_poison">#986BB0</color>
-	<color name="type_ground">#C8AF86</color>
-	<color name="type_flying">#8F86C7</color>
+	<color name="type_poison">#B368CE</color>
+	<color name="type_ground">#E6CB9E</color>
+	<color name="type_flying">#A793ED</color>
 	<color name="type_psychic">#D76C8D</color>
 	<color name="type_bug">#A1AE58</color>
 	<color name="type_rock">#B58A5C</color>
-	<color name="type_ghost">#9584A5</color>
-	<color name="type_dragon">#8473D1</color>
+	<color name="type_ghost">#BEA9D1</color>
+	<color name="type_dragon">#7965D7</color>
 	<color name="type_dark">#866C5A</color>
 	<color name="type_steel">#7E8B8E</color>
 	<color name="type_fairy">#C187B5</color>
