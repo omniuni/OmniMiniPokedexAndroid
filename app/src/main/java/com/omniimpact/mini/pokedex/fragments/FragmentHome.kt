@@ -148,12 +148,8 @@ class FragmentHome : Fragment(), UtilityPokemonLoader.IOnLoad,
 		val detailsFragment = FragmentDetails()
 		val argumentsBundle = Bundle()
 		argumentsBundle.putInt(FragmentDetails.KEY_ID, item.id)
-		val animationsMap: Map<View, String> = mapOf(
-			imageView to FragmentDetails.KEY_TRANSITION_TARGET_IMAGE_HEADER,
-			textView to FragmentDetails.KEY_TRANSITION_TARGET_TEXT_HEADER
-		)
 		UtilityFragmentManager.using(parentFragmentManager).load(detailsFragment)
-			.with(argumentsBundle, animationsMap).into(view?.parent as ViewGroup).now()
+			.with(argumentsBundle).into(view?.parent as ViewGroup).now()
 	}
 
 }

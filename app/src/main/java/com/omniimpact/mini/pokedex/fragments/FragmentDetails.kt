@@ -1,17 +1,18 @@
 package com.omniimpact.mini.pokedex.fragments
 
+import android.animation.ObjectAnimator
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
-import androidx.transition.TransitionInflater
 import com.omniimpact.mini.pokedex.R
 import com.omniimpact.mini.pokedex.databinding.FragmentDetailsBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemPokemonEvolutionBinding
@@ -28,6 +29,7 @@ import com.omniimpact.mini.pokedex.utilities.UtilityFragmentManager
 import com.omniimpact.mini.pokedex.utilities.UtilityPokemonLoader
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+
 
 class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 	UtilityPokemonLoader.IOnSpecies, UtilityPokemonLoader.IOnDetails {
@@ -55,9 +57,6 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 			}
 		}
 		mSourceItem = UtilityPokemonLoader.getPokemonListItemById(mPokemonId)
-		sharedElementEnterTransition =
-			TransitionInflater.from(requireContext()).inflateTransition(R.transition.transitions_standard)
-		postponeEnterTransition()
 	}
 
 
@@ -104,12 +103,10 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 
 	inner class OnPicassoImageLoadedDoEnterTransition : Callback {
 		override fun onSuccess() {
-			startPostponedEnterTransition()
 			continueLoad()
 		}
 
 		override fun onError(e: Exception?) {
-			startPostponedEnterTransition()
 			continueLoad()
 		}
 
@@ -304,7 +301,6 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 			typeChipView.idTvType.text = modelPokemonDetailsTypes.type.name
 			typeChipView.idCvTypeChip.backgroundTintList = getColorStateListFromTypeName(modelPokemonDetailsTypes.type.name)
 		}
-
 	}
 
 	private fun getColorStateListFromTypeName(name: String): ColorStateList {
