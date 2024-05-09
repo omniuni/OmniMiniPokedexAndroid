@@ -162,5 +162,5 @@
 	<color name="type_fairy">#C187B5</color>
 	<color name="type_stellar">#63A59F</color>
 	<color name="type_shadow">#6D8B9B</color>
-	<color name="type_unknown">#787878</color>
+	<color name="type_unknown">#646464</color>
 </resources>

@@ -1,18 +1,20 @@
 package com.omniimpact.mini.pokedex.fragments
 
-import android.animation.ObjectAnimator
 import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
+import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
+import androidx.palette.graphics.Palette
 import com.omniimpact.mini.pokedex.R
 import com.omniimpact.mini.pokedex.databinding.FragmentDetailsBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemPokemonEvolutionBinding
@@ -104,6 +106,29 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 	inner class OnPicassoImageLoadedDoEnterTransition : Callback {
 		override fun onSuccess() {
 			continueLoad()
+			val icon: ImageView = mFragmentViewBinding.idLlBanner.idIvPokemonIcon
+			val platform: ImageView = mFragmentViewBinding.idLlBanner.idIvPlatform
+			Palette.from(icon.drawable.toBitmap()).generate { palette ->
+				palette?.let {
+					val context = requireContext()
+					val color: Int =
+						when (context.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+							Configuration.UI_MODE_NIGHT_YES -> {
+								it.getDarkMutedColor(requireContext().getColor(R.color.md_theme_surfaceContainer))
+							}
+
+							Configuration.UI_MODE_NIGHT_NO -> {
+								it.getLightMutedColor(requireContext().getColor(R.color.md_theme_surfaceContainer))
+							}
+
+							else -> {
+								it.getMutedColor(requireContext().getColor(R.color.md_theme_surfaceContainer))
+							}
+						}
+					platform.imageTintList = ColorStateList.valueOf(color)
+					platform.visibility = View.VISIBLE
+				}
+			}
 		}
 
 		override fun onError(e: Exception?) {

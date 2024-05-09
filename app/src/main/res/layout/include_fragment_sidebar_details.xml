@@ -6,8 +6,7 @@
 		android:layout_height="wrap_content"
 		android:background="?colorPrimary"
 		android:gravity="center_horizontal"
-		android:orientation="vertical"
-		android:padding="@dimen/margin_standard">
+		android:orientation="vertical">
 
 	<TextView
 			android:id="@+id/id_tv_pokemon_name"
@@ -22,6 +21,22 @@
 			android:layout_marginTop="@dimen/margin_quarter">
 
 		<ImageView
+				android:id="@+id/id_iv_platform"
+				android:layout_width="@dimen/icon_header_large"
+				android:layout_height="@dimen/icon_header_large"
+				android:src="@drawable/ic_platform"
+				android:visibility="invisible"
+				android:layout_marginTop="24dp"
+				tools:ignore="ContentDescription" />
+
+		<ImageView
+				android:layout_width="@dimen/icon_header_large"
+				android:layout_height="@dimen/icon_header_large"
+				android:src="@drawable/ic_platform_shade"
+				android:layout_marginTop="24dp"
+				tools:ignore="ContentDescription" />
+
+		<ImageView
 				android:id="@+id/id_iv_pokemon_icon"
 				android:layout_width="@dimen/icon_header_large"
 				android:layout_height="@dimen/icon_header_large"
@@ -30,6 +45,7 @@
 		<LinearLayout
 				android:id="@+id/id_ll_chips"
 				android:layout_width="wrap_content"
+				android:minWidth="@dimen/icon_medium"
 				android:layout_height="wrap_content"
 				android:orientation="vertical"
 				android:layout_marginStart="@dimen/margin_standard"
