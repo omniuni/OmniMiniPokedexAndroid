@@ -10,8 +10,11 @@ kotlin {
 
 // Load keystore properties for debug builds
 def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystorePropertiesProdFile = rootProject.file("keystore-prod.properties")
 def keystoreProperties = new Properties()
+def keystorePropertiesProd = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+keystorePropertiesProd.load(new FileInputStream(keystorePropertiesProdFile))
 
 android {
 	namespace 'com.omniimpact.mini.pokedex'
@@ -23,6 +26,12 @@ android {
 			storePassword keystoreProperties['storePassword']
 			keyAlias keystoreProperties['keyAlias']
 			keyPassword keystoreProperties['keyPassword']
+		}
+		configProd {
+			storeFile file(keystorePropertiesProd['storeFile'])
+			storePassword keystorePropertiesProd['storePassword']
+			keyAlias keystorePropertiesProd['keyAlias']
+			keyPassword keystorePropertiesProd['keyPassword']
 		}
 	}
 
@@ -64,6 +73,7 @@ android {
 			applicationIdSuffix ".debug"
 		}
 		release {
+			signingConfig signingConfigs.configProd
 			minifyEnabled true
 			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 			testProguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
