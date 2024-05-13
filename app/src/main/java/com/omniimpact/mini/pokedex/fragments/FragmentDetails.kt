@@ -27,15 +27,18 @@ import com.omniimpact.mini.pokedex.models.ModelPokemonDetailsTypes
 import com.omniimpact.mini.pokedex.models.ModelPokemonEvolutionChain
 import com.omniimpact.mini.pokedex.models.ModelPokemonListItem
 import com.omniimpact.mini.pokedex.models.ModelPokemonSpecies
+import com.omniimpact.mini.pokedex.network.UtilityLoader
 import com.omniimpact.mini.pokedex.network.api.ApiGetAllPokemon
+import com.omniimpact.mini.pokedex.network.api.ApiGetPokemonDetails
+import com.omniimpact.mini.pokedex.network.api.IApi
+import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
 import com.omniimpact.mini.pokedex.utilities.UtilityFragmentManager
 import com.omniimpact.mini.pokedex.utilities.UtilityPokemonLoader
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
 
-class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
-	UtilityPokemonLoader.IOnSpecies, UtilityPokemonLoader.IOnDetails {
+class FragmentDetails : Fragment(), IOnApiLoadQueue {
 
 	companion object {
 		const val KEY_ID = "id"
@@ -139,13 +142,15 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 	}
 
 	private fun continueLoad(){
-		UtilityPokemonLoader.loadSpecies(this, mPokemonId)
-		UtilityPokemonLoader.loadDetails(this, mPokemonId)
+		UtilityLoader.registerListener(this)
+		UtilityLoader.enqueue(mapOf(
+			ApiGetPokemonDetails to mPokemonId.toString()
+		))
 	}
 
 	// Species
 
-	override fun onSpeciesReady() {
+	fun onSpeciesReady() {
 		mPokemonSpecies = UtilityPokemonLoader.getPokemonSpecies(mPokemonId)
 
 		mFragmentViewBinding.idIncludeDetails.idTvFlavor.text = mPokemonSpecies.defaultFlavorText
@@ -153,17 +158,17 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 		continueLoadEvolutionChain()
 	}
 
-	override fun onSpeciesFailed() {
+	fun onSpeciesFailed() {
 		mFragmentViewBinding.idIncludeDetails.idCvEvolutions.visibility = View.GONE
 	}
 
 	// Evolution Chain
 
 	private fun continueLoadEvolutionChain(){
-		UtilityPokemonLoader.loadEvolution(this, mPokemonSpecies.evolutionChain.id)
+		//UtilityPokemonLoader.loadEvolution(this, mPokemonSpecies.evolutionChain.id)
 	}
 
-	override fun onEvolutionChainReady() {
+	fun onEvolutionChainReady() {
 		mPokemonEvolutionChain = UtilityPokemonLoader.getPokemonEvolutionChain(mPokemonSpecies.evolutionChain.id)
 		updateEvolutionChainViews()
 	}
@@ -202,12 +207,12 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 
 	// Details
 
-	override fun onDetailsReady() {
-		mPokemonDetails = UtilityPokemonLoader.getPokemonDetails(mPokemonId)
+	private fun onDetailsReady() {
+		mPokemonDetails = ApiGetPokemonDetails.getPokemonDetails(mPokemonId)
 		updateTypes()
 	}
 
-	override fun onTypeDetailsReady() {
+	private fun onTypeDetailsReady() {
 
 		val shouldPopulateStrengthMajor = mFragmentViewBinding.idIncludeDetails.idLlStrengthMajor.childCount == 0
 		val shouldPopulateDefenseMajor = mFragmentViewBinding.idIncludeDetails.idLlDefenseMajor.childCount == 0
@@ -218,7 +223,7 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 
 		mPokemonDetails.types.forEach { typeSlot ->
 
-			val typeDetails = UtilityPokemonLoader.getPokemonTypeDetails(typeSlot.type.name)
+			val typeDetails = ApiGetPokemonDetails.getPokemonTypeDetails(typeSlot.type.name)
 
 			if(shouldPopulateStrengthMajor){
 				populateTypeChips(
@@ -353,6 +358,17 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 			"shadow" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_shadow))
 			else -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_unknown))
 		}
+	}
+
+	override fun onComplete() {
+		onDetailsReady()
+		onTypeDetailsReady()
+	}
+
+	override fun onSuccess(success: IApi) {
+	}
+
+	override fun onFailed(failure: IApi) {
 	}
 
 }

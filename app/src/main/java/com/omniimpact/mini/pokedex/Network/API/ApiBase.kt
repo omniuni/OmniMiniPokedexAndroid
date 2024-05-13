@@ -8,9 +8,11 @@ import java.net.URL
 
 abstract class ApiBase : IApi{
 
+	protected var args: String = String()
 	private val loadScope = CoroutineScope(Job() + Dispatchers.IO)
 
 	override fun load(callback: IOnApiLoadProgress, key: String) {
+		args = key
 
 		if(isLoaded()){
 			callback.onSuccess(this)
