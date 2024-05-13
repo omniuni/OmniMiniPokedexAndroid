@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import com.omniimpact.mini.pokedex.databinding.ActivityMainBinding
+import com.omniimpact.mini.pokedex.network.UtilityLoader
 
 class ActivityMain : AppCompatActivity() {
 
@@ -18,6 +19,10 @@ class ActivityMain : AppCompatActivity() {
 		super.onCreate(savedInstanceState)
 		enableEdgeToEdge()
 		mActivityViewBinding = ActivityMainBinding.inflate(layoutInflater)
+		UtilityLoader.attachOutputUi(
+			mActivityViewBinding.idFlNetworkStatusContainer,
+			mActivityViewBinding.idTvNetworkStatus
+		)
 		ViewCompat.setOnApplyWindowInsetsListener(
 			mActivityViewBinding.root
 		) { _, windowInsets -> // _ = input view

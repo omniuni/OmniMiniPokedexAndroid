@@ -42,7 +42,7 @@
 			android:id="@+id/id_fl_network_status_container"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginBottom="@dimen/layout_sidebar_width"
+			android:layout_marginBottom="@dimen/icon_large"
 			android:layout_marginHorizontal="@dimen/margin_double"
 			android:padding="@dimen/margin_half"
 			android:layout_alignParentBottom="true">

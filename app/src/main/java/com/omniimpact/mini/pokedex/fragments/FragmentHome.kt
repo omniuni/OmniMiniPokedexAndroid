@@ -20,12 +20,15 @@ import com.omniimpact.mini.pokedex.R
 import com.omniimpact.mini.pokedex.databinding.FragmentHomeBinding
 import com.omniimpact.mini.pokedex.models.ModelPokemonList
 import com.omniimpact.mini.pokedex.models.ModelPokemonListItem
+import com.omniimpact.mini.pokedex.network.UtilityLoader
+import com.omniimpact.mini.pokedex.network.api.ApiGetAllPokemon
+import com.omniimpact.mini.pokedex.network.api.IApi
+import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
 import com.omniimpact.mini.pokedex.utilities.AdapterRecyclerViewPokemonList
 import com.omniimpact.mini.pokedex.utilities.UtilityFragmentManager
-import com.omniimpact.mini.pokedex.utilities.UtilityPokemonLoader
 
-class FragmentHome : Fragment(), UtilityPokemonLoader.IOnLoad,
-	AdapterRecyclerViewPokemonList.IOnListActions {
+class FragmentHome : Fragment(),
+	AdapterRecyclerViewPokemonList.IOnListActions, IOnApiLoadQueue {
 
 	companion object {
 		private var mIsOptionsShown = false
@@ -55,7 +58,10 @@ class FragmentHome : Fragment(), UtilityPokemonLoader.IOnLoad,
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		UtilityPokemonLoader.load(this)
+		UtilityLoader.registerListener(this)
+		UtilityLoader.enqueue(mapOf(
+			ApiGetAllPokemon to String()
+		))
 	}
 
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -74,6 +80,7 @@ class FragmentHome : Fragment(), UtilityPokemonLoader.IOnLoad,
 				mRecyclerViewScrollState = it
 			}
 		}
+		UtilityLoader.removeListener(this)
 		super.onPause()
 	}
 
@@ -86,19 +93,9 @@ class FragmentHome : Fragment(), UtilityPokemonLoader.IOnLoad,
 		}
 	}
 
-	override fun onPokemonLoaded() {
-		val pokemonList: ModelPokemonList = UtilityPokemonLoader.getLoadedPokemonList()
-		Log.d(
-			FragmentHome::class.simpleName,
-			"Successfully loaded ${pokemonList.results.size} pokemon."
-		)
-		updateViews()
-	}
-
 	private fun updateViews() {
 		mFragmentViewBinding.idSwSort.isEnabled = false
-		if (UtilityPokemonLoader.getLoadedPokemonList().results.isNotEmpty()) {
-			mFragmentViewBinding.idPbLoader.visibility = View.GONE
+		if (ApiGetAllPokemon.getPokemonList().results.isNotEmpty()) {
 			setRecyclerViewAdapter()
 		}
 		if (this::mAdapter.isInitialized) {
@@ -139,7 +136,7 @@ class FragmentHome : Fragment(), UtilityPokemonLoader.IOnLoad,
 			mFragmentViewBinding.idTvTotalShown.text = getString(
 				R.string.a_of_b,
 				mAdapter.getFilteredItemCount(),
-				UtilityPokemonLoader.getLoadedPokemonListCount()
+				ApiGetAllPokemon.getPokemonList().results.size
 			)
 		}
 	}
@@ -150,6 +147,29 @@ class FragmentHome : Fragment(), UtilityPokemonLoader.IOnLoad,
 		argumentsBundle.putInt(FragmentDetails.KEY_ID, item.id)
 		UtilityFragmentManager.using(parentFragmentManager).load(detailsFragment)
 			.with(argumentsBundle).into(view?.parent as ViewGroup).now()
+	}
+
+	override fun onComplete() {
+		updateViews()
+	}
+
+	override fun onSuccess(success: IApi) {
+		when(success){
+			is ApiGetAllPokemon -> {
+				val pokemonList: ModelPokemonList = ApiGetAllPokemon.getPokemonList()
+				Log.d(
+					FragmentHome::class.simpleName,
+					"Successfully loaded ${pokemonList.results.size} pokemon."
+				)
+			}
+			else -> {
+
+			}
+		}
+	}
+
+	override fun onFailed(failure: IApi) {
+
 	}
 
 }

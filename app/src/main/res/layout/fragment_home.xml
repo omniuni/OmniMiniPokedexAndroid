@@ -11,12 +11,6 @@
 			android:background="?colorPrimary"
 			android:tag="banner" />
 
-	<ProgressBar
-			android:id="@+id/id_pb_loader"
-			android:layout_width="64dp"
-			android:layout_height="64dp"
-			android:layout_centerInParent="true" />
-
 	<androidx.cardview.widget.CardView
 			android:id="@+id/id_cv_toolbar"
 			android:layout_width="match_parent"

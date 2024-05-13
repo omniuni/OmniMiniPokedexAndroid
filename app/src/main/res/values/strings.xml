@@ -22,6 +22,7 @@
 	<string name="label_filter">Filter Pokemon</string>
 	<string name="label_clear">Clear</string>
 	<string name="toggle_options">Toggle Options</string>
+	<string name="loading">Loading %1$s…</string>
 
 	<string name="placeholder_level">000</string>
 	<string name="placeholder_name">PokemonName</string>

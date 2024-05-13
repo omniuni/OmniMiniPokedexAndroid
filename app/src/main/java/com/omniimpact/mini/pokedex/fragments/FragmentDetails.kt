@@ -27,6 +27,7 @@ import com.omniimpact.mini.pokedex.models.ModelPokemonDetailsTypes
 import com.omniimpact.mini.pokedex.models.ModelPokemonEvolutionChain
 import com.omniimpact.mini.pokedex.models.ModelPokemonListItem
 import com.omniimpact.mini.pokedex.models.ModelPokemonSpecies
+import com.omniimpact.mini.pokedex.network.api.ApiGetAllPokemon
 import com.omniimpact.mini.pokedex.utilities.UtilityFragmentManager
 import com.omniimpact.mini.pokedex.utilities.UtilityPokemonLoader
 import com.squareup.picasso.Callback
@@ -58,7 +59,7 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 				mPokemonId = it.getInt(KEY_ID)
 			}
 		}
-		mSourceItem = UtilityPokemonLoader.getPokemonListItemById(mPokemonId)
+		mSourceItem = ApiGetAllPokemon.getPokemonListItemById(mPokemonId)
 	}
 
 
@@ -184,7 +185,7 @@ class FragmentDetails : Fragment(), UtilityPokemonLoader.IOnEvolutionChain,
 		evolutionView.idTvPokemonName.text = evolution.species.name.replaceFirstChar { it.titlecase() }
 		val evolutionSpeciesId: Int =  evolution.species.url.takeLastWhile { it.isDigit() || it == '/' }.filter { it.isDigit() }.toInt()
 		if(evolution.species.iconUrl.isEmpty()){
-			evolution.species.iconUrl = "${UtilityPokemonLoader.URL_POKEMON_SPRITES_BASE}$evolutionSpeciesId.png"
+			evolution.species.iconUrl = "${ApiGetAllPokemon.URL_POKEMON_SPRITES_BASE}$evolutionSpeciesId.png"
 		}
 		Picasso.get().load(evolution.species.iconUrl).fit().into(evolutionView.idIvIcon)
 		evolutionView.root.setOnClickListener {
