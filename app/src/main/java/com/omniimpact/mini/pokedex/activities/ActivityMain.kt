@@ -36,9 +36,13 @@ class ActivityMain : AppCompatActivity() {
 	private fun updateViewForInsets(windowInsets: WindowInsetsCompat) {
 		val insetValues = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
 		mActivityViewBinding.idFlStatusBar.minimumHeight = insetValues.top
-		mActivityViewBinding.idToolbar.updatePadding(right = insetValues.right)
+		mActivityViewBinding.idToolbar.updatePadding(
+			right = insetValues.right,
+			left = insetValues.left
+		)
 		mActivityViewBinding.idFcvActivityMain.updateLayoutParams<MarginLayoutParams> {
 			rightMargin = insetValues.right
+			leftMargin = insetValues.left
 		}
 		mActivityViewBinding.idFlNavigation.minimumHeight = insetValues.bottom
 	}

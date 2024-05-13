@@ -1,6 +1,6 @@
 <resources>
 
-	<string name="app_name">Mini Pokédex</string>
+	<string name="app_name">Pokédex Mini</string>
 	<string name="exit">Exit</string>
 
 	<string name="label_encountered">Encountered</string>
