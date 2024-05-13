@@ -30,10 +30,11 @@ import com.omniimpact.mini.pokedex.models.ModelPokemonSpecies
 import com.omniimpact.mini.pokedex.network.UtilityLoader
 import com.omniimpact.mini.pokedex.network.api.ApiGetAllPokemon
 import com.omniimpact.mini.pokedex.network.api.ApiGetPokemonDetails
+import com.omniimpact.mini.pokedex.network.api.ApiGetPokemonEvolutions
+import com.omniimpact.mini.pokedex.network.api.ApiGetPokemonSpecies
 import com.omniimpact.mini.pokedex.network.api.IApi
 import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
 import com.omniimpact.mini.pokedex.utilities.UtilityFragmentManager
-import com.omniimpact.mini.pokedex.utilities.UtilityPokemonLoader
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
@@ -52,7 +53,6 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 	private lateinit var mSourceItem: ModelPokemonListItem
 
 	private lateinit var mPokemonSpecies: ModelPokemonSpecies
-	private lateinit var mPokemonDetails: ModelPokemonDetails
 	private lateinit var mPokemonEvolutionChain: ModelPokemonEvolutionChain
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,6 +82,11 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 	): View {
 		mFragmentViewBinding = FragmentDetailsBinding.inflate(layoutInflater)
 		updateBaseViews()
+		UtilityLoader.registerListener(this)
+		UtilityLoader.enqueue(mapOf(
+			ApiGetPokemonDetails to mPokemonId.toString(),
+			ApiGetPokemonSpecies to mPokemonId.toString()
+		))
 		return mFragmentViewBinding.root
 	}
 
@@ -107,9 +112,13 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 		ViewCompat.setTransitionName(mFragmentViewBinding.idLlBanner.root, KEY_TRANSITION_TARGET_BANNER)
 	}
 
+	override fun onPause() {
+		UtilityLoader.removeListener(this)
+		super.onPause()
+	}
+
 	inner class OnPicassoImageLoadedDoEnterTransition : Callback {
 		override fun onSuccess() {
-			continueLoad()
 			val icon: ImageView = mFragmentViewBinding.idLlBanner.idIvPokemonIcon
 			val platform: ImageView = mFragmentViewBinding.idLlBanner.idIvPlatform
 			Palette.from(icon.drawable.toBitmap()).generate { palette ->
@@ -136,47 +145,11 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 		}
 
 		override fun onError(e: Exception?) {
-			continueLoad()
 		}
 
 	}
 
-	private fun continueLoad(){
-		UtilityLoader.registerListener(this)
-		UtilityLoader.enqueue(mapOf(
-			ApiGetPokemonDetails to mPokemonId.toString()
-		))
-	}
-
-	// Species
-
-	fun onSpeciesReady() {
-		mPokemonSpecies = UtilityPokemonLoader.getPokemonSpecies(mPokemonId)
-
-		mFragmentViewBinding.idIncludeDetails.idTvFlavor.text = mPokemonSpecies.defaultFlavorText
-
-		continueLoadEvolutionChain()
-	}
-
-	fun onSpeciesFailed() {
-		mFragmentViewBinding.idIncludeDetails.idCvEvolutions.visibility = View.GONE
-	}
-
 	// Evolution Chain
-
-	private fun continueLoadEvolutionChain(){
-		//UtilityPokemonLoader.loadEvolution(this, mPokemonSpecies.evolutionChain.id)
-	}
-
-	fun onEvolutionChainReady() {
-		mPokemonEvolutionChain = UtilityPokemonLoader.getPokemonEvolutionChain(mPokemonSpecies.evolutionChain.id)
-		updateEvolutionChainViews()
-	}
-
-	private fun updateEvolutionChainViews(){
-		if(mFragmentViewBinding.idIncludeDetails.idLlEvolutions.childCount > 0) return
-		addEvolutionView(mPokemonEvolutionChain)
-	}
 
 	private fun addEvolutionView(evolution: ModelPokemonEvolutionChain){
 		val evolutionView = ListItemPokemonEvolutionBinding.inflate(layoutInflater, mFragmentViewBinding.idIncludeDetails.idLlEvolutions, true)
@@ -207,12 +180,16 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 
 	// Details
 
-	private fun onDetailsReady() {
-		mPokemonDetails = ApiGetPokemonDetails.getPokemonDetails(mPokemonId)
-		updateTypes()
+	private fun updateTypes(details: ModelPokemonDetails) {
+		if(mFragmentViewBinding.idLlBanner.idLlChips.childCount > 0) return
+		details.types.forEach { modelPokemonDetailsTypes ->
+			val typeChipView = ListItemTypeChipBinding.inflate(layoutInflater, mFragmentViewBinding.idLlBanner.idLlChips, true)
+			typeChipView.idTvType.text = modelPokemonDetailsTypes.type.name
+			typeChipView.idCvTypeChip.backgroundTintList = getColorStateListFromTypeName(modelPokemonDetailsTypes.type.name)
+		}
 	}
 
-	private fun onTypeDetailsReady() {
+	private fun updateTypeDetails(details: ModelPokemonDetails) {
 
 		val shouldPopulateStrengthMajor = mFragmentViewBinding.idIncludeDetails.idLlStrengthMajor.childCount == 0
 		val shouldPopulateDefenseMajor = mFragmentViewBinding.idIncludeDetails.idLlDefenseMajor.childCount == 0
@@ -221,7 +198,7 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 		val shouldPopulateDamageNone = mFragmentViewBinding.idIncludeDetails.idLlDamageNone.childCount == 0
 		val shouldPopulateWeaknessMajor = mFragmentViewBinding.idIncludeDetails.idLlWeaknessMajor.childCount == 0
 
-		mPokemonDetails.types.forEach { typeSlot ->
+		details.types.forEach { typeSlot ->
 
 			val typeDetails = ApiGetPokemonDetails.getPokemonTypeDetails(typeSlot.type.name)
 
@@ -325,15 +302,6 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 		}
 	}
 
-	private fun updateTypes(){
-		if(mFragmentViewBinding.idLlBanner.idLlChips.childCount > 0) return
-		mPokemonDetails.types.forEach { modelPokemonDetailsTypes ->
-			val typeChipView = ListItemTypeChipBinding.inflate(layoutInflater, mFragmentViewBinding.idLlBanner.idLlChips, true)
-			typeChipView.idTvType.text = modelPokemonDetailsTypes.type.name
-			typeChipView.idCvTypeChip.backgroundTintList = getColorStateListFromTypeName(modelPokemonDetailsTypes.type.name)
-		}
-	}
-
 	private fun getColorStateListFromTypeName(name: String): ColorStateList {
 		return when(name){
 			"normal" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_normal))
@@ -361,11 +329,32 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 	}
 
 	override fun onComplete() {
-		onDetailsReady()
-		onTypeDetailsReady()
+
 	}
 
 	override fun onSuccess(success: IApi) {
+		when(success){
+			is ApiGetPokemonDetails -> {
+				val details = ApiGetPokemonDetails.getPokemonDetails(mPokemonId)
+				updateTypes(details)
+				updateTypeDetails(details)
+			}
+			is ApiGetPokemonSpecies -> {
+				mPokemonSpecies = ApiGetPokemonSpecies.getPokemonSpecies(mPokemonId)
+				mFragmentViewBinding.idIncludeDetails.idTvFlavor.text = mPokemonSpecies.defaultFlavorText
+				UtilityLoader.enqueue(mapOf(
+					ApiGetPokemonEvolutions to mPokemonSpecies.evolutionChain.id.toString()
+				))
+			}
+			is ApiGetPokemonEvolutions -> {
+				mPokemonEvolutionChain = ApiGetPokemonEvolutions.getPokemonEvolutionChain(mPokemonSpecies.evolutionChain.id)
+				if(mFragmentViewBinding.idIncludeDetails.idLlEvolutions.childCount > 0) return
+				addEvolutionView(mPokemonEvolutionChain)
+			}
+			else -> {
+
+			}
+		}
 	}
 
 	override fun onFailed(failure: IApi) {

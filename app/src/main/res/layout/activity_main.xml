@@ -52,15 +52,19 @@
 				android:layout_height="wrap_content">
 			<ProgressBar
 					android:id="@+id/id_pb_network"
-					android:layout_width="@dimen/icon_medium"
+					android:layout_width="match_parent"
 					android:layout_height="@dimen/icon_small"/>
 			<TextView
 					android:id="@+id/id_tv_network_status"
 					android:layout_width="match_parent"
-					android:layout_height="@dimen/icon_small"
-					android:layout_marginHorizontal="@dimen/icon_medium"
+					android:layout_height="wrap_content"
+					android:layout_marginHorizontal="@dimen/margin_standard"
+					android:layout_marginTop="@dimen/icon_small"
+					android:paddingTop="@dimen/margin_standard"
 					style="@style/TextAppearance.Material3.TitleSmall"
-					android:gravity="center_vertical"
+					android:gravity="center"
+					android:maxLines="1"
+					android:ellipsize="end"
 					android:text="@string/placeholder_name"/>
 		</com.google.android.material.card.MaterialCardView>
 	</FrameLayout>
