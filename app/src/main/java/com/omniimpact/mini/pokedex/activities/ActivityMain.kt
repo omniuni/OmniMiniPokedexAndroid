@@ -20,8 +20,8 @@ class ActivityMain : AppCompatActivity() {
 		enableEdgeToEdge()
 		mActivityViewBinding = ActivityMainBinding.inflate(layoutInflater)
 		UtilityLoader.attachOutputUi(
-			mActivityViewBinding.idFlNetworkStatusContainer,
-			mActivityViewBinding.idTvNetworkStatus
+			mActivityViewBinding.idIncludeNetworking.idFlNetworkStatusContainer,
+			mActivityViewBinding.idIncludeNetworking.idTvNetworkStatus
 		)
 		ViewCompat.setOnApplyWindowInsetsListener(
 			mActivityViewBinding.root

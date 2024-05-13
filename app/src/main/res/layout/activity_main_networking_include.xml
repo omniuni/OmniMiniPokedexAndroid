@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:id="@+id/id_fl_network_status_container"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:layout_marginHorizontal="@dimen/margin_double"
+		android:layout_marginBottom="@dimen/layout_sidebar_width"
+		android:padding="@dimen/margin_half">
+
+	<com.google.android.material.card.MaterialCardView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			app:contentPadding="@dimen/margin_standard">
+
+		<ProgressBar
+				android:id="@+id/id_pb_network"
+				android:layout_width="match_parent"
+				android:layout_height="@dimen/icon_small" />
+
+		<TextView
+				android:id="@+id/id_tv_network_status"
+				style="@style/TextAppearance.Material3.TitleSmall"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="@dimen/margin_standard"
+				android:layout_marginTop="@dimen/icon_small"
+				android:ellipsize="end"
+				android:gravity="center"
+				android:maxLines="1"
+				android:paddingTop="@dimen/margin_standard"
+				android:text="@string/placeholder_name" />
+	</com.google.android.material.card.MaterialCardView>
+
+</FrameLayout>
