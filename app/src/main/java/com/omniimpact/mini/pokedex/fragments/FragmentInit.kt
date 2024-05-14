@@ -5,9 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.omniimpact.mini.pokedex.R
 import com.omniimpact.mini.pokedex.databinding.FragmentInitBinding
+import com.omniimpact.mini.pokedex.models.VersionGroup
 import com.omniimpact.mini.pokedex.network.UtilityLoader
 import com.omniimpact.mini.pokedex.network.api.ApiGetVersion
 import com.omniimpact.mini.pokedex.network.api.ApiGetVersionGroup
@@ -45,12 +47,36 @@ class FragmentInit : Fragment(), IOnApiLoadQueue {
 
 	override fun onComplete() {
 		mFragmentViewBinding.idTvTitle.text = getString(R.string.select)
+
+		val versionGroups = ApiGetVersionGroups.getVersionGroups()
+
+		for(versionGroup in versionGroups){
+
+			val tvGroupHeader = TextView(requireContext())
+			tvGroupHeader.text = versionGroup.name
+
+			mFragmentViewBinding.idLlVersions.addView(tvGroupHeader)
+
+			val versionsInGroup = ApiGetVersionGroup.getVersionGroupByName(versionGroup.name)
+
+			for(version in versionsInGroup.versions){
+
+				val tvGroupEntry = TextView(requireContext())
+				tvGroupEntry.text = "--"+version.name+", "+ApiGetVersion.getVersionByName(version.name).nameEn
+
+				mFragmentViewBinding.idLlVersions.addView(tvGroupEntry)
+
+			}
+
+
+		}
+
 	}
 
 	override fun onSuccess(success: IApi) {
 		when(success){
 			is ApiGetVersionGroups -> {
-				for(i in 1..ApiGetVersionGroups.getNumberOfVersionGroups()){
+				for(i in 1..ApiGetVersionGroups.getVersionGroups().size){
 					Log.d(FragmentInit::class.simpleName, "Enqueue Version Group $i...")
 					UtilityLoader.enqueue(mapOf(
 						ApiGetVersionGroup to i.toString()
@@ -59,12 +85,16 @@ class FragmentInit : Fragment(), IOnApiLoadQueue {
 			}
 			is ApiGetVersions -> {
 				for(i in 1..ApiGetVersions.getNumberOfVersions()){
+					Log.d(FragmentInit::class.simpleName, "Enqueue Version $i...")
 					UtilityLoader.enqueue(mapOf(
 						ApiGetVersion to i.toString()
 					))
 				}
 			}
 			is ApiGetVersionGroup -> {
+				Log.d(FragmentInit::class.simpleName, "Got: ${success.getFriendlyName()}...")
+			}
+			is ApiGetVersion -> {
 				Log.d(FragmentInit::class.simpleName, "Got: ${success.getFriendlyName()}...")
 			}
 			else -> {

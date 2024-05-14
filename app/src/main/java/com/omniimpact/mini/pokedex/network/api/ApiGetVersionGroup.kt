@@ -9,6 +9,7 @@ object ApiGetVersionGroup : ApiBase() {
 	private const val URL_ENDPOINT = "https://pokeapi.co/api/v2/version-group/"
 
 	private var mVersionGroup: MutableMap<Int, ModelVersionGroup> = mutableMapOf()
+	private var mVersionGroupsByName: MutableMap<String, Int> = mutableMapOf()
 
 	override fun getUrl(): String {
 		return URL_ENDPOINT + args
@@ -26,9 +27,14 @@ object ApiGetVersionGroup : ApiBase() {
 
 		val moshi: Moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
 		val pokemonListAdapter = moshi.adapter(ModelVersionGroup::class.java)
-		val modelVersionGroup = pokemonListAdapter.fromJson(jsonResponse) ?: ModelVersionGroup(0)
-		mVersionGroup[args.toInt()] = modelVersionGroup
+		val modelVersionGroup = pokemonListAdapter.fromJson(jsonResponse) ?: ModelVersionGroup()
+		mVersionGroup[modelVersionGroup.id] = modelVersionGroup
+		mVersionGroupsByName[modelVersionGroup.name] = modelVersionGroup.id
 
+	}
+
+	fun getVersionGroupByName(name: String): ModelVersionGroup {
+		return mVersionGroup[mVersionGroupsByName[name]] ?: ModelVersionGroup()
 	}
 
 }

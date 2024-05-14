@@ -13,6 +13,7 @@
 			android:text="@string/setting_up" />
 
 	<TextView
+			android:id="@+id/id_tv_subtitle"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_below="@id/id_tv_title"
@@ -20,10 +21,17 @@
 			android:layout_margin="@dimen/margin_standard"
 			android:text="@string/fair_use" />
 
-	<LinearLayout
-			android:id="@+id/id_ll_versions"
-			android:orientation="vertical"
+	<ScrollView
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"/>
-	
+			android:layout_height="wrap_content"
+			android:layout_below="@id/id_tv_subtitle">
+
+		<LinearLayout
+				android:id="@+id/id_ll_versions"
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"/>
+
+	</ScrollView>
+
 </RelativeLayout>

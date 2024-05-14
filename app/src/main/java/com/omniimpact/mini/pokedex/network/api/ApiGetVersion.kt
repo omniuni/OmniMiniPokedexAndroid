@@ -9,6 +9,7 @@ object ApiGetVersion : ApiBase() {
 	private const val URL_ENDPOINT = "https://pokeapi.co/api/v2/version/"
 
 	private var mVersions: MutableMap<Int, ModelVersion> = mutableMapOf()
+	private var mVersionsByName: MutableMap<String, Int> = mutableMapOf()
 
 	override fun getUrl(): String {
 		return URL_ENDPOINT + args
@@ -27,8 +28,18 @@ object ApiGetVersion : ApiBase() {
 		val moshi: Moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
 		val adapter = moshi.adapter(ModelVersion::class.java)
 		val modelVersion: ModelVersion = adapter.fromJson(jsonResponse) ?: ModelVersion(0)
-		mVersions[args.toInt()] = modelVersion
 
+		modelVersion.names.forEach {
+			if(it.language.name == "en") modelVersion.nameEn = it.name
+		}
+
+		mVersions[modelVersion.id] = modelVersion
+		mVersionsByName[modelVersion.name] = modelVersion.id
+
+	}
+
+	fun getVersionByName(name: String): ModelVersion {
+		return mVersions[mVersionsByName[name]] ?: ModelVersion()
 	}
 
 }

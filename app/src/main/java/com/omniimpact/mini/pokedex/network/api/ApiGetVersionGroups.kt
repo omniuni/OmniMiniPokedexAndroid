@@ -1,6 +1,7 @@
 package com.omniimpact.mini.pokedex.network.api
 
 import com.omniimpact.mini.pokedex.models.ModelVersionGroups
+import com.omniimpact.mini.pokedex.models.VersionGroup
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
@@ -26,12 +27,13 @@ object ApiGetVersionGroups: ApiBase() {
 
 			val moshi: Moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
 			val pokemonListAdapter = moshi.adapter(ModelVersionGroups::class.java)
-			mVersionGroups = pokemonListAdapter.fromJson(jsonResponse) ?: ModelVersionGroups(0)
+			mVersionGroups = pokemonListAdapter.fromJson(jsonResponse) ?: ModelVersionGroups()
 
 	}
 
-	fun getNumberOfVersionGroups(): Int{
-		return mVersionGroups.count
+	fun getVersionGroups(): List<VersionGroup>{
+		if(this::mVersionGroups.isInitialized) return mVersionGroups.results
+		return listOf()
 	}
 
 }
