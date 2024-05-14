@@ -1,5 +1,6 @@
 package com.omniimpact.mini.pokedex.network.api
 
+import android.content.Context
 import com.omniimpact.mini.pokedex.models.ModelPokemonList
 import com.omniimpact.mini.pokedex.models.ModelPokemonListItem
 import com.squareup.moshi.Moshi

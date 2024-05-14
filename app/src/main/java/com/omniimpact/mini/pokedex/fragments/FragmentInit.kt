@@ -17,6 +17,8 @@ import com.omniimpact.mini.pokedex.network.api.ApiGetVersionGroups
 import com.omniimpact.mini.pokedex.network.api.ApiGetVersions
 import com.omniimpact.mini.pokedex.network.api.IApi
 import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
+import com.omniimpact.mini.pokedex.utilities.UtilityApplicationSettings
+import com.omniimpact.mini.pokedex.utilities.UtilityFragmentManager
 
 class FragmentInit : Fragment(), IOnApiLoadQueue {
 
@@ -27,11 +29,19 @@ class FragmentInit : Fragment(), IOnApiLoadQueue {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
+		if(UtilityApplicationSettings.selectedVersion.isNotEmpty()){
+			return View(requireContext())
+		}
 		mFragmentViewBinding = FragmentInitBinding.inflate(layoutInflater)
 		return mFragmentViewBinding.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		if(UtilityApplicationSettings.selectedVersion.isNotEmpty()){
+			UtilityFragmentManager.using(parentFragmentManager).load(FragmentHome())
+				.into(view.parent as ViewGroup).now()
+			return
+		}
 		UtilityLoader.registerListener(this)
 		Log.d(FragmentInit::class.simpleName, "Enqueue Version Groups and Versions...")
 		UtilityLoader.enqueue(mapOf(

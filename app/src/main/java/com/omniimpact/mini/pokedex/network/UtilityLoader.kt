@@ -1,6 +1,7 @@
 package com.omniimpact.mini.pokedex.network
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -12,6 +13,7 @@ import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
 @SuppressLint("StaticFieldLeak")
 object UtilityLoader: IOnApiLoadProgress {
 
+	private lateinit var mContext: Context
 	private lateinit var mContainer: View
 	private lateinit var mText: TextView
 
@@ -29,9 +31,15 @@ object UtilityLoader: IOnApiLoadProgress {
 		updateComplete()
 	}
 
+	fun updateContext(context: Context){
+		mContext = context
+	}
+
 	fun enqueue(map: Map<IApi, String>){
+		if(!this::mContext.isInitialized) return
 		map.forEach { apiEntry ->
-			val id = apiEntry.key.getUrl()+apiEntry.value
+			apiEntry.key.presetArgs(apiEntry.value)
+			val id = apiEntry.key.getUrl()
 			Log.d(UtilityLoader::class.simpleName, "Check ID: $id")
 			if(mToLoad.containsKey(id)) return
 			Log.d(UtilityLoader::class.simpleName, "Enqueue ID: $id")
@@ -58,7 +66,8 @@ object UtilityLoader: IOnApiLoadProgress {
 		val toLoadPairKey = mToLoad.keys.first()
 		Log.d(UtilityLoader::class.simpleName, "Loading: $toLoadPairKey")
 		val toLoadPair = mToLoad[toLoadPairKey] ?: return
-		toLoadPair.first.load(this, toLoadPair.second)
+		toLoadPair.first.load(mContext, this, toLoadPair.second)
+		if(mToLoad.keys.isEmpty()) return
 		try {
 			if (this::mText.isInitialized) mText.text =
 				mText.context.getString(R.string.loading, toLoadPair.first.getFriendlyName())

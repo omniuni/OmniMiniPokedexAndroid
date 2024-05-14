@@ -1,10 +1,13 @@
 package com.omniimpact.mini.pokedex.network.api
 
+import android.content.Context
+
 interface IApi {
 
+	fun presetArgs(args: String)
 	fun getUrl(): String
 	fun isLoaded(): Boolean
-	fun load(callback: IOnApiLoadProgress, key: String = String())
+	fun load(context: Context, callback: IOnApiLoadProgress, key: String = String())
 	fun getFriendlyName(): String
 
 	fun parse(jsonResponse: String)

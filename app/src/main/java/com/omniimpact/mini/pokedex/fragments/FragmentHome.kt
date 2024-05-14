@@ -54,14 +54,11 @@ class FragmentHome : Fragment(),
 	): View {
 		mFragmentViewBinding = FragmentHomeBinding.inflate(layoutInflater)
 		updateMenu()
-		return mFragmentViewBinding.root
-	}
-
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		UtilityLoader.registerListener(this)
 		UtilityLoader.enqueue(mapOf(
 			ApiGetAllPokemon to String()
 		))
+		return mFragmentViewBinding.root
 	}
 
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
