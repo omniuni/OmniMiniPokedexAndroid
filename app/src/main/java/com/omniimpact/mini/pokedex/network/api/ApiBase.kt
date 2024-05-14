@@ -9,7 +9,6 @@ import kotlinx.coroutines.launch
 
 abstract class ApiBase : IApi{
 
-	protected lateinit var mContext: Context
 	protected var args: String = String()
 	private val loadScope = CoroutineScope(Job() + Dispatchers.IO)
 
@@ -18,7 +17,6 @@ abstract class ApiBase : IApi{
 	}
 
 	override fun load(context: Context, callback: IOnApiLoadProgress, key: String) {
-		mContext = context
 		args = key
 
 		if(isLoaded()){

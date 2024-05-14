@@ -7,6 +7,7 @@ import com.squareup.moshi.JsonClass
 data class ModelPokemonType(
 	@Json(name = "damage_relations")
 	val damageRelations: ModelDamageRelations,
+	val name: String = String()
 )
 
 @JsonClass(generateAdapter = true)

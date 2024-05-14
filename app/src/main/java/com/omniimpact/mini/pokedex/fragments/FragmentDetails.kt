@@ -32,11 +32,16 @@ import com.omniimpact.mini.pokedex.network.api.ApiGetAllPokemon
 import com.omniimpact.mini.pokedex.network.api.ApiGetPokemonDetails
 import com.omniimpact.mini.pokedex.network.api.ApiGetPokemonEvolutions
 import com.omniimpact.mini.pokedex.network.api.ApiGetPokemonSpecies
+import com.omniimpact.mini.pokedex.network.api.ApiGetType
 import com.omniimpact.mini.pokedex.network.api.IApi
 import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
 import com.omniimpact.mini.pokedex.utilities.UtilityFragmentManager
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 
 class FragmentDetails : Fragment(), IOnApiLoadQueue {
@@ -47,6 +52,8 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 		const val KEY_TRANSITION_TARGET_TEXT_HEADER = "text_header"
 		const val KEY_TRANSITION_TARGET_BANNER = "banner"
 	}
+
+	private val loadScope = CoroutineScope(Job() + Dispatchers.IO)
 
 	private lateinit var mFragmentViewBinding: FragmentDetailsBinding
 	private var mPokemonId: Int = 0
@@ -200,7 +207,7 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 
 		details.types.forEach { typeSlot ->
 
-			val typeDetails = ApiGetPokemonDetails.getPokemonTypeDetails(typeSlot.type.name)
+			val typeDetails = ApiGetType.getPokemonTypeDetails(typeSlot.type.name)
 
 			if(shouldPopulateStrengthMajor){
 				populateTypeChips(
@@ -273,32 +280,41 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 			val typeChipHeader = ListItemTypeLabelHeaderBinding.inflate(
 				layoutInflater,
 				target,
-				true
+				false
 			)
 			typeChipHeader.idTvTitle.setText(headerResource)
+			loadScope.launch(Dispatchers.Main){
+				target.addView(typeChipHeader.root)
+			}
 		}
 		if(types.isEmpty()){
 			val typeChip = ListItemTypeSwChipBinding.inflate(
 				layoutInflater,
 				target,
-				true
+				false
 			)
 			typeChip.idCvTypeChip.backgroundTintList = getColorStateListFromTypeName(String())
 			typeChip.idCvTypeContributing.backgroundTintList = getColorStateListFromTypeName(fromType.type.name)
 			typeChip.idTvType.text = resources.getString(R.string.label_none)
 			typeChip.idIvIcon.setImageResource(drawableResource)
+			loadScope.launch(Dispatchers.Main){
+				target.addView(typeChip.root)
+			}
 			return
 		}
 		types.forEach {type ->
 			val typeChip = ListItemTypeSwChipBinding.inflate(
 				layoutInflater,
 				target,
-				true
+				false
 			)
 			typeChip.idCvTypeChip.backgroundTintList = getColorStateListFromTypeName(type.name)
 			typeChip.idCvTypeContributing.backgroundTintList = getColorStateListFromTypeName(fromType.type.name)
 			typeChip.idTvType.text = type.name
 			typeChip.idIvIcon.setImageResource(drawableResource)
+			loadScope.launch(Dispatchers.Main){
+				target.addView(typeChip.root)
+			}
 		}
 	}
 
@@ -329,7 +345,9 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 	}
 
 	override fun onComplete() {
-
+		loadScope.launch {
+			updateTypeDetails(ApiGetPokemonDetails.getPokemonDetails(mPokemonId))
+		}
 	}
 
 	override fun onSuccess(success: IApi) {
@@ -337,7 +355,12 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 			is ApiGetPokemonDetails -> {
 				val details = ApiGetPokemonDetails.getPokemonDetails(mPokemonId)
 				updateTypes(details)
-				updateTypeDetails(details)
+				details.types.forEach { typeSlot ->
+					val typeName: String = typeSlot.type.name
+					UtilityLoader.enqueue(mapOf(
+						ApiGetType to typeName
+					))
+				}
 			}
 			is ApiGetPokemonSpecies -> {
 				mPokemonSpecies = ApiGetPokemonSpecies.getPokemonSpecies(mPokemonId)
