@@ -23,6 +23,9 @@
 	<string name="label_clear">Clear</string>
 	<string name="toggle_options">Toggle Options</string>
 	<string name="loading">Loading %1$s…</string>
+	<string name="setting_up">Setting up…</string>
+	<string name="fair_use">This information is provided in accordance with the Fair Use Act, for education or reference.</string>
+	<string name="select">Please Select a Version</string>
 
 	<string name="placeholder_level">000</string>
 	<string name="placeholder_name">PokemonName</string>
