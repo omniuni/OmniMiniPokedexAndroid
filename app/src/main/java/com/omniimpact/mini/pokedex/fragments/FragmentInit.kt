@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.omniimpact.mini.pokedex.R
 import com.omniimpact.mini.pokedex.databinding.FragmentInitBinding
-import com.omniimpact.mini.pokedex.models.VersionGroup
 import com.omniimpact.mini.pokedex.network.UtilityLoader
 import com.omniimpact.mini.pokedex.network.api.ApiGetVersion
 import com.omniimpact.mini.pokedex.network.api.ApiGetVersionGroup

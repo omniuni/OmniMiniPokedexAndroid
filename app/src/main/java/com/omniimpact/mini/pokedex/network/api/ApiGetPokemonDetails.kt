@@ -1,13 +1,14 @@
 package com.omniimpact.mini.pokedex.network.api
 
+import android.annotation.SuppressLint
 import com.omniimpact.mini.pokedex.models.ModelDamageRelations
 import com.omniimpact.mini.pokedex.models.ModelPokemonDetails
 import com.omniimpact.mini.pokedex.models.ModelPokemonType
 import com.omniimpact.mini.pokedex.network.UtilityCachingGetRequest
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import java.net.URL
 
+@SuppressLint("StaticFieldLeak")
 object ApiGetPokemonDetails: ApiBase() {
 
 	private const val URL_POKEMON_DETAILS = "https://pokeapi.co/api/v2/pokemon/"
