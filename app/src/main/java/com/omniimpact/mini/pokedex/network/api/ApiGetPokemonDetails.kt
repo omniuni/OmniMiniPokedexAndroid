@@ -3,6 +3,7 @@ package com.omniimpact.mini.pokedex.network.api
 import com.omniimpact.mini.pokedex.models.ModelDamageRelations
 import com.omniimpact.mini.pokedex.models.ModelPokemonDetails
 import com.omniimpact.mini.pokedex.models.ModelPokemonType
+import com.omniimpact.mini.pokedex.network.UtilityCachingGetRequest
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import java.net.URL
@@ -36,7 +37,7 @@ object ApiGetPokemonDetails: ApiBase() {
 		mPokemonDetailsMap[args.toInt()]?.types?.forEach { typeSlot ->
 			val typeName: String = typeSlot.type.name
 			if(!mPokemonTypesMap.containsKey(typeName)){
-				val typesResult = URL(typeSlot.type.url).readText()
+				val typesResult = UtilityCachingGetRequest(mContext, typeSlot.type.url).get()
 				val pokemonTypesAdapter = moshi.adapter(ModelPokemonType::class.java)
 				pokemonTypesAdapter.fromJson(typesResult)?.also {
 					mPokemonTypesMap[typeName] = it

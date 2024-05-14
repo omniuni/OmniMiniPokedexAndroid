@@ -39,7 +39,7 @@ class FragmentInit : Fragment(), IOnApiLoadQueue {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		if(UtilityApplicationSettings.selectedVersion.isNotEmpty()){
 			UtilityFragmentManager.using(parentFragmentManager).load(FragmentHome())
-				.into(view.parent as ViewGroup).now()
+				.into(view.parent as ViewGroup).now(addToBackStack = false)
 			return
 		}
 		UtilityLoader.registerListener(this)
