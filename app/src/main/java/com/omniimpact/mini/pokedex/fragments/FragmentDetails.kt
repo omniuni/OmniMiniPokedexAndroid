@@ -28,11 +28,6 @@ import com.omniimpact.mini.pokedex.models.ModelPokemonEvolutionChain
 import com.omniimpact.mini.pokedex.models.ModelPokemonListItem
 import com.omniimpact.mini.pokedex.models.ModelPokemonSpecies
 import com.omniimpact.mini.pokedex.network.UtilityLoader
-import com.omniimpact.mini.pokedex.network.api.ApiGetAllPokemon
-import com.omniimpact.mini.pokedex.network.api.ApiGetPokemonDetails
-import com.omniimpact.mini.pokedex.network.api.ApiGetPokemonEvolutions
-import com.omniimpact.mini.pokedex.network.api.ApiGetPokemonSpecies
-import com.omniimpact.mini.pokedex.network.api.ApiGetType
 import com.omniimpact.mini.pokedex.network.api.IApi
 import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
 import com.omniimpact.mini.pokedex.utilities.UtilityFragmentManager
@@ -69,7 +64,7 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 				mPokemonId = it.getInt(KEY_ID)
 			}
 		}
-		mSourceItem = ApiGetAllPokemon.getPokemonListItemById(mPokemonId)
+		//mSourceItem = ApiGetAllPokemon.getPokemonListItemById(mPokemonId)
 	}
 
 
@@ -89,11 +84,11 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 	): View {
 		mFragmentViewBinding = FragmentDetailsBinding.inflate(layoutInflater)
 		updateBaseViews()
-		UtilityLoader.registerListener(this)
-		UtilityLoader.enqueue(mapOf(
-			ApiGetPokemonDetails to mPokemonId.toString(),
-			ApiGetPokemonSpecies to mPokemonId.toString()
-		))
+//		UtilityLoader.registerListener(this)
+//		UtilityLoader.enqueue(mapOf(
+//			ApiGetPokemonDetails to mPokemonId.toString(),
+//			ApiGetPokemonSpecies to mPokemonId.toString()
+//		))
 		return mFragmentViewBinding.root
 	}
 
@@ -120,7 +115,7 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 	}
 
 	override fun onPause() {
-		UtilityLoader.removeListener(this)
+		//UtilityLoader.removeListener(this)
 		super.onPause()
 	}
 
@@ -169,9 +164,9 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 		}
 		evolutionView.idTvPokemonName.text = evolution.species.name.replaceFirstChar { it.titlecase() }
 		val evolutionSpeciesId: Int =  evolution.species.url.takeLastWhile { it.isDigit() || it == '/' }.filter { it.isDigit() }.toInt()
-		if(evolution.species.iconUrl.isEmpty()){
-			evolution.species.iconUrl = "${ApiGetAllPokemon.URL_POKEMON_SPRITES_BASE}$evolutionSpeciesId.png"
-		}
+//		if(evolution.species.iconUrl.isEmpty()){
+//			evolution.species.iconUrl = "${ApiGetAllPokemon.URL_POKEMON_SPRITES_BASE}$evolutionSpeciesId.png"
+//		}
 		Picasso.get().load(evolution.species.iconUrl).fit().into(evolutionView.idIvIcon)
 		evolutionView.root.setOnClickListener {
 			val detailsFragment = FragmentDetails()
@@ -195,7 +190,7 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 			typeChipView.idCvTypeChip.backgroundTintList = getColorStateListFromTypeName(modelPokemonDetailsTypes.type.name)
 		}
 	}
-
+/*
 	private fun updateTypeDetails(details: ModelPokemonDetails) {
 
 		val shouldPopulateStrengthMajor = mFragmentViewBinding.idIncludeDetails.idLlStrengthMajor.childCount == 0
@@ -317,7 +312,7 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 			}
 		}
 	}
-
+*/
 	private fun getColorStateListFromTypeName(name: String): ColorStateList {
 		return when(name){
 			"normal" -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.type_normal))
@@ -346,11 +341,12 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 
 	override fun onComplete() {
 		loadScope.launch {
-			updateTypeDetails(ApiGetPokemonDetails.getPokemonDetails(mPokemonId))
+			//updateTypeDetails(ApiGetPokemonDetails.getPokemonDetails(mPokemonId))
 		}
 	}
 
 	override fun onSuccess(success: IApi) {
+		/*
 		when(success){
 			is ApiGetPokemonDetails -> {
 				val details = ApiGetPokemonDetails.getPokemonDetails(mPokemonId)
@@ -378,6 +374,7 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 
 			}
 		}
+		 */
 	}
 
 	override fun onFailed(failure: IApi) {

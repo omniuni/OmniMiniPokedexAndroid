@@ -6,39 +6,77 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.net.URL
 
 abstract class ApiBase : IApi{
 
-	protected var args: String = String()
+	//region Variables
+
 	private val loadScope = CoroutineScope(Job() + Dispatchers.IO)
 
-	override fun presetArgs(args: String) {
-		this.args = args
+	private lateinit var mContext: Context
+
+	private var mParameter: String = String()
+	private var mCallback: IOnApiLoad = object : IOnApiLoad{
+		override fun onSuccess(success: IApi) {}
+		override fun onFailed(failure: IApi) {}
 	}
 
-	override fun load(context: Context, callback: IOnApiLoadProgress, key: String) {
-		args = key
+	//endregion
+
+	//region Builder
+
+	override fun with(context: Context): IApi {
+		mContext = context
+		return this
+	}
+
+	override fun load(parameter: String): IApi {
+		mParameter = parameter
+		return this
+	}
+
+	override fun calling(callback: IOnApiLoad): IApi {
+		mCallback = callback
+		return this
+	}
+
+	override fun now() {
 
 		if(isLoaded()){
-			callback.onSuccess(this)
+			mCallback.onSuccess(this)
 			return
 		}
 
 		loadScope.launch {
 			try {
-				val jsonResult: String = UtilityCachingGetRequest(context, getUrl()).get()
+				val jsonResult: String = UtilityCachingGetRequest(mContext, getUrl()+mParameter).get()
 				parse(jsonResult)
 				launch(Dispatchers.Main) {
-					callback.onSuccess(this@ApiBase)
+					mCallback.onSuccess(this@ApiBase)
 				}
 			} catch (exception: Exception) {
 				exception.printStackTrace()
 				launch(Dispatchers.Main) {
-					callback.onFailed(this@ApiBase)
+					mCallback.onFailed(this@ApiBase)
 				}
 			}
 		}
 
 	}
+
+	//endregion
+
+	//region Utility
+
+	protected fun getParameter(): String {
+		return mParameter
+	}
+
+	override fun getUrlHash(): Int {
+		return "${getUrl()}$mParameter".hashCode()
+	}
+
+	//endregion
 
 }

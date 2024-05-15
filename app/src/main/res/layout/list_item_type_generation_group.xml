@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:id="@+id/id_cv_flavor"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="@dimen/margin_half"
+		android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
+		app:contentPadding="@dimen/margin_half">
+
+	<TextView
+			android:id="@+id/id_tv_title"
+			style="@style/TextAppearance.Material3.TitleMedium"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:paddingHorizontal="@dimen/margin_quarter"
+			android:text="@string/label_generation" />
+
+	<TextView
+			android:id="@+id/id_tv_title_detail"
+			style="@style/TextAppearance.Material3.BodyMedium"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="end"
+			android:textStyle="italic"
+			android:paddingHorizontal="@dimen/margin_quarter"
+			android:text="@string/label_generation" />
+
+	<View
+			android:layout_width="match_parent"
+			android:layout_height="@dimen/layout_divider"
+			android:layout_marginTop="26dp"
+			android:background="@color/md_theme_secondaryFixed_mediumContrast" />
+
+	<LinearLayout
+			android:id="@+id/id_ll_version_groups"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:layout_marginTop="33dp" />
+
+</com.google.android.material.card.MaterialCardView>

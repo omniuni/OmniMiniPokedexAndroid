@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.omniimpact.mini.pokedex.R
 import com.omniimpact.mini.pokedex.databinding.ListItemPokemonBinding
 import com.omniimpact.mini.pokedex.models.ModelPokemonListItem
-import com.omniimpact.mini.pokedex.network.api.ApiGetAllPokemon
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
@@ -35,13 +34,13 @@ class AdapterRecyclerViewPokemonList :
 
 	@SuppressLint("NotifyDataSetChanged")
 	fun updateItems() {
-		mFilteredItems = if (mFilter.isEmpty()) {
-			ApiGetAllPokemon.getPokemonList().results
-		} else {
-			ApiGetAllPokemon.getPokemonList().results.filter { modelPokemonListItem ->
-				modelPokemonListItem.name.contains(mFilter, true)
-			}
-		}
+//		mFilteredItems = if (mFilter.isEmpty()) {
+//			ApiGetAllPokemon.getPokemonList().results
+//		} else {
+//			ApiGetAllPokemon.getPokemonList().results.filter { modelPokemonListItem ->
+//				modelPokemonListItem.name.contains(mFilter, true)
+//			}
+//		}
 		if (mFilteredItems.isNotEmpty() && mShouldSortAlphabetical) {
 			mFilteredItems = mFilteredItems.sortedWith(compareBy { it.name })
 		}

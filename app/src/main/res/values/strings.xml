@@ -3,6 +3,7 @@
 	<string name="app_name">Pokédex Mini</string>
 	<string name="exit">Exit</string>
 
+	<string name="label_generation">Generation</string>
 	<string name="label_encountered">Encountered</string>
 	<string name="label_alphabetical">Alphabetical</string>
 	<string name="label_description">Description</string>
@@ -24,8 +25,10 @@
 	<string name="toggle_options">Toggle Options</string>
 	<string name="loading">Loading %1$s…</string>
 	<string name="setting_up">Setting up…</string>
-	<string name="fair_use">This information is provided in accordance with the Fair Use Act, for education or reference.</string>
+	<string name="fair_use">The information in this application is provided in accordance with the Fair Use Act. It is intended for education or reference.</string>
+	<string name="accuracy">Please select the game you want to use when information differs between versions.</string>
 	<string name="select">Please Select a Version</string>
+	<string name="games_species">%1$d games</string>
 
 	<string name="placeholder_level">000</string>
 	<string name="placeholder_name">PokemonName</string>

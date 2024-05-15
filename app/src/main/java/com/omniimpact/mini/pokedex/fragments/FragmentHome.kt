@@ -21,7 +21,6 @@ import com.omniimpact.mini.pokedex.databinding.FragmentHomeBinding
 import com.omniimpact.mini.pokedex.models.ModelPokemonList
 import com.omniimpact.mini.pokedex.models.ModelPokemonListItem
 import com.omniimpact.mini.pokedex.network.UtilityLoader
-import com.omniimpact.mini.pokedex.network.api.ApiGetAllPokemon
 import com.omniimpact.mini.pokedex.network.api.IApi
 import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
 import com.omniimpact.mini.pokedex.utilities.AdapterRecyclerViewPokemonList
@@ -54,10 +53,10 @@ class FragmentHome : Fragment(),
 	): View {
 		mFragmentViewBinding = FragmentHomeBinding.inflate(layoutInflater)
 		updateMenu()
-		UtilityLoader.registerListener(this)
-		UtilityLoader.enqueue(mapOf(
-			ApiGetAllPokemon to String()
-		))
+//		UtilityLoader.registerListener(this)
+//		UtilityLoader.enqueue(mapOf(
+//			ApiGetAllPokemon to String()
+//		))
 		return mFragmentViewBinding.root
 	}
 
@@ -77,7 +76,7 @@ class FragmentHome : Fragment(),
 				mRecyclerViewScrollState = it
 			}
 		}
-		UtilityLoader.removeListener(this)
+		//UtilityLoader.removeListener(this)
 		super.onPause()
 	}
 
@@ -92,9 +91,9 @@ class FragmentHome : Fragment(),
 
 	private fun updateViews() {
 		mFragmentViewBinding.idSwSort.isEnabled = false
-		if (ApiGetAllPokemon.getPokemonList().results.isNotEmpty()) {
-			setRecyclerViewAdapter()
-		}
+//		if (ApiGetAllPokemon.getPokemonList().results.isNotEmpty()) {
+//			setRecyclerViewAdapter()
+//		}
 		if (this::mAdapter.isInitialized) {
 			mFragmentViewBinding.idSwSort.setOnCheckedChangeListener { _, isChecked ->
 				mAdapter.sortItemsAlphabetical(isChecked)
@@ -129,13 +128,13 @@ class FragmentHome : Fragment(),
 	}
 
 	override fun onListUpdated() {
-		if (this::mAdapter.isInitialized) {
-			mFragmentViewBinding.idTvTotalShown.text = getString(
-				R.string.a_of_b,
-				mAdapter.getFilteredItemCount(),
-				ApiGetAllPokemon.getPokemonList().results.size
-			)
-		}
+//		if (this::mAdapter.isInitialized) {
+//			mFragmentViewBinding.idTvTotalShown.text = getString(
+//				R.string.a_of_b,
+//				mAdapter.getFilteredItemCount(),
+//				ApiGetAllPokemon.getPokemonList().results.size
+//			)
+//		}
 	}
 
 	override fun onItemClicked(item: ModelPokemonListItem, imageView: ImageView, textView: TextView) {
@@ -151,22 +150,22 @@ class FragmentHome : Fragment(),
 	}
 
 	override fun onSuccess(success: IApi) {
-		when(success){
-			is ApiGetAllPokemon -> {
-				val pokemonList: ModelPokemonList = ApiGetAllPokemon.getPokemonList()
-				Log.d(
-					FragmentHome::class.simpleName,
-					"Successfully loaded ${pokemonList.results.size} pokemon."
-				)
-			}
-			else -> {
-
-			}
+//		when(success){
+//			is ApiGetAllPokemon -> {
+//				val pokemonList: ModelPokemonList = ApiGetAllPokemon.getPokemonList()
+//				Log.d(
+//					FragmentHome::class.simpleName,
+//					"Successfully loaded ${pokemonList.results.size} pokemon."
+//				)
+//			}
+//			else -> {
+//
+//			}
 		}
-	}
 
 	override fun onFailed(failure: IApi) {
-
+		TODO("Not yet implemented")
 	}
 
 }
+
