@@ -6,9 +6,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.net.URL
 
-abstract class ApiBase : IApi{
+abstract class ApiBase : IApi {
 
 	//region Variables
 
@@ -17,7 +16,7 @@ abstract class ApiBase : IApi{
 	private lateinit var mContext: Context
 
 	private var mParameter: String = String()
-	private var mCallback: IOnApiLoad = object : IOnApiLoad{
+	private var mCallback: IOnApiLoad = object : IOnApiLoad {
 		override fun onSuccess(success: IApi) {}
 		override fun onFailed(failure: IApi) {}
 	}
@@ -43,14 +42,14 @@ abstract class ApiBase : IApi{
 
 	override fun now() {
 
-		if(isLoaded()){
+		if (isLoaded()) {
 			mCallback.onSuccess(this)
 			return
 		}
 
 		loadScope.launch {
 			try {
-				val jsonResult: String = UtilityCachingGetRequest(mContext, getUrl()+mParameter).get()
+				val jsonResult: String = UtilityCachingGetRequest(mContext, getBaseUrl() + mParameter).get()
 				parse(jsonResult)
 				launch(Dispatchers.Main) {
 					mCallback.onSuccess(this@ApiBase)
@@ -74,7 +73,7 @@ abstract class ApiBase : IApi{
 	}
 
 	override fun getUrlHash(): Int {
-		return "${getUrl()}$mParameter".hashCode()
+		return "${getBaseUrl()}$mParameter".hashCode()
 	}
 
 	//endregion

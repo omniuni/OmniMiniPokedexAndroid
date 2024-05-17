@@ -6,9 +6,9 @@
 		android:layout_height="wrap_content"
 		android:layout_margin="@dimen/margin_quarter"
 		android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
-		app:cardCornerRadius="@dimen/margin_half"
-		android:foreground="?android:attr/selectableItemBackground"
 		android:clickable="true"
+		android:foreground="?android:attr/selectableItemBackground"
+		app:cardCornerRadius="@dimen/margin_half"
 		app:contentPadding="@dimen/margin_half">
 
 	<TextView
@@ -16,25 +16,26 @@
 			style="@style/TextAppearance.Material3.BodyMedium"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:paddingHorizontal="@dimen/margin_quarter"
 			android:layout_gravity="center_vertical"
+			android:paddingHorizontal="@dimen/margin_quarter"
 			android:text="@string/label_generation" />
 
 	<com.google.android.material.card.MaterialCardView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="end"
-			app:strokeWidth="0dp"
 			app:cardCornerRadius="@dimen/margin_quarter"
-			app:contentPadding="@dimen/margin_quarter">
+			app:contentPadding="@dimen/margin_quarter"
+			app:strokeWidth="0dp">
+
 		<TextView
 				android:id="@+id/id_tv_title_detail"
 				style="@style/TextAppearance.Material3.BodyMedium"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:textStyle="italic"
 				android:paddingHorizontal="@dimen/margin_quarter"
-				android:text="@string/label_generation" />
+				android:text="@string/label_generation"
+				android:textStyle="italic" />
 	</com.google.android.material.card.MaterialCardView>
 
 

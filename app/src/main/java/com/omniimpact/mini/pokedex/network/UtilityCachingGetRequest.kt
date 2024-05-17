@@ -2,7 +2,6 @@ package com.omniimpact.mini.pokedex.network
 
 import android.content.Context
 import android.util.Log
-import com.omniimpact.mini.pokedex.BuildConfig
 import java.io.File
 import java.net.URL
 
@@ -12,19 +11,18 @@ class UtilityCachingGetRequest {
 	private val mUrl: String
 
 	@Suppress("ConvertSecondaryConstructorToPrimary")
-	constructor(context: Context, url: String){
+	constructor(context: Context, url: String) {
 		mContext = context
 		mUrl = url
 	}
 
-	fun get(): String{
+	fun get(): String {
 		val fileName = "${mUrl.hashCode()}.cache"
 		val file = File(mContext.filesDir, fileName)
-		var weekAgoInMillis = System.currentTimeMillis()-(7*24*60*60*1000)
-		if(BuildConfig.DEBUG) weekAgoInMillis = System.currentTimeMillis()-(60*1000) // Use 1 minute for debug builds
-		if(file.exists()){
+		val weekAgoInMillis = System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000)
+		if (file.exists()) {
 			Log.d(UtilityCachingGetRequest::class.simpleName, "Found file...")
-			if(file.lastModified() > weekAgoInMillis){
+			if (file.lastModified() > weekAgoInMillis) {
 				Log.d(UtilityCachingGetRequest::class.simpleName, "Returning request from cache!")
 				return file.readText()
 			} else {

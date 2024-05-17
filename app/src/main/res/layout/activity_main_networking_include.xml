@@ -16,8 +16,11 @@
 
 		<ProgressBar
 				android:id="@+id/id_pb_network"
+				style="?android:attr/progressBarStyleHorizontal"
 				android:layout_width="match_parent"
-				android:layout_height="@dimen/icon_small" />
+				android:layout_height="@dimen/icon_small"
+				android:layout_marginTop="@dimen/icon_small"
+				android:indeterminate="true" />
 
 		<TextView
 				android:id="@+id/id_tv_network_status"
@@ -25,7 +28,6 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginHorizontal="@dimen/margin_standard"
-				android:layout_marginTop="@dimen/icon_small"
 				android:ellipsize="end"
 				android:gravity="center"
 				android:maxLines="1"

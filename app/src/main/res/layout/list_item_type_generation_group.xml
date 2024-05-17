@@ -22,9 +22,9 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="end"
-			android:textStyle="italic"
 			android:paddingHorizontal="@dimen/margin_quarter"
-			android:text="@string/label_generation" />
+			android:text="@string/label_generation"
+			android:textStyle="italic" />
 
 	<View
 			android:layout_width="match_parent"
@@ -36,7 +36,7 @@
 			android:id="@+id/id_ll_version_groups"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			android:layout_marginTop="33dp" />
+			android:layout_marginTop="33dp"
+			android:orientation="vertical" />
 
 </com.google.android.material.card.MaterialCardView>

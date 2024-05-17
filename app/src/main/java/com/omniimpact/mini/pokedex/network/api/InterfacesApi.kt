@@ -13,7 +13,7 @@ interface IApi {
 	// Repository-lite
 
 	fun isLoaded(): Boolean
-	fun getUrl(): String
+	fun getBaseUrl(): String
 	fun getUrlHash(): Int
 
 	// Other
@@ -24,7 +24,7 @@ interface IApi {
 
 }
 
-interface IOnApiComplete{
+interface IOnApiComplete {
 	fun onComplete()
 
 }
@@ -36,8 +36,8 @@ interface IOnApiLoad {
 
 }
 
-interface IOnApiLoadProgress: IOnApiComplete {
+interface IOnApiLoadProgress : IOnApiComplete {
 	fun onApiProgress(apiCallName: String, batchTotal: Int, batchComplete: Int)
 }
 
-interface IOnApiLoadQueue: IOnApiComplete, IOnApiLoad{}
+interface IOnApiLoadQueue : IOnApiComplete, IOnApiLoad

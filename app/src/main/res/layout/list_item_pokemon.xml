@@ -6,10 +6,10 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_margin="@dimen/margin_half"
-		app:cardCornerRadius="@dimen/padding_standard"
-		android:foreground="?android:attr/selectableItemBackground"
+		android:backgroundTint="@color/md_theme_background_mediumContrast"
 		android:clickable="true"
-		android:backgroundTint="@color/md_theme_background_mediumContrast">
+		android:foreground="?android:attr/selectableItemBackground"
+		app:cardCornerRadius="@dimen/padding_standard">
 
 	<ImageView
 			android:id="@+id/id_iv_pokemon_ground"
@@ -17,8 +17,8 @@
 			android:layout_height="@dimen/icon_list_large"
 			android:layout_gravity="center_horizontal"
 			android:layout_marginTop="@dimen/margin_double"
-			android:src="@drawable/ic_platform"
 			android:scaleType="fitCenter"
+			android:src="@drawable/ic_platform"
 			tools:ignore="ContentDescription" />
 
 	<ImageView
@@ -26,8 +26,8 @@
 			android:layout_height="@dimen/icon_list_large"
 			android:layout_gravity="center_horizontal"
 			android:layout_marginTop="@dimen/margin_double"
-			android:src="@drawable/ic_platform_shade"
 			android:scaleType="fitCenter"
+			android:src="@drawable/ic_platform_shade"
 			tools:ignore="ContentDescription" />
 
 	<ImageView
@@ -51,9 +51,9 @@
 	<ImageView
 			android:layout_width="@dimen/icon_mini"
 			android:layout_height="@dimen/icon_mini"
-			android:layout_marginVertical="@dimen/margin_half"
-			android:layout_marginHorizontal="@dimen/margin_standard"
 			android:layout_gravity="bottom|end"
+			android:layout_marginHorizontal="@dimen/margin_standard"
+			android:layout_marginVertical="@dimen/margin_half"
 			android:src="@drawable/ic_clickable"
 			app:tint="@color/md_theme_onBackground"
 			tools:ignore="ContentDescription" />

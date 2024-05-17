@@ -55,10 +55,17 @@ class ActivityMain : AppCompatActivity(), IOnApiLoadProgress {
 
 	override fun onApiProgress(apiCallName: String, batchTotal: Int, batchComplete: Int) {
 		mActivityViewBinding.idIncludeNetworking.idTvNetworkStatus.text = apiCallName
+		if (batchTotal > 0) {
+			val pb = mActivityViewBinding.idIncludeNetworking.idPbNetwork
+			pb.isIndeterminate = false
+			pb.max = batchTotal
+			pb.progress = batchComplete
+		}
 		mActivityViewBinding.idIncludeNetworking.idFlNetworkStatusContainer.visibility = View.VISIBLE
 	}
 
 	override fun onComplete() {
+		mActivityViewBinding.idIncludeNetworking.idPbNetwork.isIndeterminate = true
 		mActivityViewBinding.idIncludeNetworking.idFlNetworkStatusContainer.visibility = View.GONE
 	}
 

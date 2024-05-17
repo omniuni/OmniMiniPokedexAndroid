@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
@@ -13,29 +12,30 @@
 	<FrameLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:background="?colorPrimary"
-			android:layout_toEndOf="@id/id_ll_banner">
+			android:layout_toEndOf="@id/id_ll_banner"
+			android:background="?colorPrimary">
 
-			<com.google.android.material.card.MaterialCardView
-					android:backgroundTint="@color/md_theme_background_mediumContrast"
+		<com.google.android.material.card.MaterialCardView
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:backgroundTint="@color/md_theme_background_mediumContrast"
+				app:cardPreventCornerOverlap="false"
+				app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialCardView.RoundedTopLeft"
+				app:strokeWidth="0dp">
+
+			<ScrollView
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
-					app:cardPreventCornerOverlap="false"
-					app:strokeWidth="0dp"
-					app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialCardView.RoundedTopLeft">
+					android:fadingEdgeLength="@dimen/margin_standard"
+					android:padding="@dimen/margin_standard"
+					android:requiresFadingEdge="vertical">
 
-				<ScrollView
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:requiresFadingEdge="vertical"
-						android:padding="@dimen/margin_standard"
-						android:fadingEdgeLength="@dimen/margin_standard">
-					<include
-							android:id="@+id/id_include_details"
-							layout="@layout/include_fragment_details"/>
-				</ScrollView>
+				<include
+						android:id="@+id/id_include_details"
+						layout="@layout/include_fragment_details" />
+			</ScrollView>
 
-			</com.google.android.material.card.MaterialCardView>
+		</com.google.android.material.card.MaterialCardView>
 
 	</FrameLayout>
 

@@ -5,20 +5,20 @@ import com.omniimpact.mini.pokedex.models.ModelGenerations
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
-class ApiGetGenerations: ApiBase() {
+class ApiGetGenerations : ApiBase() {
 
 	companion object {
 
 		private const val URL_ENDPOINT = "https://pokeapi.co/api/v2/generation/?limit=20"
 		private var mGenerations: ModelGenerations = ModelGenerations()
 
-		fun getGenerations(): List<Generation>{
+		fun getGenerations(): List<Generation> {
 			return mGenerations.results
 		}
 
 	}
 
-	override fun getUrl(): String {
+	override fun getBaseUrl(): String {
 		return URL_ENDPOINT
 	}
 
@@ -31,9 +31,9 @@ class ApiGetGenerations: ApiBase() {
 	}
 
 	override fun parse(jsonResponse: String) {
-			val moshi: Moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
-			val pokemonListAdapter = moshi.adapter(ModelGenerations::class.java)
-			mGenerations = pokemonListAdapter.fromJson(jsonResponse) ?: ModelGenerations()
+		val moshi: Moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
+		val pokemonListAdapter = moshi.adapter(ModelGenerations::class.java)
+		mGenerations = pokemonListAdapter.fromJson(jsonResponse) ?: ModelGenerations()
 	}
 
 }

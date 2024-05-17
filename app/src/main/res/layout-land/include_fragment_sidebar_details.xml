@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="@dimen/layout_sidebar_width"
 		android:layout_height="match_parent"
 		android:background="?colorPrimary"
-		android:orientation="vertical"
-		android:gravity="center">
+		android:gravity="center"
+		android:orientation="vertical">
 
 	<TextView
 			android:id="@+id/id_tv_pokemon_name"
@@ -19,6 +18,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="@dimen/margin_standard">
+
 		<ImageView
 				android:id="@+id/id_iv_platform"
 				android:layout_width="@dimen/icon_header_large"
@@ -26,12 +26,14 @@
 				android:layout_marginTop="24dp"
 				android:src="@drawable/ic_platform"
 				tools:ignore="ContentDescription" />
+
 		<ImageView
 				android:layout_width="@dimen/icon_header_large"
 				android:layout_height="@dimen/icon_header_large"
 				android:layout_marginTop="24dp"
 				android:src="@drawable/ic_platform_shade"
 				tools:ignore="ContentDescription" />
+
 		<ImageView
 				android:id="@+id/id_iv_pokemon_icon"
 				android:layout_width="@dimen/icon_header_large"
@@ -43,7 +45,7 @@
 			android:id="@+id/id_ll_chips"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:orientation="vertical"/>
+			android:orientation="vertical" />
 
 
 </LinearLayout>

@@ -4,8 +4,8 @@
 	<item
 			android:id="@+id/toggle_search_sort"
 			android:icon="@drawable/ic_filter"
+			android:title="@string/toggle_options"
 			app:iconTint="@color/md_theme_onBackground"
 			app:iconTintMode="multiply"
-			android:title="@string/toggle_options"
 			app:showAsAction="ifRoom" />
 </menu>

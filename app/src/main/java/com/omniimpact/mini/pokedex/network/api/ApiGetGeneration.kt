@@ -15,10 +15,10 @@ class ApiGetGeneration : ApiBase() {
 			return mMapGenerations[name] ?: ModelGeneration()
 		}
 
-		fun getGenerationNameInEnglish(modelGeneration: ModelGeneration): String{
+		fun getGenerationNameInEnglish(modelGeneration: ModelGeneration): String {
 			var name = String()
-			for(genName in modelGeneration.names){
-				if(genName.language.name == "en"){
+			for (genName in modelGeneration.names) {
+				if (genName.language.name == "en") {
 					name = genName.name
 				}
 			}
@@ -27,7 +27,7 @@ class ApiGetGeneration : ApiBase() {
 
 	}
 
-	override fun getUrl(): String {
+	override fun getBaseUrl(): String {
 		return URL_ENDPOINT
 	}
 
@@ -47,7 +47,6 @@ class ApiGetGeneration : ApiBase() {
 		mMapGenerations[modelGeneration.name] = modelGeneration
 
 	}
-
 
 
 }

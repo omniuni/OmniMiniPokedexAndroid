@@ -10,21 +10,23 @@
 		android:padding="@dimen/margin_half">
 
 	<com.google.android.material.card.MaterialCardView
-			app:contentPadding="@dimen/margin_standard"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content"
+			app:contentPadding="@dimen/margin_standard">
+
 		<ProgressBar
 				android:id="@+id/id_pb_network"
 				android:layout_width="@dimen/icon_medium"
-				android:layout_height="@dimen/icon_small"/>
+				android:layout_height="@dimen/icon_small" />
+
 		<TextView
 				android:id="@+id/id_tv_network_status"
+				style="@style/TextAppearance.Material3.TitleSmall"
 				android:layout_width="match_parent"
 				android:layout_height="@dimen/icon_small"
 				android:layout_marginHorizontal="@dimen/icon_medium"
-				style="@style/TextAppearance.Material3.TitleSmall"
 				android:gravity="center_vertical"
-				android:text="@string/placeholder_name"/>
+				android:text="@string/placeholder_name" />
 	</com.google.android.material.card.MaterialCardView>
 
 </FrameLayout>

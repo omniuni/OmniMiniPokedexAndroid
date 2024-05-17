@@ -2,7 +2,6 @@ package com.omniimpact.mini.pokedex.fragments
 
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -18,12 +17,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.omniimpact.mini.pokedex.R
 import com.omniimpact.mini.pokedex.databinding.FragmentHomeBinding
-import com.omniimpact.mini.pokedex.models.ModelPokemonList
-import com.omniimpact.mini.pokedex.models.ModelPokemonListItem
+import com.omniimpact.mini.pokedex.models.ModelVersionGroup
+import com.omniimpact.mini.pokedex.models.PokedexPokemonEntry
 import com.omniimpact.mini.pokedex.network.UtilityLoader
+import com.omniimpact.mini.pokedex.network.api.ApiGetPokedex
+import com.omniimpact.mini.pokedex.network.api.ApiGetVersionGroup
 import com.omniimpact.mini.pokedex.network.api.IApi
 import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
 import com.omniimpact.mini.pokedex.utilities.AdapterRecyclerViewPokemonList
+import com.omniimpact.mini.pokedex.utilities.UtilityApplicationSettings
 import com.omniimpact.mini.pokedex.utilities.UtilityFragmentManager
 
 class FragmentHome : Fragment(),
@@ -36,6 +38,8 @@ class FragmentHome : Fragment(),
 	private lateinit var mFragmentViewBinding: FragmentHomeBinding
 	private lateinit var mAdapter: AdapterRecyclerViewPokemonList
 	private lateinit var mRecyclerViewScrollState: Parcelable
+	private var mVersionGroup: ModelVersionGroup = ModelVersionGroup()
+	private var mPokemonSpeciesMap: MutableMap<Int, PokedexPokemonEntry> = mutableMapOf()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -53,10 +57,12 @@ class FragmentHome : Fragment(),
 	): View {
 		mFragmentViewBinding = FragmentHomeBinding.inflate(layoutInflater)
 		updateMenu()
-//		UtilityLoader.registerListener(this)
-//		UtilityLoader.enqueue(mapOf(
-//			ApiGetAllPokemon to String()
-//		))
+		UtilityLoader.registerApiCallListener(this)
+		UtilityLoader.addRequests(
+			mapOf(
+				ApiGetVersionGroup() to UtilityApplicationSettings.selectedVersionGroup
+			), requireContext()
+		)
 		return mFragmentViewBinding.root
 	}
 
@@ -76,7 +82,7 @@ class FragmentHome : Fragment(),
 				mRecyclerViewScrollState = it
 			}
 		}
-		//UtilityLoader.removeListener(this)
+		UtilityLoader.deregisterApiCallListener(this)
 		super.onPause()
 	}
 
@@ -91,9 +97,10 @@ class FragmentHome : Fragment(),
 
 	private fun updateViews() {
 		mFragmentViewBinding.idSwSort.isEnabled = false
-//		if (ApiGetAllPokemon.getPokemonList().results.isNotEmpty()) {
-//			setRecyclerViewAdapter()
-//		}
+		mPokemonSpeciesMap = ApiGetPokedex.getPokemonInPokedexList(mVersionGroup.pokedexes)
+		if (mPokemonSpeciesMap.isNotEmpty()) {
+			setRecyclerViewAdapter()
+		}
 		if (this::mAdapter.isInitialized) {
 			mFragmentViewBinding.idSwSort.setOnCheckedChangeListener { _, isChecked ->
 				mAdapter.sortItemsAlphabetical(isChecked)
@@ -117,7 +124,10 @@ class FragmentHome : Fragment(),
 
 	private fun setRecyclerViewAdapter() {
 		if (!this::mAdapter.isInitialized) {
-			mAdapter = AdapterRecyclerViewPokemonList()
+			mAdapter = AdapterRecyclerViewPokemonList(
+				mPokemonSpeciesMap,
+				UtilityApplicationSettings.selectedVersionGroup
+			)
 		}
 		val twoColumnsLayout: LayoutManager = GridLayoutManager(requireContext(), 2)
 		mFragmentViewBinding.idRvPokemon.layoutManager = twoColumnsLayout
@@ -128,19 +138,23 @@ class FragmentHome : Fragment(),
 	}
 
 	override fun onListUpdated() {
-//		if (this::mAdapter.isInitialized) {
-//			mFragmentViewBinding.idTvTotalShown.text = getString(
-//				R.string.a_of_b,
-//				mAdapter.getFilteredItemCount(),
-//				ApiGetAllPokemon.getPokemonList().results.size
-//			)
-//		}
+		if (this::mAdapter.isInitialized) {
+			mFragmentViewBinding.idTvTotalShown.text = getString(
+				R.string.a_of_b,
+				mAdapter.getFilteredItemCount(),
+				mPokemonSpeciesMap.size
+			)
+		}
 	}
 
-	override fun onItemClicked(item: ModelPokemonListItem, imageView: ImageView, textView: TextView) {
+	override fun onItemClicked(item: PokedexPokemonEntry, imageView: ImageView, textView: TextView) {
 		val detailsFragment = FragmentDetails()
 		val argumentsBundle = Bundle()
-		argumentsBundle.putInt(FragmentDetails.KEY_ID, item.id)
+		argumentsBundle.putInt(FragmentDetails.KEY_POKEMON_ENTRY_NUMBER, item.entryNumber)
+		argumentsBundle.putString(
+			FragmentDetails.KEY_COMBINED_POKEDEX,
+			ApiGetPokedex.getCombinedPokedexKey(mVersionGroup.pokedexes)
+		)
 		UtilityFragmentManager.using(parentFragmentManager).load(detailsFragment)
 			.with(argumentsBundle).into(view?.parent as ViewGroup).now()
 	}
@@ -150,22 +164,27 @@ class FragmentHome : Fragment(),
 	}
 
 	override fun onSuccess(success: IApi) {
-//		when(success){
-//			is ApiGetAllPokemon -> {
-//				val pokemonList: ModelPokemonList = ApiGetAllPokemon.getPokemonList()
-//				Log.d(
-//					FragmentHome::class.simpleName,
-//					"Successfully loaded ${pokemonList.results.size} pokemon."
-//				)
-//			}
-//			else -> {
-//
-//			}
+		when (success) {
+			is ApiGetVersionGroup -> {
+				mVersionGroup =
+					ApiGetVersionGroup.getVersionGroupByName(UtilityApplicationSettings.selectedVersionGroup)
+				for (pokedex in mVersionGroup.pokedexes) {
+					UtilityLoader.addRequests(
+						mapOf(
+							ApiGetPokedex() to pokedex.name
+						), requireContext()
+					)
+				}
+			}
+
+			is ApiGetPokedex -> {}
+			else -> {}
 		}
+	}
 
 	override fun onFailed(failure: IApi) {
-		TODO("Not yet implemented")
 	}
+
 
 }
 

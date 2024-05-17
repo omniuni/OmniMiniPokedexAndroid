@@ -5,11 +5,11 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class ModelPokemonSpecies(
-	val id: Int,
+	val id: Int = -1,
 	@Json(name = "evolution_chain")
-	val evolutionChain: ModelPokemonSpeciesEvolutionChain,
+	val evolutionChain: ModelPokemonSpeciesEvolutionChain = ModelPokemonSpeciesEvolutionChain(),
 	@Json(name = "flavor_text_entries")
-	val flavorTextEntries: List<ModelPokemonSpeciesFlavorTextEntry>,
+	val flavorTextEntries: List<ModelPokemonSpeciesFlavorTextEntry> = listOf(),
 	@Transient
 	var defaultFlavorText: String = String()
 )
@@ -29,6 +29,6 @@ data class ModelPokemonSpeciesFlavorTextEntryLanguage(
 @JsonClass(generateAdapter = true)
 data class ModelPokemonSpeciesEvolutionChain(
 	@Transient
-  var id: Int = -1,
-  val url: String
+	var id: Int = -1,
+	val url: String = String()
 )

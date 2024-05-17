@@ -5,13 +5,20 @@ import com.omniimpact.mini.pokedex.models.ModelPokedexList
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
-object ApiGetPokedexList : ApiBase() {
+class ApiGetPokedexList : ApiBase() {
 
-	private const val URL_ENDPOINT = "https://pokeapi.co/api/v2/pokedex/?limit=50"
+	companion object {
 
-	private var mPokedexList: MutableList<ModelPokedexEntry> = mutableListOf()
+		private const val URL_ENDPOINT = "https://pokeapi.co/api/v2/pokedex/?limit=50"
+		private var mPokedexList: MutableList<ModelPokedexEntry> = mutableListOf()
 
-	override fun getUrl(): String {
+		fun getPokedexList(): List<ModelPokedexEntry> {
+			return mPokedexList
+		}
+
+	}
+
+	override fun getBaseUrl(): String {
 		return URL_ENDPOINT
 	}
 
@@ -28,10 +35,6 @@ object ApiGetPokedexList : ApiBase() {
 		val adapter = moshi.adapter(ModelPokedexList::class.java)
 		val modelPokedexList = adapter.fromJson(jsonResponse) ?: ModelPokedexList()
 		mPokedexList.addAll(modelPokedexList.results)
-	}
-
-	fun getPokedexList(name: String): List<ModelPokedexEntry> {
-		return mPokedexList
 	}
 
 }

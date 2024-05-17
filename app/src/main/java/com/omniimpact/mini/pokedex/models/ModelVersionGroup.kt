@@ -8,7 +8,8 @@ data class ModelVersionGroup(
 	val name: String = String(),
 	val generation: VersionGroupGeneration = VersionGroupGeneration(),
 	val order: Int = -1,
-	val versions: List<VersionGroupVersion> = listOf()
+	val versions: List<VersionGroupVersion> = listOf(),
+	val pokedexes: List<VersionGroupPokedex> = listOf()
 )
 
 @JsonClass(generateAdapter = true)
@@ -19,6 +20,12 @@ data class VersionGroupGeneration(
 
 @JsonClass(generateAdapter = true)
 data class VersionGroupVersion(
+	val name: String = String(),
+	val url: String = String()
+)
+
+@JsonClass(generateAdapter = true)
+data class VersionGroupPokedex(
 	val name: String = String(),
 	val url: String = String()
 )
