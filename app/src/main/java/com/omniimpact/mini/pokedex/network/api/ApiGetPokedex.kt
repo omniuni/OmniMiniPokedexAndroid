@@ -43,6 +43,10 @@ class ApiGetPokedex : ApiBase() {
 			return combinedKey
 		}
 
+		fun getPokemonIdFromUrl(url: String): Int{
+			return url.takeLastWhile { it.isDigit() || it == '/' }.filter { it.isDigit() }.toInt()
+		}
+
 		fun getImageUrlFromPokemonId(pokemonId: Int): String {
 			return "$URL_POKEMON_SPRITES_BASE$pokemonId.png"
 		}

@@ -100,7 +100,9 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 		(requireActivity() as AppCompatActivity).supportActionBar?.also {
 			it.setDisplayHomeAsUpEnabled(true)
 		}
-		Picasso.get().load(ApiGetPokedex.getImageUrlFromPokemonId(mPokemonEntryNumber)).fit()
+		val pokemonId = ApiGetPokedex.getPokemonIdFromUrl(mSourceItem.pokemonSpecies.url)
+		val imageUrl = ApiGetPokedex.getImageUrlFromPokemonId(pokemonId)
+		Picasso.get().load(imageUrl).fit()
 			.centerInside()
 			.into(
 				mFragmentViewBinding.idLlBanner.idIvPokemonIcon,
@@ -140,17 +142,18 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 
 			is ApiGetPokemonSpecies -> {
 				mPokemonSpecies = ApiGetPokemonSpecies.getPokemonSpecies(mSourceItem.pokemonSpecies.name)
+				mFragmentViewBinding.idLlBanner.idTvPokemonName.text = ApiGetPokemonSpecies.getPokemonName(mPokemonSpecies)
 				mFragmentViewBinding.idIncludeDetails.idTvFlavor.text = mPokemonSpecies.defaultFlavorText
 				UtilityLoader.addRequests(
 					mapOf(
-						ApiGetPokemonEvolutions() to mPokemonSpecies.evolutionChain.id.toString()
+						ApiGetPokemonEvolutions() to mPokemonSpecies.id.toString()
 					), requireContext()
 				)
 			}
 
 			is ApiGetPokemonEvolutions -> {
 				mPokemonEvolutionChain =
-					ApiGetPokemonEvolutions.getPokemonEvolutionChain(mPokemonSpecies.evolutionChain.id)
+					ApiGetPokemonEvolutions.getPokemonEvolutionChain(mPokemonSpecies.id)
 				if (mFragmentViewBinding.idIncludeDetails.idLlEvolutions.childCount > 0) return
 				addEvolutionView(mPokemonEvolutionChain)
 			}
@@ -185,9 +188,7 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 			evolutionView.idMinLevel.text = "⟡"
 		}
 		evolutionView.idTvPokemonName.text = evolution.species.name.replaceFirstChar { it.titlecase() }
-		val evolutionSpeciesId: Int =
-			evolution.species.url.takeLastWhile { it.isDigit() || it == '/' }.filter { it.isDigit() }
-				.toInt()
+		val evolutionSpeciesId: Int = ApiGetPokedex.getPokemonIdFromUrl(evolution.species.url)
 		if (evolution.species.iconUrl.isEmpty()) {
 			evolution.species.iconUrl = ApiGetPokedex.getImageUrlFromPokemonId(evolutionSpeciesId)
 		}
@@ -225,9 +226,6 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 	}
 
 	private fun updateTypeDetails(details: ModelPokemonDetails) {
-
-		mFragmentViewBinding.idLlBanner.idTvPokemonName.text = details.name
-
 
 		val shouldPopulateStrengthMajor =
 			mFragmentViewBinding.idIncludeDetails.idLlStrengthMajor.childCount == 0

@@ -100,7 +100,8 @@ class AdapterRecyclerViewPokemonList() :
 
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 		val item: PokedexPokemonEntry = mSpeciesMapFiltered[position]
-		val iconUrl = ApiGetPokedex.getImageUrlFromPokemonId(item.entryNumber)
+		val pokemonId = ApiGetPokedex.getPokemonIdFromUrl(item.pokemonSpecies.url)
+		val iconUrl = ApiGetPokedex.getImageUrlFromPokemonId(pokemonId)
 		Log.d(AdapterRecyclerViewPokemonList::class.simpleName, "IconURL: $iconUrl")
 		holder.tvName.text = item.pokemonSpecies.name.replaceFirstChar { it.titlecase() }
 		holder.tvName.tag = item.pokemonSpecies.name
