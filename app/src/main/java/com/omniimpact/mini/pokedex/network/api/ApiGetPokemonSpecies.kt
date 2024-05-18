@@ -43,6 +43,12 @@ class ApiGetPokemonSpecies : ApiBase() {
 		val moshi: Moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
 		val pokemonSpeciesAdapter = moshi.adapter(ModelPokemonSpecies::class.java)
 		pokemonSpeciesAdapter.fromJson(jsonResponse)?.also { species ->
+			// Extract the evolution chain ID
+			species.evolutionChain.also { evolutionChain ->
+				evolutionChain.id =
+					evolutionChain.url.takeLastWhile { it.isDigit() || it == '/' }.filter { it.isDigit() }
+						.toInt()
+			}
 			// Get the default flavor text (last English flavor text)
 			species.flavorTextEntries.forEach { flavorTextEntry ->
 				if (flavorTextEntry.language.name.equals("en", ignoreCase = true)) {

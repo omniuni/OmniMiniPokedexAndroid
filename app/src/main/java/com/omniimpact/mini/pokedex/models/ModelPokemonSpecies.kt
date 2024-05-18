@@ -35,5 +35,7 @@ data class ModelPokemonSpeciesFlavorTextEntryLanguage(
 
 @JsonClass(generateAdapter = true)
 data class ModelPokemonSpeciesEvolutionChain(
-	val url: String = String()
+	val url: String = String(),
+	@Transient
+	var id: Int = -1
 )

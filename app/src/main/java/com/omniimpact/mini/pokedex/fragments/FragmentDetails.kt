@@ -153,7 +153,7 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 
 			is ApiGetPokemonEvolutions -> {
 				mPokemonEvolutionChain =
-					ApiGetPokemonEvolutions.getPokemonEvolutionChain(mPokemonSpecies.id)
+					ApiGetPokemonEvolutions.getPokemonEvolutionChain(mPokemonSpecies.evolutionChain.id)
 				if (mFragmentViewBinding.idIncludeDetails.idLlEvolutions.childCount > 0) return
 				addEvolutionView(mPokemonEvolutionChain)
 			}
@@ -188,8 +188,8 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 			evolutionView.idMinLevel.text = "⟡"
 		}
 		evolutionView.idTvPokemonName.text = evolution.species.name.replaceFirstChar { it.titlecase() }
-		val evolutionSpeciesId: Int = ApiGetPokedex.getPokemonIdFromUrl(evolution.species.url)
-		if (evolution.species.iconUrl.isEmpty()) {
+		val evolutionSpeciesId: Int =  evolution.species.url.takeLastWhile { it.isDigit() || it == '/' }.filter { it.isDigit() }.toInt()
+		if(evolution.species.iconUrl.isEmpty()){
 			evolution.species.iconUrl = ApiGetPokedex.getImageUrlFromPokemonId(evolutionSpeciesId)
 		}
 		Picasso.get().load(evolution.species.iconUrl).fit().into(evolutionView.idIvIcon)
