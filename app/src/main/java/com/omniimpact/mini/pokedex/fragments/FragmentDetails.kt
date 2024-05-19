@@ -197,15 +197,15 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 		evolutionView.root.setOnClickListener {
 			val detailsFragment = FragmentDetails()
 			val argumentsBundle = Bundle()
-			argumentsBundle.putInt(KEY_POKEMON_ENTRY_NUMBER, evolutionSpeciesId)
+			val speciesEntry = ApiGetPokedex.getPokemonEntryFromName(mCombinedPokedexName, evolution.species.name)
+			argumentsBundle.putInt(KEY_POKEMON_ENTRY_NUMBER, speciesEntry.entryNumber)
 			argumentsBundle.putString(KEY_COMBINED_POKEDEX, mCombinedPokedexName)
 			UtilityFragmentManager.using(parentFragmentManager).load(detailsFragment)
 				.with(argumentsBundle).into(view?.parent as ViewGroup).now()
 		}
 		if (evolution.evolvesTo.isNotEmpty()) {
 			for(nextEvolution in evolution.evolvesTo){
-				val speciesId = ApiGetPokedex.getPokemonIdFromUrl(nextEvolution.species.url)
-				val checkExists = ApiGetPokedex.getPokedexPokemonEntry(mCombinedPokedexName, speciesId)
+				val checkExists = ApiGetPokedex.getPokemonEntryFromName(mCombinedPokedexName, nextEvolution.species.name)
 				if(checkExists.entryNumber > 0) addEvolutionView(nextEvolution)
 			}
 		}

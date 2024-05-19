@@ -2,6 +2,7 @@ package com.omniimpact.mini.pokedex.fragments
 
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -21,6 +22,7 @@ import com.omniimpact.mini.pokedex.models.ModelVersionGroup
 import com.omniimpact.mini.pokedex.models.PokedexPokemonEntry
 import com.omniimpact.mini.pokedex.network.UtilityLoader
 import com.omniimpact.mini.pokedex.network.api.ApiGetPokedex
+import com.omniimpact.mini.pokedex.network.api.ApiGetVersion
 import com.omniimpact.mini.pokedex.network.api.ApiGetVersionGroup
 import com.omniimpact.mini.pokedex.network.api.IApi
 import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
@@ -37,6 +39,7 @@ class FragmentHome : Fragment(),
 
 	private lateinit var mFragmentViewBinding: FragmentHomeBinding
 	private lateinit var mAdapter: AdapterRecyclerViewPokemonList
+	private lateinit var mFragmentTarget: ViewGroup
 	private lateinit var mRecyclerViewScrollState: Parcelable
 	private var mVersionGroup: ModelVersionGroup = ModelVersionGroup()
 	private var mPokemonSpeciesMap: MutableMap<Int, PokedexPokemonEntry> = mutableMapOf()
@@ -67,7 +70,16 @@ class FragmentHome : Fragment(),
 				)
 			), requireContext()
 		)
+		// reduce flicker by temporarily clearing these views
+		mFragmentViewBinding.idTvClearVersion.text = String()
+		mFragmentViewBinding.idTvWorld.text = String()
 		return mFragmentViewBinding.root
+	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+		mFragmentTarget = view.parent as ViewGroup
+		updateViews()
 	}
 
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -100,6 +112,31 @@ class FragmentHome : Fragment(),
 	}
 
 	private fun updateViews() {
+
+		val versionNameStringsList: ArrayList<String> = arrayListOf()
+		mVersionGroup.versions.forEach { versionGroupVersion ->
+			val versionName = versionGroupVersion.name
+			versionNameStringsList.add(
+				ApiGetVersion.getVersionNameInEnglish(
+					ApiGetVersion.getVersionByName(versionName)
+				)
+			)
+		}
+		val namesAsString = versionNameStringsList.joinToString(" ◆ ")
+		mFragmentViewBinding.idTvClearVersion.text = namesAsString
+
+		mFragmentViewBinding.idTvWorld.text = ApiGetPokedex.getPokedexCombinedFriendlyName(mVersionGroup.pokedexes)
+
+		mFragmentViewBinding.idBClearVersion.setOnClickListener {
+			UtilityApplicationSettings.putString(
+				requireContext(), UtilityApplicationSettings.KEY_STRING_SELECTED_VERSION, String()
+			)
+			UtilityFragmentManager.using(parentFragmentManager).load(FragmentInit())
+				.into(mFragmentTarget).now(addToBackStack = false)
+		}
+		mFragmentViewBinding.idTvClearVersion.setOnClickListener{
+			mFragmentViewBinding.idBClearVersion.callOnClick()
+		}
 		mFragmentViewBinding.idSwSort.isEnabled = false
 		mPokemonSpeciesMap = ApiGetPokedex.getPokemonInPokedexList(mVersionGroup.pokedexes)
 		if (mPokemonSpeciesMap.isNotEmpty()) {
@@ -123,6 +160,17 @@ class FragmentHome : Fragment(),
 			mFragmentViewBinding.idRvPokemon.layoutManager?.onRestoreInstanceState(
 				mRecyclerViewScrollState
 			)
+		}
+		mFragmentViewBinding.idBScrollUp.setOnClickListener {
+			// need to do this in landscape
+			val firstItemPosition = (mFragmentViewBinding.idRvPokemon.layoutManager as GridLayoutManager).findFirstVisibleItemPosition()
+			val lastItemPosition =  (mFragmentViewBinding.idRvPokemon.layoutManager as GridLayoutManager).findLastVisibleItemPosition()
+			val jump = 3*(lastItemPosition-firstItemPosition)
+			if(firstItemPosition > jump) mFragmentViewBinding.idRvPokemon.scrollToPosition(jump)
+			mFragmentViewBinding.idRvPokemon.smoothScrollToPosition(0)
+		}
+		mFragmentViewBinding.idTvWorld.setOnClickListener {
+			mFragmentViewBinding.idBScrollUp.callOnClick()
 		}
 	}
 
@@ -164,7 +212,7 @@ class FragmentHome : Fragment(),
 			ApiGetPokedex.getCombinedPokedexKey(mVersionGroup.pokedexes)
 		)
 		UtilityFragmentManager.using(parentFragmentManager).load(detailsFragment)
-			.with(argumentsBundle).into(view?.parent as ViewGroup).now()
+			.with(argumentsBundle).into(mFragmentTarget).now()
 	}
 
 	override fun onComplete() {
@@ -182,6 +230,14 @@ class FragmentHome : Fragment(),
 							String()
 						)
 					)
+				for (versionResult in mVersionGroup.versions) {
+					Log.d(FragmentInit::class.simpleName, "Enqueue Version ${versionResult.name}...")
+					UtilityLoader.addRequests(
+						mapOf(
+							ApiGetVersion() to versionResult.name
+						), requireContext()
+					)
+				}
 				for (pokedex in mVersionGroup.pokedexes) {
 					UtilityLoader.addRequests(
 						mapOf(
@@ -190,7 +246,7 @@ class FragmentHome : Fragment(),
 					)
 				}
 			}
-
+			is ApiGetVersion -> {}
 			is ApiGetPokedex -> {}
 			else -> {}
 		}

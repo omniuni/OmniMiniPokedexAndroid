@@ -35,6 +35,17 @@ class ApiGetPokedex : ApiBase() {
 			return newPokemonMap
 		}
 
+		fun getPokedexCombinedFriendlyName(pokedexList: List<VersionGroupPokedex>): String{
+			val namesList = arrayListOf<String>()
+			for (pokedex in pokedexList) {
+				mPokedexMap[pokedex.name]?.also { modelPokedex ->
+					val nameEn = modelPokedex.names.filter { it.language.name == "en" }.first().name
+					namesList.add(nameEn)
+				}
+			}
+			return namesList.joinToString( ", " )
+		}
+
 		fun getCombinedPokedexKey(pokedexList: List<VersionGroupPokedex>): String {
 			var combinedKey = String()
 			for (pokedex in pokedexList) {
@@ -45,6 +56,16 @@ class ApiGetPokedex : ApiBase() {
 
 		fun getPokemonIdFromUrl(url: String): Int{
 			return url.takeLastWhile { it.isDigit() || it == '/' }.filter { it.isDigit() }.toInt()
+		}
+
+		fun getPokemonEntryFromName(pokedexCombinedKey: String, name: String): PokedexPokemonEntry{
+			val entries =  mCombinedPokedexLists[pokedexCombinedKey]?.filter { it.value.pokemonSpecies.name == name }?.entries
+			if (entries != null) {
+				if(entries.isNotEmpty()){
+					return entries.first().value
+				}
+			}
+			return PokedexPokemonEntry()
 		}
 
 		fun getImageUrlFromPokemonId(pokemonId: Int): String {
