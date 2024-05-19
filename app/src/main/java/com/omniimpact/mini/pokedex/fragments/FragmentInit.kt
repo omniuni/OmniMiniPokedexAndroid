@@ -44,7 +44,9 @@ class FragmentInit : Fragment(), IOnApiLoadQueue {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
-		if (UtilityApplicationSettings.selectedVersionGroup.isNotEmpty()) {
+		if (UtilityApplicationSettings.getString(
+			requireContext(), UtilityApplicationSettings.KEY_STRING_SELECTED_VERSION, String()
+		).isNotEmpty()) {
 			return View(requireContext())
 		}
 		mFragmentViewBinding = FragmentInitBinding.inflate(layoutInflater)
@@ -53,7 +55,9 @@ class FragmentInit : Fragment(), IOnApiLoadQueue {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		mFragmentTarget = view.parent as ViewGroup
-		if (UtilityApplicationSettings.selectedVersionGroup.isNotEmpty()) {
+		if (UtilityApplicationSettings.getString(
+				requireContext(), UtilityApplicationSettings.KEY_STRING_SELECTED_VERSION, String()
+		).isNotEmpty()) {
 			loadToPokemonList()
 			return
 		}
@@ -208,7 +212,9 @@ class FragmentInit : Fragment(), IOnApiLoadQueue {
 					versionGroupBinding.idTvTitle.text = namesAsString
 					versionGroupBinding.idTvTitleDetail.text = numSpecies.toString()
 					versionGroupBinding.root.setOnClickListener {
-						UtilityApplicationSettings.selectedVersionGroup = versionGroup.name
+						UtilityApplicationSettings.putString(
+							requireContext(), UtilityApplicationSettings.KEY_STRING_SELECTED_VERSION, versionGroup.name
+						)
 						loadToPokemonList()
 					}
 					numGames++

@@ -28,10 +28,6 @@ import com.omniimpact.mini.pokedex.utilities.UtilityFragmentManager
 import com.omniimpact.mini.pokedex.utilities.view.OnPicassoImageLoadedDoEnterTransition
 import com.omniimpact.mini.pokedex.utilities.view.UtilityDetailsView
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 
 class FragmentDetails : Fragment(), IOnApiLoadQueue {
@@ -140,7 +136,14 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 			is ApiGetPokemonSpecies -> {
 				mPokemonSpecies = ApiGetPokemonSpecies.getPokemonSpecies(mSourceItem.pokemonSpecies.name)
 				mFragmentViewBinding.idLlBanner.idTvPokemonName.text = ApiGetPokemonSpecies.getPokemonName(mPokemonSpecies)
-				val flavorText = ApiGetPokemonSpecies.getPokemonFlavorText(mSourceItem.pokemonSpecies.name, UtilityApplicationSettings.selectedVersionGroup)
+				val flavorText = ApiGetPokemonSpecies.getPokemonFlavorText(
+					mSourceItem.pokemonSpecies.name,
+					UtilityApplicationSettings.getString(
+						requireContext(),
+						UtilityApplicationSettings.KEY_STRING_SELECTED_VERSION,
+						String()
+					)
+				)
 				mFragmentViewBinding.idIncludeDetails.idTvFlavor.text = flavorText
 				val evolutionChainId = ApiGetPokedex.getPokemonIdFromUrl(mPokemonSpecies.evolutionChain.url).toString()
 				UtilityLoader.addRequests(
@@ -201,7 +204,9 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 		}
 		if (evolution.evolvesTo.isNotEmpty()) {
 			for(nextEvolution in evolution.evolvesTo){
-				addEvolutionView(nextEvolution)
+				val speciesId = ApiGetPokedex.getPokemonIdFromUrl(nextEvolution.species.url)
+				val checkExists = ApiGetPokedex.getPokedexPokemonEntry(mCombinedPokedexName, speciesId)
+				if(checkExists.entryNumber > 0) addEvolutionView(nextEvolution)
 			}
 		}
 	}

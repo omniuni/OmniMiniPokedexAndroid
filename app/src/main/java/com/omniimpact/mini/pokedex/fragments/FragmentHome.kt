@@ -60,7 +60,11 @@ class FragmentHome : Fragment(),
 		UtilityLoader.registerApiCallListener(this)
 		UtilityLoader.addRequests(
 			mapOf(
-				ApiGetVersionGroup() to UtilityApplicationSettings.selectedVersionGroup
+				ApiGetVersionGroup() to UtilityApplicationSettings.getString(
+					requireContext(),
+					UtilityApplicationSettings.KEY_STRING_SELECTED_VERSION,
+					String()
+				)
 			), requireContext()
 		)
 		return mFragmentViewBinding.root
@@ -126,7 +130,11 @@ class FragmentHome : Fragment(),
 		if (!this::mAdapter.isInitialized) {
 			mAdapter = AdapterRecyclerViewPokemonList(
 				mPokemonSpeciesMap,
-				UtilityApplicationSettings.selectedVersionGroup
+				UtilityApplicationSettings.getString(
+					requireContext(),
+					UtilityApplicationSettings.KEY_STRING_SELECTED_VERSION,
+					String()
+				)
 			)
 		}
 		val twoColumnsLayout: LayoutManager = GridLayoutManager(requireContext(), 2)
@@ -167,7 +175,13 @@ class FragmentHome : Fragment(),
 		when (success) {
 			is ApiGetVersionGroup -> {
 				mVersionGroup =
-					ApiGetVersionGroup.getVersionGroupByName(UtilityApplicationSettings.selectedVersionGroup)
+					ApiGetVersionGroup.getVersionGroupByName(
+						UtilityApplicationSettings.getString(
+							requireContext(),
+							UtilityApplicationSettings.KEY_STRING_SELECTED_VERSION,
+							String()
+						)
+					)
 				for (pokedex in mVersionGroup.pokedexes) {
 					UtilityLoader.addRequests(
 						mapOf(
