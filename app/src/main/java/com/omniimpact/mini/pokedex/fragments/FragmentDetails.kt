@@ -23,6 +23,7 @@ import com.omniimpact.mini.pokedex.network.api.ApiGetPokemonSpecies
 import com.omniimpact.mini.pokedex.network.api.ApiGetType
 import com.omniimpact.mini.pokedex.network.api.IApi
 import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
+import com.omniimpact.mini.pokedex.utilities.UtilityApplicationSettings
 import com.omniimpact.mini.pokedex.utilities.UtilityFragmentManager
 import com.omniimpact.mini.pokedex.utilities.view.OnPicassoImageLoadedDoEnterTransition
 import com.omniimpact.mini.pokedex.utilities.view.UtilityDetailsView
@@ -41,8 +42,6 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 	}
 
 	//region Variables
-
-	private val loadScope = CoroutineScope(Job() + Dispatchers.IO)
 
 	private lateinit var mFragmentViewBinding: FragmentDetailsBinding
 	private var mPokemonEntryNumber: Int = -1
@@ -120,9 +119,7 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 	//region Interfaces
 
 	override fun onComplete() {
-		loadScope.launch {
 			updateTypeDetails(ApiGetPokemonDetails.getPokemonDetails(mSourceItem.pokemonSpecies.name))
-		}
 	}
 
 	override fun onSuccess(success: IApi) {
@@ -143,17 +140,20 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 			is ApiGetPokemonSpecies -> {
 				mPokemonSpecies = ApiGetPokemonSpecies.getPokemonSpecies(mSourceItem.pokemonSpecies.name)
 				mFragmentViewBinding.idLlBanner.idTvPokemonName.text = ApiGetPokemonSpecies.getPokemonName(mPokemonSpecies)
-				mFragmentViewBinding.idIncludeDetails.idTvFlavor.text = mPokemonSpecies.defaultFlavorText
+				val flavorText = ApiGetPokemonSpecies.getPokemonFlavorText(mSourceItem.pokemonSpecies.name, UtilityApplicationSettings.selectedVersionGroup)
+				mFragmentViewBinding.idIncludeDetails.idTvFlavor.text = flavorText
+				val evolutionChainId = ApiGetPokedex.getPokemonIdFromUrl(mPokemonSpecies.evolutionChain.url).toString()
 				UtilityLoader.addRequests(
 					mapOf(
-						ApiGetPokemonEvolutions() to mPokemonSpecies.id.toString()
+						ApiGetPokemonEvolutions() to evolutionChainId
 					), requireContext()
 				)
 			}
 
 			is ApiGetPokemonEvolutions -> {
+				val pokemonEvolutionChainId = ApiGetPokedex.getPokemonIdFromUrl(mPokemonSpecies.evolutionChain.url)
 				mPokemonEvolutionChain =
-					ApiGetPokemonEvolutions.getPokemonEvolutionChain(mPokemonSpecies.evolutionChain.id)
+					ApiGetPokemonEvolutions.getPokemonEvolutionChain(pokemonEvolutionChainId)
 				if (mFragmentViewBinding.idIncludeDetails.idLlEvolutions.childCount > 0) return
 				addEvolutionView(mPokemonEvolutionChain)
 			}
@@ -188,11 +188,9 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 			evolutionView.idMinLevel.text = "⟡"
 		}
 		evolutionView.idTvPokemonName.text = evolution.species.name.replaceFirstChar { it.titlecase() }
-		val evolutionSpeciesId: Int =  evolution.species.url.takeLastWhile { it.isDigit() || it == '/' }.filter { it.isDigit() }.toInt()
-		if(evolution.species.iconUrl.isEmpty()){
-			evolution.species.iconUrl = ApiGetPokedex.getImageUrlFromPokemonId(evolutionSpeciesId)
-		}
-		Picasso.get().load(evolution.species.iconUrl).fit().into(evolutionView.idIvIcon)
+		val evolutionSpeciesId: Int =  ApiGetPokedex.getPokemonIdFromUrl(evolution.species.url)
+		val evolutionIconUrl: String = ApiGetPokedex.getImageUrlFromPokemonId(evolutionSpeciesId)
+		Picasso.get().load(evolutionIconUrl).fit().into(evolutionView.idIvIcon)
 		evolutionView.root.setOnClickListener {
 			val detailsFragment = FragmentDetails()
 			val argumentsBundle = Bundle()
@@ -202,7 +200,9 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 				.with(argumentsBundle).into(view?.parent as ViewGroup).now()
 		}
 		if (evolution.evolvesTo.isNotEmpty()) {
-			addEvolutionView(evolution.evolvesTo[0])
+			for(nextEvolution in evolution.evolvesTo){
+				addEvolutionView(nextEvolution)
+			}
 		}
 	}
 

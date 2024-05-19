@@ -10,9 +10,7 @@ data class ModelPokemonSpecies(
 	val evolutionChain: ModelPokemonSpeciesEvolutionChain = ModelPokemonSpeciesEvolutionChain(),
 	@Json(name = "flavor_text_entries")
 	val flavorTextEntries: List<ModelPokemonSpeciesFlavorTextEntry> = listOf(),
-	val names: List<ModelPokemonSpeciesNameEntry> = listOf(),
-	@Transient
-	var defaultFlavorText: String = String()
+	val names: List<ModelPokemonSpeciesNameEntry> = listOf()
 )
 
 @JsonClass(generateAdapter = true)
@@ -24,8 +22,9 @@ data class ModelPokemonSpeciesNameEntry(
 @JsonClass(generateAdapter = true)
 data class ModelPokemonSpeciesFlavorTextEntry(
 	@Json(name = "flavor_text")
-	val flavorText: String,
-	val language: ModelPokemonSpeciesFlavorTextEntryLanguage
+	val flavorText: String = String(),
+	val language: ModelPokemonSpeciesFlavorTextEntryLanguage = ModelPokemonSpeciesFlavorTextEntryLanguage(),
+	val version: ModelPokemonSpeciesFlavorTextEntryVersion = ModelPokemonSpeciesFlavorTextEntryVersion()
 )
 
 @JsonClass(generateAdapter = true)
@@ -34,8 +33,11 @@ data class ModelPokemonSpeciesFlavorTextEntryLanguage(
 )
 
 @JsonClass(generateAdapter = true)
+data class ModelPokemonSpeciesFlavorTextEntryVersion(
+	val name: String = String()
+)
+
+@JsonClass(generateAdapter = true)
 data class ModelPokemonSpeciesEvolutionChain(
-	val url: String = String(),
-	@Transient
-	var id: Int = -1
+	val url: String = String()
 )

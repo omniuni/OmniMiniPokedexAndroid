@@ -28,7 +28,5 @@ data class ModelPokemonEvolutionChainEvolutionDetails(
 @JsonClass(generateAdapter = true)
 data class ModelPokemonEvolutionChainEvolutionSpecies(
 	val url: String = String(),
-	val name: String = String(),
-	@Transient
-	var iconUrl: String = String(),
+	val name: String = String()
 )

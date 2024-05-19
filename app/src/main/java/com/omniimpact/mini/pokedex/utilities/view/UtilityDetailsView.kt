@@ -61,47 +61,45 @@ class UtilityDetailsView {
 				val typeChipHeader = ListItemTypeLabelHeaderBinding.inflate(
 					layoutInflater,
 					target,
-					false
+					true
 				)
 				typeChipHeader.idTvTitle.setText(headerResource)
-				loadScope.launch(Dispatchers.Main) {
-					target.addView(typeChipHeader.root)
-				}
+				typeChipHeader.root.id = View.generateViewId()
 			}
 			if (types.isEmpty()) {
 				val typeChip = ListItemTypeSwChipBinding.inflate(
 					layoutInflater,
 					target,
-					false
+					true
 				)
 				typeChip.idCvTypeChip.backgroundTintList = getColorStateListFromTypeName(context, String())
 				typeChip.idCvTypeContributing.backgroundTintList =
 					getColorStateListFromTypeName(context, fromType.type.name)
 				typeChip.idTvType.text = context.resources.getString(R.string.label_none)
 				typeChip.idIvIcon.setImageResource(drawableResource)
-				loadScope.launch(Dispatchers.Main) {
-					target.addView(typeChip.root)
-				}
+				typeChip.root.id = View.generateViewId()
 				return
 			}
-			types.forEach { type ->
-				val typeChip = ListItemTypeSwChipBinding.inflate(
-					layoutInflater,
-					target,
-					false
-				)
-				typeChip.idCvTypeChip.backgroundTintList = getColorStateListFromTypeName(context, type.name)
-				typeChip.idCvTypeContributing.backgroundTintList =
-					getColorStateListFromTypeName(context, fromType.type.name)
-				typeChip.idTvType.text = type.name
-				typeChip.idIvIcon.setImageResource(drawableResource)
-				val animation = AlphaAnimation(0f, 1f)
-				animation.duration = 1000
-				typeChip.root.animation = animation
-				loadScope.launch(Dispatchers.Main) {
-					target.addView(typeChip.root)
-					typeChip.root.visibility = View.VISIBLE
-					typeChip.root.animate()
+			loadScope.launch {
+				types.forEach { type ->
+					val typeChip = ListItemTypeSwChipBinding.inflate(
+						layoutInflater,
+						target,
+						false
+					)
+					typeChip.idCvTypeChip.backgroundTintList = getColorStateListFromTypeName(context, type.name)
+					typeChip.idCvTypeContributing.backgroundTintList =
+						getColorStateListFromTypeName(context, fromType.type.name)
+					typeChip.idTvType.text = type.name
+					typeChip.idIvIcon.setImageResource(drawableResource)
+					typeChip.root.id = View.generateViewId()
+					val animation = AlphaAnimation(0f, 1f)
+					animation.duration = 1000
+					typeChip.root.animation = animation
+					loadScope.launch(Dispatchers.Main) {
+						target.addView(typeChip.root)
+						typeChip.root.animate()
+					}
 				}
 			}
 		}
