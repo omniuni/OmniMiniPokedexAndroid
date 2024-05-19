@@ -178,30 +178,35 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 	// Evolution Chain
 
 	private fun addEvolutionView(evolution: ModelPokemonEvolutionChain) {
-		val evolutionView = ListItemPokemonEvolutionBinding.inflate(
-			layoutInflater,
-			mFragmentViewBinding.idIncludeDetails.idLlEvolutions,
-			true
-		)
-		if (evolution.evolutionDetails.isNotEmpty()) {
-			evolution.evolutionDetails[0].also {
-				evolutionView.idMinLevel.text = it.minLevel?.toString() ?: "?"
+		val initialCheck = ApiGetPokedex.getPokemonEntryFromName(mCombinedPokedexName, evolution.species.name)
+		if(initialCheck.entryNumber > 0) {
+			val evolutionView = ListItemPokemonEvolutionBinding.inflate(
+				layoutInflater,
+				mFragmentViewBinding.idIncludeDetails.idLlEvolutions,
+				true
+			)
+			if (evolution.evolutionDetails.isNotEmpty()) {
+				evolution.evolutionDetails[0].also {
+					evolutionView.idMinLevel.text = it.minLevel?.toString() ?: "?"
+				}
+			} else {
+				evolutionView.idMinLevel.text = "⟡"
 			}
-		} else {
-			evolutionView.idMinLevel.text = "⟡"
-		}
-		evolutionView.idTvPokemonName.text = evolution.species.name.replaceFirstChar { it.titlecase() }
-		val evolutionSpeciesId: Int =  ApiGetPokedex.getPokemonIdFromUrl(evolution.species.url)
-		val evolutionIconUrl: String = ApiGetPokedex.getImageUrlFromPokemonId(evolutionSpeciesId)
-		Picasso.get().load(evolutionIconUrl).fit().into(evolutionView.idIvIcon)
-		evolutionView.root.setOnClickListener {
-			val detailsFragment = FragmentDetails()
-			val argumentsBundle = Bundle()
-			val speciesEntry = ApiGetPokedex.getPokemonEntryFromName(mCombinedPokedexName, evolution.species.name)
-			argumentsBundle.putInt(KEY_POKEMON_ENTRY_NUMBER, speciesEntry.entryNumber)
-			argumentsBundle.putString(KEY_COMBINED_POKEDEX, mCombinedPokedexName)
-			UtilityFragmentManager.using(parentFragmentManager).load(detailsFragment)
-				.with(argumentsBundle).into(view?.parent as ViewGroup).now()
+			evolutionView.idTvPokemonName.text =
+				evolution.species.name.replaceFirstChar { it.titlecase() }
+			val evolutionSpeciesId: Int = ApiGetPokedex.getPokemonIdFromUrl(evolution.species.url)
+			val evolutionIconUrl: String = ApiGetPokedex.getImageUrlFromPokemonId(evolutionSpeciesId)
+			Picasso.get().load(evolutionIconUrl).fit().into(evolutionView.idIvIcon)
+			evolutionView.root.setOnClickListener {
+				val detailsFragment = FragmentDetails()
+				val argumentsBundle = Bundle()
+				val speciesEntry =
+					ApiGetPokedex.getPokemonEntryFromName(mCombinedPokedexName, evolution.species.name)
+				argumentsBundle.putInt(KEY_POKEMON_ENTRY_NUMBER, speciesEntry.entryNumber)
+				argumentsBundle.putString(KEY_COMBINED_POKEDEX, mCombinedPokedexName)
+				UtilityFragmentManager.using(parentFragmentManager).load(detailsFragment)
+					.with(argumentsBundle).into(view?.parent as ViewGroup).now()
+			}
 		}
 		if (evolution.evolvesTo.isNotEmpty()) {
 			for(nextEvolution in evolution.evolvesTo){
