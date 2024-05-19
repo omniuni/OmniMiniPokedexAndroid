@@ -29,9 +29,12 @@
 	<string name="accuracy">Please select the game you want to use when information differs between versions.</string>
 	<string name="select">Please Select a Version</string>
 	<string name="games_species">%1$d games, species:</string>
+	<string name="scroll_up">scroll up</string>
 
 	<string name="placeholder_level">000</string>
 	<string name="placeholder_name">PokemonName</string>
 	<string name="placeholder_type">type</string>
+	<string name="placeholder_location">World</string>
+	<string name="placeholder_version">Moissanite / Zirconium</string>
 
 </resources>

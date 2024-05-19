@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<dimen name="layout_sidebar_width">220dp</dimen>
+	<dimen name="layout_bar_medium">42dp</dimen>
 	<dimen name="margin_standard">12dp</dimen>
 	<dimen name="margin_double">24dp</dimen>
 	<dimen name="margin_half">6dp</dimen>
@@ -14,4 +15,5 @@
 	<dimen name="icon_header_large">140dp</dimen>
 	<dimen name="size_chip_medium">120dp</dimen>
 	<dimen name="layout_divider">0.7dp</dimen>
+	<dimen name="layout_divider_thick">1.2dp</dimen>
 </resources>

@@ -3,7 +3,7 @@
 		xmlns:app="http://schemas.android.com/apk/res-auto">
 	<item
 			android:id="@+id/toggle_search_sort"
-			android:icon="@drawable/ic_filter"
+			android:icon="@drawable/ic_tune"
 			android:title="@string/toggle_options"
 			app:iconTint="@color/md_theme_onBackground"
 			app:iconTintMode="multiply"
