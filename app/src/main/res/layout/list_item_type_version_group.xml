@@ -3,7 +3,7 @@
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:id="@+id/id_cv_flavor"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
+		android:layout_height="@dimen/layout_min_touch_height"
 		android:layout_margin="@dimen/margin_quarter"
 		android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
 		android:clickable="true"
@@ -23,7 +23,7 @@
 	<com.google.android.material.card.MaterialCardView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_gravity="end"
+			android:layout_gravity="end|center_vertical"
 			app:cardCornerRadius="@dimen/margin_quarter"
 			app:contentPadding="@dimen/margin_quarter"
 			app:strokeWidth="0dp">
@@ -35,6 +35,7 @@
 				android:layout_height="wrap_content"
 				android:paddingHorizontal="@dimen/margin_quarter"
 				android:text="@string/label_generation"
+				android:layout_gravity="center_vertical"
 				android:textStyle="italic" />
 	</com.google.android.material.card.MaterialCardView>
 

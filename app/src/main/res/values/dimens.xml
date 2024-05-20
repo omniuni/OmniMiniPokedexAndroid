@@ -16,4 +16,5 @@
 	<dimen name="size_chip_medium">120dp</dimen>
 	<dimen name="layout_divider">0.7dp</dimen>
 	<dimen name="layout_divider_thick">1.2dp</dimen>
+	<dimen name="layout_min_touch_height">48dp</dimen>
 </resources>

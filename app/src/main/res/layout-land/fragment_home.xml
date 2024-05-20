@@ -40,6 +40,7 @@
 						android:id="@+id/id_et_filter"
 						android:layout_width="match_parent"
 						android:layout_height="@dimen/icon_medium"
+						android:minHeight="@dimen/layout_min_touch_height"
 						android:paddingHorizontal="@dimen/margin_half"
 						android:hint="@string/label_filter" />
 
@@ -85,13 +86,14 @@
 			app:cardBackgroundColor="@color/md_theme_surfaceDim"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:minHeight="@dimen/layout_min_touch_height"
 			android:layout_alignParentBottom="true"
 			android:layout_toEndOf="@id/id_cv_toolbar">
 		<ImageButton
 				android:id="@+id/id_b_clear_version"
 				style="@style/Widget.AppCompat.Button.Borderless.Colored"
 				android:layout_width="@dimen/icon_small"
-				android:layout_height="@dimen/icon_small"
+				android:layout_height="@dimen/layout_min_touch_height"
 				android:padding="5dp"
 				android:scaleType="fitCenter"
 				android:layout_gravity="center_vertical"
@@ -101,7 +103,8 @@
 		<TextView
 				android:id="@+id/id_tv_clear_version"
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
+				android:layout_height="@dimen/layout_min_touch_height"
+				android:gravity="center_vertical"
 				style="@style/TextAppearance.Material3.BodyMedium"
 				android:layout_marginStart="@dimen/icon_small"
 				android:paddingVertical="@dimen/margin_half"
@@ -109,8 +112,9 @@
 		<TextView
 				android:id="@+id/id_tv_world"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				android:layout_height="@dimen/layout_min_touch_height"
 				style="@style/TextAppearance.Material3.BodyMedium"
+				android:gravity="center_vertical"
 				android:textStyle="italic"
 				android:layout_gravity="end"
 				android:paddingVertical="@dimen/margin_half"
@@ -120,7 +124,7 @@
 				android:id="@+id/id_b_scroll_up"
 				style="@style/Widget.AppCompat.Button.Borderless.Colored"
 				android:layout_width="@dimen/icon_small"
-				android:layout_height="@dimen/icon_small"
+				android:layout_height="@dimen/layout_min_touch_height"
 				android:layout_gravity="end|center_vertical"
 				android:padding="2dp"
 				android:scaleType="fitCenter"
