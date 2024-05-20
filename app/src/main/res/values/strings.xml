@@ -30,6 +30,7 @@
 	<string name="select">Please Select a Version</string>
 	<string name="games_species">%1$d games, species:</string>
 	<string name="scroll_up">scroll up</string>
+	<string name="clear_version">clear version</string>
 	<string name="no_items_match">No items match\nyour search</string>
 
 	<string name="placeholder_level">000</string>

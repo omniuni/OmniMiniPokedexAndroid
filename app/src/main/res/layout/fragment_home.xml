@@ -100,7 +100,7 @@
 				android:scaleType="fitCenter"
 				android:layout_gravity="center_vertical"
 				android:src="@drawable/ic_clear"
-				android:contentDescription="@string/scroll_up"
+				android:contentDescription="@string/clear_version"
 				app:tint="@color/md_theme_onBackground" />
 			<TextView
 				android:id="@+id/id_tv_clear_version"
@@ -109,6 +109,7 @@
 				style="@style/TextAppearance.Material3.BodyMedium"
 				android:layout_marginStart="@dimen/icon_small"
 				android:maxWidth="@dimen/layout_sidebar_width"
+				android:minWidth="@dimen/layout_min_touch_height"
 				android:lines="1"
 				android:ellipsize="end"
 				android:gravity="center_vertical"
