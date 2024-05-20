@@ -73,6 +73,7 @@ class FragmentHome : Fragment(),
 		// reduce flicker by temporarily clearing these views
 		mFragmentViewBinding.idTvClearVersion.text = String()
 		mFragmentViewBinding.idTvWorld.text = String()
+		mFragmentViewBinding.idCvAlert.visibility = View.GONE
 		return mFragmentViewBinding.root
 	}
 
@@ -200,6 +201,11 @@ class FragmentHome : Fragment(),
 				mAdapter.getFilteredItemCount(),
 				mPokemonSpeciesMap.size
 			)
+		}
+		if(mAdapter.getFilteredItemCount() < 1){
+			mFragmentViewBinding.idCvAlert.visibility = View.VISIBLE
+		} else {
+			mFragmentViewBinding.idCvAlert.visibility = View.GONE
 		}
 	}
 

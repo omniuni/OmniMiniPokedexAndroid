@@ -144,4 +144,24 @@
 			android:layout_marginHorizontal="@dimen/margin_half"
 			android:layout_toEndOf="@id/id_cv_toolbar" />
 
+	<FrameLayout
+			android:layout_toEndOf="@id/id_cv_toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="@dimen/icon_large">
+		<com.google.android.material.card.MaterialCardView
+				android:id="@+id/id_cv_alert"
+				app:cardBackgroundColor="@color/md_theme_surfaceDim"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal">
+			<TextView
+					android:layout_width="@dimen/layout_sidebar_width"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/margin_standard"
+					android:textAlignment="center"
+					android:text="@string/no_items_match"/>
+		</com.google.android.material.card.MaterialCardView>
+	</FrameLayout>
+
 </RelativeLayout>

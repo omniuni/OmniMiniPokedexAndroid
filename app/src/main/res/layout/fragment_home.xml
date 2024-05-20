@@ -159,4 +159,20 @@
 			android:layout_above="@id/id_cv_toolbar_bottom"
 			android:layout_marginHorizontal="@dimen/margin_half" />
 
+	<com.google.android.material.card.MaterialCardView
+			android:id="@+id/id_cv_alert"
+			app:cardBackgroundColor="@color/md_theme_surfaceDim"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/id_cv_toolbar"
+			android:layout_centerHorizontal="true"
+			android:layout_marginTop="@dimen/icon_large">
+			<TextView
+					android:layout_width="@dimen/layout_sidebar_width"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/margin_standard"
+					android:textAlignment="center"
+				android:text="@string/no_items_match"/>
+	</com.google.android.material.card.MaterialCardView>
+
 </RelativeLayout>
