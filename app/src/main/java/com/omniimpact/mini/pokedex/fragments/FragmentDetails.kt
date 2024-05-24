@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.omniimpact.mini.pokedex.R
 import com.omniimpact.mini.pokedex.databinding.FragmentDetailsBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemPokemonEvolutionBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemTypeChipBinding
 import com.omniimpact.mini.pokedex.models.ModelPokemonDetails
+import com.omniimpact.mini.pokedex.models.ModelPokemonDetailsType
 import com.omniimpact.mini.pokedex.models.ModelPokemonEvolutionChain
 import com.omniimpact.mini.pokedex.models.ModelPokemonSpecies
 import com.omniimpact.mini.pokedex.models.PokedexPokemonEntry
@@ -23,6 +26,7 @@ import com.omniimpact.mini.pokedex.network.api.ApiGetPokemonSpecies
 import com.omniimpact.mini.pokedex.network.api.ApiGetType
 import com.omniimpact.mini.pokedex.network.api.IApi
 import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
+import com.omniimpact.mini.pokedex.utilities.AdapterRecyclerViewTypeChips
 import com.omniimpact.mini.pokedex.utilities.UtilityApplicationSettings
 import com.omniimpact.mini.pokedex.utilities.UtilityFragmentManager
 import com.omniimpact.mini.pokedex.utilities.view.OnPicassoImageLoadedDoEnterTransition
@@ -235,94 +239,62 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 		}
 	}
 
+	private val mTypeMap: MutableMap<Int, ArrayList<ModelPokemonDetailsType>> = mutableMapOf()
+
 	private fun updateTypeDetails(details: ModelPokemonDetails) {
 
-		val shouldPopulateStrengthMajor =
-			mFragmentViewBinding.idIncludeDetails.idLlStrengthMajor.childCount == 0
-		val shouldPopulateDefenseMajor =
-			mFragmentViewBinding.idIncludeDetails.idLlDefenseMajor.childCount == 0
-		val shouldPopulateDefenseMinor =
-			mFragmentViewBinding.idIncludeDetails.idLlDefenseMinor.childCount == 0
-		val shouldPopulateDamageMinor =
-			mFragmentViewBinding.idIncludeDetails.idLlDamageMinor.childCount == 0
-		val shouldPopulateDamageNone =
-			mFragmentViewBinding.idIncludeDetails.idLlDamageNone.childCount == 0
-		val shouldPopulateWeaknessMajor =
-			mFragmentViewBinding.idIncludeDetails.idLlWeaknessMajor.childCount == 0
+		UtilityDetailsView.setDetailsAdapter(
+			requireContext(),
+			details.types,
+			mFragmentViewBinding.idIncludeDetails.idRvStrengthMajor,
+			R.string.label_double_damage,
+			R.drawable.ic_dmg_up,
+			mTypeMap
+		)
+		UtilityDetailsView.setDetailsAdapter(
+			requireContext(),
+			details.types,
+			mFragmentViewBinding.idIncludeDetails.idRvDefenseMajor,
+			R.string.label_full_defense,
+			R.drawable.ic_def_full,
+			mTypeMap
+		)
+		UtilityDetailsView.setDetailsAdapter(
+			requireContext(),
+			details.types,
+			mFragmentViewBinding.idIncludeDetails.idRvDefenseHigh,
+			R.string.label_double_defense,
+			R.drawable.ic_def_high,
+			mTypeMap
+		)
 
-		details.types.forEach { typeSlot ->
+		UtilityDetailsView.setDetailsAdapter(
+			requireContext(),
+			details.types,
+			mFragmentViewBinding.idIncludeDetails.idRvDamageMinor,
+			R.string.label_half_damage,
+			R.drawable.ic_dmg_down,
+			mTypeMap
+		)
+		UtilityDetailsView.setDetailsAdapter(
+			requireContext(),
+			details.types,
+			mFragmentViewBinding.idIncludeDetails.idRvDamageNone,
+			R.string.label_no_damage,
+			R.drawable.ic_dmg_none,
+			mTypeMap
+		)
+		UtilityDetailsView.setDetailsAdapter(
+			requireContext(),
+			details.types,
+			mFragmentViewBinding.idIncludeDetails.idRvWeaknessMajor,
+			R.string.label_half_defense,
+			R.drawable.ic_dmg_double,
+			mTypeMap
+		)
 
-			val typeDetails = ApiGetType.getPokemonTypeDetails(typeSlot.type.name)
 
-			if (shouldPopulateStrengthMajor) {
-				UtilityDetailsView.populateTypeChips(
-					requireContext(),
-					layoutInflater,
-					typeSlot,
-					typeDetails.damageRelations.doubleDamageTo,
-					mFragmentViewBinding.idIncludeDetails.idLlStrengthMajor,
-					R.drawable.ic_dmg_up,
-					R.string.label_double_damage
-				)
-			}
-			if (shouldPopulateDefenseMajor) {
-				UtilityDetailsView.populateTypeChips(
-					requireContext(),
-					layoutInflater,
-					typeSlot,
-					typeDetails.damageRelations.noDamageFrom,
-					mFragmentViewBinding.idIncludeDetails.idLlDefenseMajor,
-					R.drawable.ic_def_full,
-					R.string.label_full_defense
-				)
-			}
-			if (shouldPopulateDefenseMinor) {
-				UtilityDetailsView.populateTypeChips(
-					requireContext(),
-					layoutInflater,
-					typeSlot,
-					typeDetails.damageRelations.halfDamageFrom,
-					mFragmentViewBinding.idIncludeDetails.idLlDefenseMinor,
-					R.drawable.ic_def_high,
-					R.string.label_double_defense
-				)
-			}
 
-			if (shouldPopulateDamageMinor) {
-				UtilityDetailsView.populateTypeChips(
-					requireContext(),
-					layoutInflater,
-					typeSlot,
-					typeDetails.damageRelations.halfDamageTo,
-					mFragmentViewBinding.idIncludeDetails.idLlDamageMinor,
-					R.drawable.ic_dmg_down,
-					R.string.label_half_damage
-				)
-			}
-			if (shouldPopulateDamageNone) {
-				UtilityDetailsView.populateTypeChips(
-					requireContext(),
-					layoutInflater,
-					typeSlot,
-					typeDetails.damageRelations.noDamageTo,
-					mFragmentViewBinding.idIncludeDetails.idLlDamageNone,
-					R.drawable.ic_dmg_none,
-					R.string.label_no_damage
-				)
-			}
-			if (shouldPopulateWeaknessMajor) {
-				UtilityDetailsView.populateTypeChips(
-					requireContext(),
-					layoutInflater,
-					typeSlot,
-					typeDetails.damageRelations.doubleDamageFrom,
-					mFragmentViewBinding.idIncludeDetails.idLlWeaknessMajor,
-					R.drawable.ic_dmg_double,
-					R.string.label_half_defense
-				)
-			}
-
-		}
 
 	}
 

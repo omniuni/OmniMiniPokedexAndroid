@@ -64,24 +64,24 @@
 				android:orientation="horizontal"
 				android:weightSum="3">
 
-			<LinearLayout
-					android:id="@+id/id_ll_strength_major"
+			<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/id_rv_strength_major"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="30dp"
 					android:layout_weight="1"
 					android:orientation="vertical" />
 
-			<LinearLayout
-					android:id="@+id/id_ll_defense_major"
+			<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/id_rv_defense_major"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="30dp"
 					android:layout_weight="1"
 					android:orientation="vertical" />
 
-			<LinearLayout
-					android:id="@+id/id_ll_defense_minor"
+			<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/id_rv_defense_high"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="30dp"
@@ -123,24 +123,24 @@
 				android:orientation="horizontal"
 				android:weightSum="3">
 
-			<LinearLayout
-					android:id="@+id/id_ll_damage_minor"
+			<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/id_rv_damage_minor"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="30dp"
 					android:layout_weight="1"
 					android:orientation="vertical" />
 
-			<LinearLayout
-					android:id="@+id/id_ll_damage_none"
+			<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/id_rv_damage_none"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="30dp"
 					android:layout_weight="1"
 					android:orientation="vertical" />
 
-			<LinearLayout
-					android:id="@+id/id_ll_weakness_major"
+			<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/id_rv_weakness_major"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="30dp"

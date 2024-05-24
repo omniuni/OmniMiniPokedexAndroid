@@ -17,6 +17,8 @@ data class ModelPokemonDetailsTypes(
 
 @JsonClass(generateAdapter = true)
 data class ModelPokemonDetailsType(
-	val name: String,
-	val url: String
+	var name: String = String(),
+	var url: String = String(),
+	@Transient
+	var fromName: String = String(),
 )
