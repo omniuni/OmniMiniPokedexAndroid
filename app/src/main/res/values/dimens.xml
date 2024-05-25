@@ -8,6 +8,7 @@
 	<dimen name="margin_quarter">3dp</dimen>
 	<dimen name="padding_standard">8dp</dimen>
 	<dimen name="icon_mini">18dp</dimen>
+	<dimen name="icon_sm">24dp</dimen>
 	<dimen name="icon_small">32dp</dimen>
 	<dimen name="icon_medium">64dp</dimen>
 	<dimen name="icon_list_large">72dp</dimen>

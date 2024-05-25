@@ -51,7 +51,8 @@ class AdapterRecyclerViewPokemonList() :
 			mSpeciesMap.values.toTypedArray()
 		} else {
 			mSpeciesMap.filter {
-				it.value.pokemonSpecies.name.contains(mFilter, ignoreCase = true)
+				it.value.pokemonSpecies.name.contains(mFilter, ignoreCase = true) ||
+				it.value.entryNumber.toString().startsWith(mFilter) || it.value.entryNumber.toString().endsWith(mFilter)
 			}.values.toTypedArray()
 		}
 		if (mSpeciesMapFiltered.isNotEmpty() && mShouldSortAlphabetical) {
@@ -82,6 +83,7 @@ class AdapterRecyclerViewPokemonList() :
 
 	inner class ViewHolder(viewBinding: ListItemPokemonBinding) :
 		RecyclerView.ViewHolder(viewBinding.root) {
+		var tvEntry: TextView = viewBinding.idTvEntry
 		var tvName: TextView = viewBinding.idTvPokemonName
 		var ivIcon: ImageView = viewBinding.idIvPokemonIcon
 		var cvBackground: CardView = viewBinding.idCvBackground
@@ -103,8 +105,11 @@ class AdapterRecyclerViewPokemonList() :
 		val pokemonId = ApiGetPokedex.getPokemonIdFromUrl(item.pokemonSpecies.url)
 		val iconUrl = ApiGetPokedex.getImageUrlFromPokemonId(pokemonId)
 		Log.d(AdapterRecyclerViewPokemonList::class.simpleName, "IconURL: $iconUrl")
-		holder.tvName.text = item.pokemonSpecies.name.replaceFirstChar { it.titlecase() }
-		holder.tvName.tag = item.pokemonSpecies.name
+		holder.tvEntry.text = item.entryNumber.toString()
+		var name = item.pokemonSpecies.name.replaceFirstChar { it.titlecase() }
+		if(name.endsWith("-f", ignoreCase = true)){ name = name.replace("-f","♀") }
+		if(name.endsWith("-m", ignoreCase = true)){ name = name.replace("-m","♂") }
+		holder.tvName.text = name
 		holder.cvBackground.backgroundTintList =
 			ColorStateList.valueOf(holder.cvBackground.context.getColor(R.color.md_theme_surfaceContainer))
 		Picasso.get().load(iconUrl).fit().centerInside()
