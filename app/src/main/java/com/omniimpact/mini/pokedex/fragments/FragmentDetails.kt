@@ -1,5 +1,6 @@
 package com.omniimpact.mini.pokedex.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -201,15 +202,23 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 			val evolutionSpeciesId: Int = ApiGetPokedex.getPokemonIdFromUrl(evolution.species.url)
 			val evolutionIconUrl: String = ApiGetPokedex.getImageUrlFromPokemonId(evolutionSpeciesId)
 			Picasso.get().load(evolutionIconUrl).fit().into(evolutionView.idIvIcon)
-			evolutionView.root.setOnClickListener {
-				val detailsFragment = FragmentDetails()
-				val argumentsBundle = Bundle()
-				val speciesEntry =
-					ApiGetPokedex.getPokemonEntryFromName(mCombinedPokedexName, evolution.species.name)
-				argumentsBundle.putInt(KEY_POKEMON_ENTRY_NUMBER, speciesEntry.entryNumber)
-				argumentsBundle.putString(KEY_COMBINED_POKEDEX, mCombinedPokedexName)
-				UtilityFragmentManager.using(parentFragmentManager).load(detailsFragment)
-					.with(argumentsBundle).into(view?.parent as ViewGroup).now()
+			if(evolutionSpeciesId != mPokemonSpecies.id) {
+				evolutionView.root.setOnClickListener {
+					val detailsFragment = FragmentDetails()
+					val argumentsBundle = Bundle()
+					val speciesEntry =
+						ApiGetPokedex.getPokemonEntryFromName(
+							mCombinedPokedexName,
+							evolution.species.name
+						)
+					argumentsBundle.putInt(KEY_POKEMON_ENTRY_NUMBER, speciesEntry.entryNumber)
+					argumentsBundle.putString(KEY_COMBINED_POKEDEX, mCombinedPokedexName)
+					UtilityFragmentManager.using(parentFragmentManager).load(detailsFragment)
+						.with(argumentsBundle).into(view?.parent as ViewGroup).now()
+				}
+			} else {
+				evolutionView.root.setBackgroundColor(Color.TRANSPARENT)
+				evolutionView.root.strokeWidth = 0
 			}
 		}
 		if (evolution.evolvesTo.isNotEmpty()) {

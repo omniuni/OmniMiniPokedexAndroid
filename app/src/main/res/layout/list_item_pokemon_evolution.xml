@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		xmlns:tools="http://schemas.android.com/tools"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_marginEnd="@dimen/margin_standard"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content">
+
+	<RelativeLayout
 		android:id="@+id/id_rv_evolution_container"
+		android:padding="@dimen/margin_quarter"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content">
 
-	<androidx.appcompat.widget.AppCompatTextView
+		<androidx.appcompat.widget.AppCompatTextView
 			android:id="@+id/id_min_level"
 			style="@style/TextAppearance.Material3.HeadlineMedium"
 			android:layout_width="@dimen/icon_small"
@@ -19,7 +25,7 @@
 			android:lines="1"
 			android:text="@string/placeholder_level" />
 
-	<ImageView
+		<ImageView
 			android:id="@+id/id_iv_icon"
 			android:layout_width="@dimen/icon_medium"
 			android:layout_height="@dimen/icon_medium"
@@ -27,23 +33,24 @@
 			android:layout_toEndOf="@id/id_min_level"
 			tools:ignore="ContentDescription" />
 
-	<View
+		<View
 			android:id="@+id/id_carat"
 			android:layout_width="@dimen/icon_mini"
 			android:layout_height="@dimen/icon_medium"
 			android:layout_marginEnd="@dimen/margin_standard"
 			android:layout_toEndOf="@id/id_iv_icon" />
 
-	<View
+		<View
 			android:id="@+id/id_v_divider"
 			android:layout_width="@dimen/icon_large"
 			android:layout_height="@dimen/layout_divider"
 			android:layout_below="@id/id_min_level"
 			android:layout_alignEnd="@id/id_carat"
 			android:layout_alignParentStart="true"
+			android:layout_marginStart="@dimen/margin_standard"
 			android:background="@color/md_theme_secondaryFixed_mediumContrast" />
 
-	<TextView
+		<TextView
 			android:id="@+id/id_tv_pokemon_name"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -54,7 +61,7 @@
 			android:text="@string/placeholder_name"
 			android:textAlignment="center" />
 
-	<ImageView
+		<ImageView
 			android:layout_width="@dimen/icon_mini"
 			android:layout_height="@dimen/icon_mini"
 			android:layout_above="@id/id_v_divider"
@@ -65,4 +72,6 @@
 			app:tint="@color/md_theme_onBackground"
 			tools:ignore="ContentDescription" />
 
-</RelativeLayout>
+	</RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>
