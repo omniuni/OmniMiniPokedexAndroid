@@ -36,7 +36,7 @@
 	<string name="placeholder_level">000</string>
 	<string name="placeholder_name">PokemonName</string>
 	<string name="placeholder_type">type</string>
-	<string name="placeholder_location">World</string>
+	<string name="placeholder_location">World, Continent, Planet, Island, Archipelago</string>
 	<string name="placeholder_version">Moissanite / Zirconium</string>
 
 </resources>

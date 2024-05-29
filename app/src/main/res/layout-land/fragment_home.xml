@@ -1,167 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		android:animateLayoutChanges="true">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:animateLayoutChanges="true">
 
 	<androidx.cardview.widget.CardView
-			android:id="@+id/id_cv_toolbar"
-			android:layout_width="@dimen/layout_sidebar_width"
-			android:layout_height="match_parent"
-			app:cardBackgroundColor="@color/md_theme_surfaceDim">
+		android:id="@+id/id_cv_toolbar"
+		android:layout_width="@dimen/layout_sidebar_width"
+		android:layout_height="match_parent"
+		app:cardBackgroundColor="@color/md_theme_surfaceDim">
 
 		<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:layout_marginHorizontal="@dimen/margin_half"
-				android:gravity="center"
-				android:orientation="vertical"
-				android:paddingVertical="@dimen/margin_standard">
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginHorizontal="@dimen/margin_half"
+			android:gravity="center"
+			android:orientation="vertical"
+			android:paddingVertical="@dimen/margin_standard">
 
 			<TextView
-					android:id="@+id/id_tv_total_shown"
-					style="@style/TextAppearance.AppCompat.Medium"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginHorizontal="@dimen/margin_half"
-					android:layout_marginVertical="@dimen/margin_standard"
-					android:textStyle="bold" />
+				android:id="@+id/id_tv_total_shown"
+				style="@style/TextAppearance.AppCompat.Medium"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="@dimen/margin_half"
+				android:layout_marginVertical="@dimen/margin_standard"
+				android:textStyle="bold" />
 
 			<com.google.android.material.card.MaterialCardView
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="@dimen/layout_bar_medium"
-					app:contentPaddingTop="@dimen/margin_quarter"
-					android:layout_marginHorizontal="@dimen/margin_half"
-					android:layout_marginBottom="@dimen/margin_half">
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="@dimen/margin_half"
+				android:layout_marginTop="@dimen/layout_bar_medium"
+				android:layout_marginBottom="@dimen/margin_half"
+				app:contentPaddingTop="@dimen/margin_quarter">
 
 				<com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/id_et_filter"
-						android:layout_width="match_parent"
-						android:layout_height="@dimen/icon_medium"
-						android:minHeight="@dimen/layout_min_touch_height"
-						android:paddingHorizontal="@dimen/margin_half"
-						android:hint="@string/label_filter" />
+					android:id="@+id/id_et_filter"
+					android:layout_width="match_parent"
+					android:layout_height="@dimen/icon_medium"
+					android:hint="@string/label_filter"
+					android:minHeight="@dimen/layout_min_touch_height"
+					android:paddingHorizontal="@dimen/margin_half" />
 
 				<androidx.appcompat.widget.AppCompatButton
-						android:id="@+id/id_b_clear"
-						style="@style/Widget.AppCompat.Button.Borderless.Colored"
-						android:layout_width="wrap_content"
-						android:layout_height="@dimen/layout_bar_medium"
-						android:layout_marginHorizontal="@dimen/margin_half"
-						android:layout_marginTop="@dimen/icon_medium"
-						android:layout_gravity="center_horizontal"
-						android:text="@string/label_clear" />
+					android:id="@+id/id_b_clear"
+					style="@style/Widget.AppCompat.Button.Borderless.Colored"
+					android:layout_width="wrap_content"
+					android:layout_height="@dimen/layout_bar_medium"
+					android:layout_gravity="center_horizontal"
+					android:layout_marginHorizontal="@dimen/margin_half"
+					android:layout_marginTop="@dimen/icon_medium"
+					android:text="@string/label_clear" />
 
 			</com.google.android.material.card.MaterialCardView>
 
 			<View
-					android:layout_width="match_parent"
-					android:layout_height="0dp"
-					android:layout_weight="10" />
+				android:layout_width="match_parent"
+				android:layout_height="0dp"
+				android:layout_weight="10" />
 
 			<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="@string/label_encountered" />
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/label_encountered" />
 
 			<com.google.android.material.switchmaterial.SwitchMaterial
-					android:id="@+id/id_sw_sort"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:rotation="90" />
+				android:id="@+id/id_sw_sort"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:rotation="90" />
 
 			<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="@string/label_alphabetical" />
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/label_alphabetical" />
+
 		</LinearLayout>
 
 	</androidx.cardview.widget.CardView>
 
 
 	<androidx.cardview.widget.CardView
-			android:id="@+id/id_cv_toolbar_bottom"
-			app:cardBackgroundColor="@color/md_theme_surfaceDim"
+		android:id="@+id/id_cv_toolbar_bottom"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:layout_toEndOf="@id/id_cv_toolbar"
+		android:minHeight="@dimen/layout_min_touch_height"
+		app:cardBackgroundColor="@color/md_theme_surfaceDim">
+
+		<ImageButton
+			android:id="@+id/id_b_clear_version"
+			style="@style/Widget.AppCompat.Button.Borderless.Colored"
+			android:layout_width="@dimen/icon_small"
+			android:layout_height="@dimen/layout_min_touch_height"
+			android:layout_gravity="center_vertical"
+			android:contentDescription="@string/clear_version"
+			android:padding="5dp"
+			android:scaleType="fitCenter"
+			android:src="@drawable/ic_clear"
+			app:tint="@color/md_theme_onBackground" />
+
+		<LinearLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:minHeight="@dimen/layout_min_touch_height"
-			android:layout_alignParentBottom="true"
-			android:layout_toEndOf="@id/id_cv_toolbar">
-		<ImageButton
-				android:id="@+id/id_b_clear_version"
-				style="@style/Widget.AppCompat.Button.Borderless.Colored"
-				android:layout_width="@dimen/icon_small"
-				android:layout_height="@dimen/layout_min_touch_height"
-				android:padding="5dp"
-				android:scaleType="fitCenter"
-				android:layout_gravity="center_vertical"
-				android:src="@drawable/ic_clear"
-				android:contentDescription="@string/clear_version"
-				app:tint="@color/md_theme_onBackground" />
-		<TextView
+			android:layout_height="match_parent"
+			android:layout_marginHorizontal="@dimen/icon_small"
+			android:orientation="horizontal"
+			android:weightSum="10">
+
+			<TextView
 				android:id="@+id/id_tv_clear_version"
-				android:layout_width="match_parent"
-				android:layout_height="@dimen/layout_min_touch_height"
-				android:gravity="center_vertical"
 				style="@style/TextAppearance.Material3.BodyMedium"
-				android:layout_marginStart="@dimen/icon_small"
-				android:paddingVertical="@dimen/margin_half"
-				android:text="@string/placeholder_version"/>
-		<TextView
-				android:id="@+id/id_tv_world"
 				android:layout_width="wrap_content"
-				android:layout_height="@dimen/layout_min_touch_height"
-				style="@style/TextAppearance.Material3.BodyMedium"
+				android:layout_height="match_parent"
+				android:layout_weight="2"
+				android:ellipsize="end"
 				android:gravity="center_vertical"
-				android:textStyle="italic"
-				android:layout_gravity="end"
+				android:lines="1"
+				android:minWidth="@dimen/icon_large"
 				android:paddingVertical="@dimen/margin_half"
-				android:layout_marginEnd="@dimen/icon_small"
-				android:text="@string/placeholder_location"/>
+				android:text="@string/placeholder_version" />
+
+			<TextView
+				android:id="@+id/id_tv_world"
+				style="@style/TextAppearance.Material3.BodyMedium"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_gravity="end"
+				android:layout_weight="8"
+				android:ellipsize="start"
+				android:gravity="center_vertical|end"
+				android:lines="1"
+				android:paddingVertical="@dimen/margin_half"
+				android:text="@string/placeholder_location"
+				android:textStyle="italic" />
+
+		</LinearLayout>
+
 		<ImageButton
-				android:id="@+id/id_b_scroll_up"
-				style="@style/Widget.AppCompat.Button.Borderless.Colored"
-				android:layout_width="@dimen/icon_small"
-				android:layout_height="@dimen/layout_min_touch_height"
-				android:layout_gravity="end|center_vertical"
-				android:padding="2dp"
-				android:scaleType="fitCenter"
-				android:src="@drawable/ic_up"
-				android:contentDescription="@string/scroll_up"
-				app:tint="@color/md_theme_onBackground" />
+			android:id="@+id/id_b_scroll_up"
+			style="@style/Widget.AppCompat.Button.Borderless.Colored"
+			android:layout_width="@dimen/icon_small"
+			android:layout_height="@dimen/layout_min_touch_height"
+			android:layout_gravity="end|center_vertical"
+			android:contentDescription="@string/scroll_up"
+			android:padding="2dp"
+			android:scaleType="fitCenter"
+			android:src="@drawable/ic_up"
+			app:tint="@color/md_theme_onBackground" />
+
 		<View
-				android:layout_width="match_parent"
-				android:layout_height="@dimen/layout_divider_thick"
-				android:background="?colorPrimary" />
+			android:layout_width="match_parent"
+			android:layout_height="@dimen/layout_divider_thick"
+			android:background="?colorPrimary" />
 	</androidx.cardview.widget.CardView>
 
 	<androidx.recyclerview.widget.RecyclerView
-			android:id="@+id/id_rv_pokemon"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:layout_marginHorizontal="@dimen/margin_half"
-			android:layout_toEndOf="@id/id_cv_toolbar" />
+		android:id="@+id/id_rv_pokemon"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginHorizontal="@dimen/margin_half"
+		android:layout_toEndOf="@id/id_cv_toolbar" />
 
 	<FrameLayout
-			android:layout_toEndOf="@id/id_cv_toolbar"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="@dimen/icon_large">
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/icon_large"
+		android:layout_toEndOf="@id/id_cv_toolbar">
+
 		<com.google.android.material.card.MaterialCardView
-				android:id="@+id/id_cv_alert"
-				app:cardBackgroundColor="@color/md_theme_surfaceDim"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center_horizontal">
+			android:id="@+id/id_cv_alert"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			app:cardBackgroundColor="@color/md_theme_surfaceDim">
+
 			<TextView
-					android:layout_width="@dimen/layout_sidebar_width"
-					android:layout_height="wrap_content"
-					android:layout_margin="@dimen/margin_standard"
-					android:textAlignment="center"
-					android:text="@string/no_items_match"/>
+				android:layout_width="@dimen/layout_sidebar_width"
+				android:layout_height="wrap_content"
+				android:layout_margin="@dimen/margin_standard"
+				android:text="@string/no_items_match"
+				android:textAlignment="center" />
+
 		</com.google.android.material.card.MaterialCardView>
+
 	</FrameLayout>
 
 </RelativeLayout>
