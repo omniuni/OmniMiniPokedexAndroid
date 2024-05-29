@@ -93,6 +93,11 @@ class FragmentHome : Fragment(),
 		return super.onOptionsItemSelected(item)
 	}
 
+	override fun onResume() {
+		super.onResume()
+		UtilityLoader.registerApiCallListener(this)
+	}
+
 	override fun onPause() {
 		if (this::mAdapter.isInitialized) {
 			mFragmentViewBinding.idRvPokemon.layoutManager?.onSaveInstanceState()?.also {
@@ -154,6 +159,7 @@ class FragmentHome : Fragment(),
 				mAdapter.setFilter(text.toString())
 			}
 			mAdapter.setFilter(mFragmentViewBinding.idEtFilter.text.toString())
+			mFragmentViewBinding.idSwSort.isEnabled = true
 		} else {
 			mFragmentViewBinding.idTvTotalShown.text = String()
 		}
@@ -176,6 +182,7 @@ class FragmentHome : Fragment(),
 	}
 
 	private fun setRecyclerViewAdapter() {
+		if(mFragmentViewBinding.idRvPokemon.adapter != null) return
 		if (!this::mAdapter.isInitialized) {
 			mAdapter = AdapterRecyclerViewPokemonList(
 				mPokemonSpeciesMap,
@@ -191,7 +198,6 @@ class FragmentHome : Fragment(),
 		mFragmentViewBinding.idRvPokemon.adapter = mAdapter
 		mAdapter.setUpdateCallback(this)
 		mAdapter.updateItems()
-		mFragmentViewBinding.idSwSort.isEnabled = true
 	}
 
 	override fun onListUpdated() {

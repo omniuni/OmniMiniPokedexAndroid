@@ -22,7 +22,6 @@ class ActivityMain : AppCompatActivity(), IOnApiLoadProgress {
 		enableEdgeToEdge()
 		mActivityViewBinding = ActivityMainBinding.inflate(layoutInflater)
 		onComplete()
-		UtilityLoader.registerProgressListener(this)
 		ViewCompat.setOnApplyWindowInsetsListener(
 			mActivityViewBinding.root
 		) { _, windowInsets -> // _ = input view
@@ -31,6 +30,11 @@ class ActivityMain : AppCompatActivity(), IOnApiLoadProgress {
 		}
 		setContentView(mActivityViewBinding.root)
 		setSupportActionBar(mActivityViewBinding.idToolbar)
+	}
+
+	override fun onResume() {
+		super.onResume()
+		UtilityLoader.registerProgressListener(this)
 	}
 
 	override fun onStop() {

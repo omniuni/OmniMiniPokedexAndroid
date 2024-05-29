@@ -61,7 +61,6 @@ class FragmentInit : Fragment(), IOnApiLoadQueue {
 			loadToPokemonList()
 			return
 		}
-		UtilityLoader.registerApiCallListener(this)
 		Log.d(FragmentInit::class.simpleName, "Enqueue Version Groups and Versions...")
 		UtilityLoader.addRequests(
 			mapOf(
@@ -71,6 +70,11 @@ class FragmentInit : Fragment(), IOnApiLoadQueue {
 				ApiGetPokedexList() to String(),
 			), requireContext()
 		)
+	}
+
+	override fun onResume() {
+		super.onResume()
+		UtilityLoader.registerApiCallListener(this)
 	}
 
 	override fun onPause() {
@@ -145,10 +149,8 @@ class FragmentInit : Fragment(), IOnApiLoadQueue {
 
 	override fun onComplete() {
 		mFragmentViewBinding.idTvTitle.text = getString(R.string.select)
-
 		generateGenerationGroupViews()
 		generateGameVersionGroupViews()
-
 
 	}
 
@@ -167,15 +169,17 @@ class FragmentInit : Fragment(), IOnApiLoadQueue {
 
 	private fun generateGenerationGroupViews() {
 
+		mFragmentViewBinding.idLlVersions.removeAllViews()
+
 		val generations: List<Generation> = ApiGetGenerations.getGenerations()
 
 		for (basicGeneration in generations) {
 			val generation = ApiGetGeneration.getGenerationByName(basicGeneration.name)
 			val generationBinding: ListItemTypeGenerationGroupBinding =
 				ListItemTypeGenerationGroupBinding.inflate(
-					layoutInflater,
-					mFragmentViewBinding.idLlVersions,
-					true
+				layoutInflater,
+				mFragmentViewBinding.idLlVersions,
+				true
 				)
 
 			mBindingMapGenerations[generation.name] = generationBinding

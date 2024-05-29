@@ -16,7 +16,10 @@ object UtilityLoader : IOnApiLoad {
 	private var mQueueSessionCompleted: Int = 0
 
 	fun registerProgressListener(listener: IOnApiLoadProgress) {
-		if (!mListenersToProgress.contains(listener)) mListenersToProgress.add(listener)
+		if (!mListenersToProgress.contains(listener)){
+			mListenersToProgress.add(listener)
+			notifyIfComplete()
+		}
 	}
 
 	fun deregisterProgressListener(listener: IOnApiLoadProgress) {
@@ -24,7 +27,10 @@ object UtilityLoader : IOnApiLoad {
 	}
 
 	fun registerApiCallListener(listener: IOnApiLoadQueue) {
-		if (!mListenersToApiCalls.contains(listener)) mListenersToApiCalls.add(listener)
+		if (!mListenersToApiCalls.contains(listener)){
+			mListenersToApiCalls.add(listener)
+			notifyIfComplete()
+		}
 	}
 
 	fun deregisterApiCallListener(listener: IOnApiLoadQueue) {
@@ -42,8 +48,6 @@ object UtilityLoader : IOnApiLoad {
 	}
 
 	private fun processNextItem() {
-
-
 		// Pull the next item to process
 		val nextToProcess: IApi = mToLoad.entries.first().value
 		notifyProgressListeners(nextToProcess.getFriendlyName())
@@ -73,8 +77,7 @@ object UtilityLoader : IOnApiLoad {
 		checkIfComplete()
 	}
 
-	private fun checkIfComplete() {
-		mQueueSessionCompleted++
+	private fun notifyIfComplete(){
 		// If we have emptied the queue, notify and reset
 		if (mToLoad.isEmpty()) {
 			mListenersToProgress.forEach {
@@ -87,7 +90,12 @@ object UtilityLoader : IOnApiLoad {
 			mQueueSessionCompleted = 0
 			return
 		}
-		processNextItem()
+	}
+
+	private fun checkIfComplete() {
+		mQueueSessionCompleted++
+		notifyIfComplete()
+		if(mToLoad.isNotEmpty()) processNextItem()
 	}
 
 }

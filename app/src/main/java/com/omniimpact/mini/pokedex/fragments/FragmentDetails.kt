@@ -8,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.omniimpact.mini.pokedex.R
 import com.omniimpact.mini.pokedex.databinding.FragmentDetailsBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemPokemonEvolutionBinding
@@ -27,7 +25,6 @@ import com.omniimpact.mini.pokedex.network.api.ApiGetPokemonSpecies
 import com.omniimpact.mini.pokedex.network.api.ApiGetType
 import com.omniimpact.mini.pokedex.network.api.IApi
 import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
-import com.omniimpact.mini.pokedex.utilities.AdapterRecyclerViewTypeChips
 import com.omniimpact.mini.pokedex.utilities.UtilityApplicationSettings
 import com.omniimpact.mini.pokedex.utilities.UtilityFragmentManager
 import com.omniimpact.mini.pokedex.utilities.view.OnPicassoImageLoadedDoEnterTransition
@@ -84,8 +81,8 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 		savedInstanceState: Bundle?
 	): View {
 		mFragmentViewBinding = FragmentDetailsBinding.inflate(layoutInflater)
-		updateBaseViews()
 		UtilityLoader.registerApiCallListener(this)
+		updateBaseViews()
 		UtilityLoader.addRequests(
 			mapOf(
 				ApiGetPokemonDetails() to mSourceItem.pokemonSpecies.name,
@@ -108,6 +105,11 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 				mFragmentViewBinding.idLlBanner.idIvPokemonIcon,
 				OnPicassoImageLoadedDoEnterTransition(requireContext(), mFragmentViewBinding)
 			)
+	}
+
+	override fun onResume() {
+		UtilityLoader.registerApiCallListener(this)
+		super.onResume()
 	}
 
 	override fun onPause() {
@@ -165,6 +167,8 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 				if (mFragmentViewBinding.idIncludeDetails.idLlEvolutions.childCount > 0) return
 				addEvolutionView(mPokemonEvolutionChain)
 			}
+
+			is ApiGetType -> {}
 
 			else -> {
 

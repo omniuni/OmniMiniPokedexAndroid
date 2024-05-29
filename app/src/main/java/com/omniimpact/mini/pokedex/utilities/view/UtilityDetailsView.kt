@@ -117,7 +117,7 @@ class UtilityDetailsView {
 			typeMap: MutableMap<Int, ArrayList<ModelPokemonDetailsType>>
 		){
 
-			if(target.adapter != null) return
+			if(fromTypes.isEmpty() || target.adapter != null) return
 
 			val loadScope = CoroutineScope(Job() + Dispatchers.IO)
 
