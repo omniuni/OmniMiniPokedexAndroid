@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.omniimpact.mini.pokedex.R
 import com.omniimpact.mini.pokedex.databinding.FragmentDetailsBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemPokemonEvolutionBinding
@@ -35,6 +36,7 @@ import com.squareup.picasso.Picasso
 class FragmentDetails : Fragment(), IOnApiLoadQueue {
 
 	companion object {
+		const val FRAGMENT_KEY = "FragmentDetails"
 		const val KEY_POKEMON_ENTRY_NUMBER = "KEY_POKEMON_ENTRY_NUMBER"
 		const val KEY_COMBINED_POKEDEX = "KEY_COMBINED_POKEDEX"
 	}
@@ -69,7 +71,7 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
 		when (item.itemId) {
 			android.R.id.home -> {
-				parentFragmentManager.popBackStack()
+				parentFragmentManager.popBackStack(FRAGMENT_KEY, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 			}
 		}
 		return super.onOptionsItemSelected(item)

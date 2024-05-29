@@ -67,8 +67,7 @@ class UtilityFragmentManager {
 		)
 		transaction.replace(
 			mTargetId,
-			mFragment,
-			String()
+			mFragment
 		)
 		if (addToBackStack) {
 			transaction.addToBackStack(backStackKey)

@@ -224,7 +224,7 @@ class FragmentHome : Fragment(),
 			ApiGetPokedex.getCombinedPokedexKey(mVersionGroup.pokedexes)
 		)
 		UtilityFragmentManager.using(parentFragmentManager).load(detailsFragment)
-			.with(argumentsBundle).into(mFragmentTarget).now()
+			.with(argumentsBundle).into(mFragmentTarget).now(addToBackStack = true, FragmentDetails.FRAGMENT_KEY)
 	}
 
 	override fun onComplete() {
