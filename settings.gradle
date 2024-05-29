@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Mini Android Template"
+rootProject.name = "Mini Pokedex Android"
 include ':app'
 

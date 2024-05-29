@@ -1,19 +1,42 @@
 <resources>
 
-	<string name="app_name">Mini Pokedex</string>
+	<string name="app_name">Pokédex Mini</string>
 	<string name="exit">Exit</string>
 
+	<string name="label_generation">Generation</string>
 	<string name="label_encountered">Encountered</string>
 	<string name="label_alphabetical">Alphabetical</string>
 	<string name="label_description">Description</string>
+	<string name="label_strength">Strengths</string>
+	<string name="label_weakness">Weakness</string>
+	<string name="label_none">none</string>
+	<string name="label_double_damage">2× Damage</string>
+	<string name="label_full_defense">Full Defense</string>
+	<string name="label_double_defense">2× Defense</string>
+	<string name="label_half_damage">½ Damage</string>
+	<string name="label_no_damage">Can\'t Damage</string>
+	<string name="label_half_defense">½ Defense</string>
+
 	<string name="label_evolutions">Evolutions</string>
 
 	<string name="a_of_b">%1$d of %2$d</string>
 	<string name="label_filter">Filter Pokemon</string>
 	<string name="label_clear">Clear</string>
 	<string name="toggle_options">Toggle Options</string>
+	<string name="loading">Loading %1$s…</string>
+	<string name="setting_up">Setting up…</string>
+	<string name="fair_use">The information in this application is provided in accordance with the Fair Use Act. It is intended for education or reference.</string>
+	<string name="accuracy">Please select the game you want to use when information differs between versions.</string>
+	<string name="select">Please Select a Version</string>
+	<string name="games_species">%1$d games, species:</string>
+	<string name="scroll_up">scroll up</string>
+	<string name="clear_version">clear version</string>
+	<string name="no_items_match">No items match\nyour search</string>
 
 	<string name="placeholder_level">000</string>
 	<string name="placeholder_name">PokemonName</string>
+	<string name="placeholder_type">type</string>
+	<string name="placeholder_location">World, Continent, Planet, Island, Archipelago</string>
+	<string name="placeholder_version">Moissanite / Zirconium</string>
 
 </resources>

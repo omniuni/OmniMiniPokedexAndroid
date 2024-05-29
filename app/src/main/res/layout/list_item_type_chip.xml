@@ -3,23 +3,25 @@
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:id="@+id/id_cv_type_chip"
 		android:layout_width="@dimen/size_chip_medium"
-		android:layout_marginVertical="@dimen/margin_half"
-		android:layout_height="wrap_content">
-		<com.google.android.material.card.MaterialCardView
-				android:layout_width="match_parent"
-				app:contentPadding="@dimen/margin_quarter"
-				app:strokeWidth="0dp"
-				android:backgroundTint="@color/md_theme_background_tint"
-				android:layout_height="match_parent">
-			<TextView
-					android:id="@+id/id_tv_type"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center"
-					android:shadowColor="@color/md_theme_surface"
-					android:textColor="@color/md_theme_onBackground"
-					style="@style/TextAppearance.Material3.LabelMedium"
-					android:shadowRadius="3"
-					android:text="@string/placeholder_name"/>
-		</com.google.android.material.card.MaterialCardView>
+		android:layout_height="wrap_content"
+		android:layout_marginVertical="@dimen/margin_half">
+
+	<com.google.android.material.card.MaterialCardView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:backgroundTint="@color/md_theme_background_tint"
+			app:contentPadding="@dimen/margin_quarter"
+			app:strokeWidth="0dp">
+
+		<TextView
+				android:id="@+id/id_tv_type"
+				style="@style/TextAppearance.Material3.LabelMedium"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:shadowColor="@color/md_theme_surface"
+				android:shadowRadius="3"
+				android:text="@string/placeholder_type"
+				android:textColor="@color/md_theme_onBackground" />
+	</com.google.android.material.card.MaterialCardView>
 </com.google.android.material.card.MaterialCardView>

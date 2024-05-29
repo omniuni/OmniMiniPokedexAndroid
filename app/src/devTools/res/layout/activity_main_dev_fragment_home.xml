@@ -20,6 +20,7 @@
 	</androidx.cardview.widget.CardView>
 
 	<GridLayout
+			android:id="@+id/id_gl_info"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_below="@id/id_cv_dev_tools_welcome"
@@ -49,6 +50,28 @@
 				android:layout_height="wrap_content" />
 
 	</GridLayout>
+
+	<androidx.cardview.widget.CardView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/id_gl_info"
+			android:layout_marginTop="@dimen/margin_standard">
+
+		<TextView
+				android:id="@+id/id_tv_numFiles"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:text="Files..." />
+
+		<Button
+				android:id="@+id/id_btn_clear"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="end"
+				android:text="Clear" />
+
+	</androidx.cardview.widget.CardView>
 
 </RelativeLayout>
 

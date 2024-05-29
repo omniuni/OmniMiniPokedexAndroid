@@ -12,11 +12,11 @@ data class ModelPokemonEvolution(
 data class ModelPokemonEvolutionChain(
 	@Transient
 	val id: Int = -1,
-	val species: ModelPokemonEvolutionChainEvolutionSpecies,
+	val species: ModelPokemonEvolutionChainEvolutionSpecies = ModelPokemonEvolutionChainEvolutionSpecies(),
 	@Json(name = "evolution_details")
-	val evolutionDetails: List<ModelPokemonEvolutionChainEvolutionDetails>,
+	val evolutionDetails: List<ModelPokemonEvolutionChainEvolutionDetails> = listOf(),
 	@Json(name = "evolves_to")
-	val evolvesTo: List<ModelPokemonEvolutionChain>
+	val evolvesTo: List<ModelPokemonEvolutionChain> = listOf()
 )
 
 @JsonClass(generateAdapter = true)
@@ -27,8 +27,6 @@ data class ModelPokemonEvolutionChainEvolutionDetails(
 
 @JsonClass(generateAdapter = true)
 data class ModelPokemonEvolutionChainEvolutionSpecies(
-	val url: String,
-	val name: String,
-	@Transient
-	var iconUrl: String = String(),
+	val url: String = String(),
+	val name: String = String()
 )

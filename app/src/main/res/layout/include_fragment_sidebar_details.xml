@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:background="?colorPrimary"
 		android:gravity="center_horizontal"
-		android:orientation="vertical"
-		android:padding="@dimen/margin_standard">
+		android:orientation="vertical">
 
 	<TextView
 			android:id="@+id/id_tv_pokemon_name"
@@ -18,22 +16,41 @@
 
 	<RelativeLayout
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content"
+			android:layout_marginTop="@dimen/margin_quarter">
+
+		<ImageView
+				android:id="@+id/id_iv_platform"
+				android:layout_width="@dimen/icon_header_large"
+				android:layout_height="@dimen/icon_header_large"
+				android:layout_marginTop="@dimen/margin_standard"
+				android:src="@drawable/ic_platform"
+				android:visibility="invisible"
+				tools:ignore="ContentDescription" />
+
+		<ImageView
+				android:layout_width="@dimen/icon_header_large"
+				android:layout_height="@dimen/icon_header_large"
+				android:layout_marginTop="@dimen/margin_standard"
+				android:src="@drawable/ic_platform_shade"
+				tools:ignore="ContentDescription" />
 
 		<ImageView
 				android:id="@+id/id_iv_pokemon_icon"
 				android:layout_width="@dimen/icon_header_large"
 				android:layout_height="@dimen/icon_header_large"
-				android:layout_marginTop="@dimen/margin_standard"
+				android:layout_marginTop="-10dp"
 				tools:ignore="ContentDescription" />
 
 		<LinearLayout
 				android:id="@+id/id_ll_chips"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:orientation="vertical"
 				android:layout_centerVertical="true"
-				android:layout_toEndOf="@id/id_iv_pokemon_icon"/>
+				android:layout_marginStart="@dimen/margin_standard"
+				android:layout_toEndOf="@id/id_iv_pokemon_icon"
+				android:minWidth="@dimen/icon_medium"
+				android:orientation="vertical" />
 
 	</RelativeLayout>
 

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+	<TextView
+			android:id="@+id/id_tv_title"
+			style="@style/TextAppearance.Material3.TitleLarge"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="@dimen/margin_standard"
+			android:layout_marginVertical="@dimen/margin_standard"
+			android:gravity="center"
+			android:text="@string/setting_up" />
+
+	<TextView
+			android:id="@+id/id_tv_subtitle"
+			style="@style/TextAppearance.Material3.BodyMedium"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/id_tv_title"
+			android:layout_centerHorizontal="true"
+			android:layout_marginHorizontal="@dimen/margin_standard"
+			android:text="@string/accuracy" />
+
+	<ScrollView
+			android:id="@+id/id_sv_picker"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_above="@id/id_tv_footer"
+			android:layout_below="@id/id_tv_subtitle"
+			android:layout_marginVertical="@dimen/margin_standard"
+			android:fadingEdgeLength="@dimen/margin_standard"
+			android:requiresFadingEdge="vertical">
+
+		<LinearLayout
+				android:id="@+id/id_ll_versions"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical" />
+
+	</ScrollView>
+
+
+	<TextView
+			android:id="@+id/id_tv_footer"
+			style="@style/TextAppearance.Material3.BodyMedium"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:layout_marginHorizontal="@dimen/margin_standard"
+			android:layout_marginBottom="@dimen/margin_half"
+			android:paddingHorizontal="@dimen/margin_standard"
+			android:text="@string/fair_use"
+			android:textAlignment="center" />
+
+</RelativeLayout>

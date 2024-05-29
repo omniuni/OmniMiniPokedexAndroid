@@ -4,8 +4,9 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class ModelPokemonDetails(
-	val id: Int,
-	val types: List<ModelPokemonDetailsTypes>
+	val id: Int = -1,
+	val name: String = String(),
+	val types: List<ModelPokemonDetailsTypes> = listOf()
 )
 
 @JsonClass(generateAdapter = true)
@@ -16,5 +17,8 @@ data class ModelPokemonDetailsTypes(
 
 @JsonClass(generateAdapter = true)
 data class ModelPokemonDetailsType(
-	val name: String
+	var name: String = String(),
+	var url: String = String(),
+	@Transient
+	var fromName: String = String(),
 )

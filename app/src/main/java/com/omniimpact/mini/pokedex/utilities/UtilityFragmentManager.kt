@@ -59,16 +59,15 @@ class UtilityFragmentManager {
 			ViewCompat.setTransitionName(item.key, fromKey)
 			transaction.addSharedElement(item.key, item.value)
 		}
-		transaction.replace(
-			mTargetId,
-			mFragment,
-			String()
-		)
 		transaction.setCustomAnimations(
 			R.anim.fade_in, //enter
 			R.anim.fade_out, // exit
 			R.anim.fade_in, // pop enter
 			R.anim.fade_out, // pop exit
+		)
+		transaction.replace(
+			mTargetId,
+			mFragment
 		)
 		if (addToBackStack) {
 			transaction.addToBackStack(backStackKey)

@@ -3,6 +3,7 @@ package com.omniimpact.mini.pokedex.utilities
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.content.res.Configuration
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,35 +15,49 @@ import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
 import com.omniimpact.mini.pokedex.R
 import com.omniimpact.mini.pokedex.databinding.ListItemPokemonBinding
-import com.omniimpact.mini.pokedex.models.ModelPokemonListItem
+import com.omniimpact.mini.pokedex.models.PokedexPokemonEntry
+import com.omniimpact.mini.pokedex.network.api.ApiGetPokedex
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
-class AdapterRecyclerViewPokemonList :
+class AdapterRecyclerViewPokemonList() :
 	RecyclerView.Adapter<AdapterRecyclerViewPokemonList.ViewHolder>() {
+
+
+	constructor(
+		pokemonSpeciesMap: MutableMap<Int, PokedexPokemonEntry>,
+		versionGroupName: String
+	) : this() {
+		mVersionGroupName = versionGroupName
+		mSpeciesMap = pokemonSpeciesMap
+	}
 
 	interface IOnListActions {
 		fun onListUpdated()
-		fun onItemClicked(item: ModelPokemonListItem, imageView: ImageView, textView: TextView)
+		fun onItemClicked(item: PokedexPokemonEntry, imageView: ImageView, textView: TextView)
 	}
 
+	private var mVersionGroupName: String = String()
+	private var mSpeciesMap: MutableMap<Int, PokedexPokemonEntry> = mutableMapOf()
+	private var mSpeciesMapFiltered: Array<PokedexPokemonEntry> = arrayOf()
 	private lateinit var mItemBinding: ListItemPokemonBinding
 	private var mFilter = String()
-	private var mFilteredItems: List<ModelPokemonListItem> = listOf()
 	private var mShouldSortAlphabetical: Boolean = false
 	private lateinit var mUpdateCallback: IOnListActions
 
 	@SuppressLint("NotifyDataSetChanged")
 	fun updateItems() {
-		mFilteredItems = if (mFilter.isEmpty()) {
-			UtilityPokemonLoader.getLoadedPokemonList().results
+		mSpeciesMapFiltered = if (mFilter.isEmpty()) {
+			mSpeciesMap.values.toTypedArray()
 		} else {
-			UtilityPokemonLoader.getLoadedPokemonList().results.filter { modelPokemonListItem ->
-				modelPokemonListItem.name.contains(mFilter, true)
-			}
+			mSpeciesMap.filter {
+				it.value.pokemonSpecies.name.contains(mFilter, ignoreCase = true) ||
+				it.value.entryNumber.toString().startsWith(mFilter) || it.value.entryNumber.toString().endsWith(mFilter)
+			}.values.toTypedArray()
 		}
-		if (mFilteredItems.isNotEmpty() && mShouldSortAlphabetical) {
-			mFilteredItems = mFilteredItems.sortedWith(compareBy { it.name })
+		if (mSpeciesMapFiltered.isNotEmpty() && mShouldSortAlphabetical) {
+			mSpeciesMapFiltered =
+				mSpeciesMapFiltered.sortedWith(compareBy { it.pokemonSpecies.name }).toTypedArray()
 		}
 		notifyDataSetChanged()
 		if (this::mUpdateCallback.isInitialized) mUpdateCallback.onListUpdated()
@@ -63,11 +78,12 @@ class AdapterRecyclerViewPokemonList :
 	}
 
 	fun getFilteredItemCount(): Int {
-		return mFilteredItems.size
+		return mSpeciesMapFiltered.size
 	}
 
 	inner class ViewHolder(viewBinding: ListItemPokemonBinding) :
 		RecyclerView.ViewHolder(viewBinding.root) {
+		var tvEntry: TextView = viewBinding.idTvEntry
 		var tvName: TextView = viewBinding.idTvPokemonName
 		var ivIcon: ImageView = viewBinding.idIvPokemonIcon
 		var cvBackground: CardView = viewBinding.idCvBackground
@@ -81,18 +97,24 @@ class AdapterRecyclerViewPokemonList :
 	}
 
 	override fun getItemCount(): Int {
-		return mFilteredItems.size
+		return mSpeciesMapFiltered.size
 	}
 
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-		val item = mFilteredItems[position]
-		holder.tvName.text = item.name.replaceFirstChar { it.titlecase() }
-		holder.tvName.tag = item.name
+		val item: PokedexPokemonEntry = mSpeciesMapFiltered[position]
+		val pokemonId = ApiGetPokedex.getPokemonIdFromUrl(item.pokemonSpecies.url)
+		val iconUrl = ApiGetPokedex.getImageUrlFromPokemonId(pokemonId)
+		Log.d(AdapterRecyclerViewPokemonList::class.simpleName, "IconURL: $iconUrl")
+		holder.tvEntry.text = item.entryNumber.toString()
+		var name = item.pokemonSpecies.name.replaceFirstChar { it.titlecase() }
+		if(name.endsWith("-f", ignoreCase = true)){ name = name.replace("-f","♀") }
+		if(name.endsWith("-m", ignoreCase = true)){ name = name.replace("-m","♂") }
+		holder.tvName.text = name
 		holder.cvBackground.backgroundTintList =
 			ColorStateList.valueOf(holder.cvBackground.context.getColor(R.color.md_theme_surfaceContainer))
-		Picasso.get().load(item.iconUrl).fit().centerInside()
+		Picasso.get().load(iconUrl).fit().centerInside()
 			.into(holder.ivIcon, PicassoTintOnLoad(holder.ivPlatform, holder.ivIcon))
-		holder.ivIcon.tag = item.iconUrl
+		holder.ivIcon.tag = iconUrl
 		holder.cvBackground.setOnClickListener {
 			mUpdateCallback.onItemClicked(item, holder.ivIcon, holder.tvName)
 		}
