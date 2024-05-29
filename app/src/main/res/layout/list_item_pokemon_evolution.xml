@@ -2,15 +2,15 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_marginEnd="@dimen/margin_standard"
 	android:layout_width="wrap_content"
-	android:layout_height="wrap_content">
+	android:layout_height="wrap_content"
+	android:layout_marginEnd="@dimen/margin_standard">
 
 	<RelativeLayout
 		android:id="@+id/id_rv_evolution_container"
-		android:padding="@dimen/margin_quarter"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:padding="@dimen/margin_quarter">
 
 		<androidx.appcompat.widget.AppCompatTextView
 			android:id="@+id/id_min_level"
@@ -62,6 +62,7 @@
 			android:textAlignment="center" />
 
 		<ImageView
+			android:id="@+id/id_iv_clickable"
 			android:layout_width="@dimen/icon_mini"
 			android:layout_height="@dimen/icon_mini"
 			android:layout_above="@id/id_v_divider"

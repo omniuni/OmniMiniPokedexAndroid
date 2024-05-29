@@ -225,6 +225,7 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 			} else {
 				evolutionView.root.setBackgroundColor(Color.TRANSPARENT)
 				evolutionView.root.strokeWidth = 0
+				evolutionView.idIvClickable.visibility = View.INVISIBLE
 			}
 		}
 		if (evolution.evolvesTo.isNotEmpty()) {
