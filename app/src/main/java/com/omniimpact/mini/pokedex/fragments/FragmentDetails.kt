@@ -1,6 +1,5 @@
 package com.omniimpact.mini.pokedex.fragments
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -8,14 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import com.omniimpact.mini.pokedex.R
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.omniimpact.mini.pokedex.databinding.FragmentDetailsBinding
-import com.omniimpact.mini.pokedex.databinding.ListItemPokemonEvolutionBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemTypeChipBinding
 import com.omniimpact.mini.pokedex.models.ModelPokemonDetails
-import com.omniimpact.mini.pokedex.models.ModelPokemonDetailsType
-import com.omniimpact.mini.pokedex.models.ModelPokemonEvolutionChain
 import com.omniimpact.mini.pokedex.models.ModelPokemonSpecies
 import com.omniimpact.mini.pokedex.models.PokedexPokemonEntry
 import com.omniimpact.mini.pokedex.network.UtilityLoader
@@ -26,9 +24,7 @@ import com.omniimpact.mini.pokedex.network.api.ApiGetPokemonSpecies
 import com.omniimpact.mini.pokedex.network.api.ApiGetType
 import com.omniimpact.mini.pokedex.network.api.IApi
 import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
-import com.omniimpact.mini.pokedex.utilities.UtilityApplicationSettings
-import com.omniimpact.mini.pokedex.utilities.UtilityFragmentManager
-import com.omniimpact.mini.pokedex.utilities.view.OnPicassoImageLoadedDoEnterTransition
+import com.omniimpact.mini.pokedex.utilities.view.PicassoTintOnLoad
 import com.omniimpact.mini.pokedex.utilities.view.UtilityDetailsView
 import com.squareup.picasso.Picasso
 
@@ -44,11 +40,13 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 	//region Variables
 
 	private lateinit var mFragmentViewBinding: FragmentDetailsBinding
+
 	private var mPokemonEntryNumber: Int = -1
 	private var mCombinedPokedexName: String = String()
-	private var mSourceItem: PokedexPokemonEntry = PokedexPokemonEntry()
-	private var mPokemonEvolutionChain: ModelPokemonEvolutionChain = ModelPokemonEvolutionChain()
+
 	private var mPokemonSpecies: ModelPokemonSpecies = ModelPokemonSpecies()
+	private var mSourceItem: PokedexPokemonEntry = PokedexPokemonEntry()
+	private var mPokemonId: Int = -1
 
 	//endregion
 
@@ -65,8 +63,8 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 			}
 		}
 		mSourceItem = ApiGetPokedex.getPokedexPokemonEntry(mCombinedPokedexName, mPokemonEntryNumber)
+		mPokemonId = ApiGetPokedex.getPokemonIdFromUrl(mSourceItem.pokemonSpecies.url)
 	}
-
 
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
 		when (item.itemId) {
@@ -91,22 +89,8 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 				ApiGetPokemonSpecies() to mSourceItem.pokemonSpecies.name
 			), requireContext()
 		)
+		updateDetailCards()
 		return mFragmentViewBinding.root
-	}
-
-	private fun updateBaseViews() {
-		setHasOptionsMenu(true)
-		(requireActivity() as AppCompatActivity).supportActionBar?.also {
-			it.setDisplayHomeAsUpEnabled(true)
-		}
-		val pokemonId = ApiGetPokedex.getPokemonIdFromUrl(mSourceItem.pokemonSpecies.url)
-		val imageUrl = ApiGetPokedex.getImageUrlFromPokemonId(pokemonId)
-		Picasso.get().load(imageUrl).fit()
-			.centerInside()
-			.into(
-				mFragmentViewBinding.idLlBanner.idIvPokemonIcon,
-				OnPicassoImageLoadedDoEnterTransition(requireContext(), mFragmentViewBinding)
-			)
 	}
 
 	override fun onResume() {
@@ -123,58 +107,22 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 
 	//region Interfaces
 
-	override fun onComplete() {
-			updateTypeDetails(ApiGetPokemonDetails.getPokemonDetails(mSourceItem.pokemonSpecies.name))
-	}
+	override fun onComplete() {}
 
 	override fun onSuccess(success: IApi) {
 		when (success) {
 			is ApiGetPokemonDetails -> {
-				val details = ApiGetPokemonDetails.getPokemonDetails(mSourceItem.pokemonSpecies.name)
-				updateTypes(details)
-				details.types.forEach { typeSlot ->
-					val typeName: String = typeSlot.type.name
-					UtilityLoader.addRequests(
-						mapOf(
-							ApiGetType() to typeName
-						), requireContext()
-					)
-				}
+				updateTypes(
+					ApiGetPokemonDetails.getPokemonDetails(mSourceItem.pokemonSpecies.name)
+				)
 			}
-
 			is ApiGetPokemonSpecies -> {
 				mPokemonSpecies = ApiGetPokemonSpecies.getPokemonSpecies(mSourceItem.pokemonSpecies.name)
 				mFragmentViewBinding.idLlBanner.idTvPokemonName.text = ApiGetPokemonSpecies.getPokemonName(mPokemonSpecies)
-				val flavorText = ApiGetPokemonSpecies.getPokemonFlavorText(
-					mSourceItem.pokemonSpecies.name,
-					UtilityApplicationSettings.getString(
-						requireContext(),
-						UtilityApplicationSettings.KEY_STRING_SELECTED_VERSION,
-						String()
-					)
-				)
-				mFragmentViewBinding.idIncludeDetails.idTvFlavor.text = flavorText
-				val evolutionChainId = ApiGetPokedex.getPokemonIdFromUrl(mPokemonSpecies.evolutionChain.url).toString()
-				UtilityLoader.addRequests(
-					mapOf(
-						ApiGetPokemonEvolutions() to evolutionChainId
-					), requireContext()
-				)
 			}
-
-			is ApiGetPokemonEvolutions -> {
-				val pokemonEvolutionChainId = ApiGetPokedex.getPokemonIdFromUrl(mPokemonSpecies.evolutionChain.url)
-				mPokemonEvolutionChain =
-					ApiGetPokemonEvolutions.getPokemonEvolutionChain(pokemonEvolutionChainId)
-				if (mFragmentViewBinding.idIncludeDetails.idLlEvolutions.childCount > 0) return
-				addEvolutionView(mPokemonEvolutionChain)
-			}
-
+			is ApiGetPokemonEvolutions -> {}
 			is ApiGetType -> {}
-
-			else -> {
-
-			}
+			else -> {}
 		}
 
 	}
@@ -186,57 +134,26 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 
 	//region UI
 
-	// Evolution Chain
 
-	private fun addEvolutionView(evolution: ModelPokemonEvolutionChain) {
-		val initialCheck = ApiGetPokedex.getPokemonEntryFromName(mCombinedPokedexName, evolution.species.name)
-		if(initialCheck.entryNumber > 0) {
-			val evolutionView = ListItemPokemonEvolutionBinding.inflate(
-				layoutInflater,
-				mFragmentViewBinding.idIncludeDetails.idLlEvolutions,
-				true
+	private fun updateBaseViews() {
+		setHasOptionsMenu(true)
+		(requireActivity() as AppCompatActivity).supportActionBar?.also {
+			it.setDisplayHomeAsUpEnabled(true)
+		}
+		val imageUrl = ApiGetPokedex.getImageUrlFromPokemonId(mPokemonId)
+		Picasso.get().load(imageUrl).fit()
+			.centerInside()
+			.into(
+				mFragmentViewBinding.idLlBanner.idIvPokemonIcon,
+				PicassoTintOnLoad(mFragmentViewBinding.idLlBanner.idIvPlatform, mFragmentViewBinding.idLlBanner.idIvPokemonIcon)
 			)
-			if (evolution.evolutionDetails.isNotEmpty()) {
-				evolution.evolutionDetails[0].also {
-					evolutionView.idMinLevel.text = it.minLevel?.toString() ?: "?"
-				}
-			} else {
-				evolutionView.idMinLevel.text = "⟡"
-			}
-			evolutionView.idTvPokemonName.text =
-				evolution.species.name.replaceFirstChar { it.titlecase() }
-			val evolutionSpeciesId: Int = ApiGetPokedex.getPokemonIdFromUrl(evolution.species.url)
-			val evolutionIconUrl: String = ApiGetPokedex.getImageUrlFromPokemonId(evolutionSpeciesId)
-			Picasso.get().load(evolutionIconUrl).fit().into(evolutionView.idIvIcon)
-			if(evolutionSpeciesId != mPokemonSpecies.id) {
-				evolutionView.root.setOnClickListener {
-					val detailsFragment = FragmentDetails()
-					val argumentsBundle = Bundle()
-					val speciesEntry =
-						ApiGetPokedex.getPokemonEntryFromName(
-							mCombinedPokedexName,
-							evolution.species.name
-						)
-					argumentsBundle.putInt(KEY_POKEMON_ENTRY_NUMBER, speciesEntry.entryNumber)
-					argumentsBundle.putString(KEY_COMBINED_POKEDEX, mCombinedPokedexName)
-					UtilityFragmentManager.using(parentFragmentManager).load(detailsFragment)
-						.with(argumentsBundle).into(view?.parent as ViewGroup).now()
-				}
-			} else {
-				evolutionView.root.setBackgroundColor(Color.TRANSPARENT)
-				evolutionView.root.strokeWidth = 0
-				evolutionView.idIvClickable.visibility = View.INVISIBLE
-			}
-		}
-		if (evolution.evolvesTo.isNotEmpty()) {
-			for(nextEvolution in evolution.evolvesTo){
-				val checkExists = ApiGetPokedex.getPokemonEntryFromName(mCombinedPokedexName, nextEvolution.species.name)
-				if(checkExists.entryNumber > 0) addEvolutionView(nextEvolution)
-			}
-		}
 	}
 
-	// Details
+	private fun updateDetailCards(){
+		val detailViewPager: ViewPager2 = mFragmentViewBinding.idVpDetail
+		val detailPageAdapter = DetailCardPagerAdapter(requireActivity())
+		detailViewPager.adapter = detailPageAdapter
+	}
 
 	private fun updateTypes(details: ModelPokemonDetails) {
 		if (mFragmentViewBinding.idLlBanner.idLlChips.childCount > 0) return
@@ -255,62 +172,15 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 		}
 	}
 
-	private val mTypeMap: MutableMap<Int, ArrayList<ModelPokemonDetailsType>> = mutableMapOf()
+	private inner class DetailCardPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
 
-	private fun updateTypeDetails(details: ModelPokemonDetails) {
+		override fun getItemCount(): Int {
+			return 5
+		}
 
-		UtilityDetailsView.setDetailsAdapter(
-			requireContext(),
-			details.types,
-			mFragmentViewBinding.idIncludeDetails.idRvStrengthMajor,
-			R.string.label_double_damage,
-			R.drawable.ic_dmg_up,
-			mTypeMap
-		)
-		UtilityDetailsView.setDetailsAdapter(
-			requireContext(),
-			details.types,
-			mFragmentViewBinding.idIncludeDetails.idRvDefenseMajor,
-			R.string.label_full_defense,
-			R.drawable.ic_def_full,
-			mTypeMap
-		)
-		UtilityDetailsView.setDetailsAdapter(
-			requireContext(),
-			details.types,
-			mFragmentViewBinding.idIncludeDetails.idRvDefenseHigh,
-			R.string.label_double_defense,
-			R.drawable.ic_def_high,
-			mTypeMap
-		)
-
-		UtilityDetailsView.setDetailsAdapter(
-			requireContext(),
-			details.types,
-			mFragmentViewBinding.idIncludeDetails.idRvDamageMinor,
-			R.string.label_half_damage,
-			R.drawable.ic_dmg_down,
-			mTypeMap
-		)
-		UtilityDetailsView.setDetailsAdapter(
-			requireContext(),
-			details.types,
-			mFragmentViewBinding.idIncludeDetails.idRvDamageNone,
-			R.string.label_no_damage,
-			R.drawable.ic_dmg_none,
-			mTypeMap
-		)
-		UtilityDetailsView.setDetailsAdapter(
-			requireContext(),
-			details.types,
-			mFragmentViewBinding.idIncludeDetails.idRvWeaknessMajor,
-			R.string.label_half_defense,
-			R.drawable.ic_dmg_double,
-			mTypeMap
-		)
-
-
-
+		override fun createFragment(position: Int): Fragment{
+			return FragmentDetailsOverview()
+		}
 
 	}
 
