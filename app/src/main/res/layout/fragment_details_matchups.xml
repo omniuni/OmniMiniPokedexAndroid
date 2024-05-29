@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:backgroundTint="@color/md_theme_background_mediumContrast"
+	app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialCardView.RoundedTop"
+	app:cardPreventCornerOverlap="false"
+	app:strokeWidth="0dp">
+
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:fadingEdgeLength="@dimen/margin_standard"
+		android:padding="@dimen/margin_standard"
+		android:requiresFadingEdge="vertical">
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+		<com.google.android.material.card.MaterialCardView
+			android:id="@+id/id_cv_strength"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="@dimen/margin_half"
+			android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
+			app:contentPadding="@dimen/margin_half">
+
+			<TextView
+				style="@style/TextAppearance.Material3.TitleMedium"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:text="@string/label_strength" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="@dimen/layout_divider"
+				android:layout_marginTop="26dp"
+				android:background="@color/md_theme_secondaryFixed_mediumContrast" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:animateLayoutChanges="true"
+				android:baselineAligned="false"
+				android:orientation="horizontal"
+				android:weightSum="3">
+
+				<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/id_rv_strength_major"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp"
+					android:layout_weight="1"
+					android:orientation="vertical" />
+
+				<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/id_rv_defense_major"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp"
+					android:layout_weight="1"
+					android:orientation="vertical" />
+
+				<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/id_rv_defense_high"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp"
+					android:layout_weight="1"
+					android:orientation="vertical" />
+
+			</LinearLayout>
+
+		</com.google.android.material.card.MaterialCardView>
+
+
+		<com.google.android.material.card.MaterialCardView
+			android:id="@+id/id_cv_weakness"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/id_cv_strength"
+			android:layout_margin="@dimen/margin_half"
+			android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
+			app:contentPadding="@dimen/margin_half">
+
+			<TextView
+				style="@style/TextAppearance.Material3.TitleMedium"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:text="@string/label_weakness" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="@dimen/layout_divider"
+				android:layout_marginTop="26dp"
+				android:background="@color/md_theme_secondaryFixed_mediumContrast" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:animateLayoutChanges="true"
+				android:baselineAligned="false"
+				android:orientation="horizontal"
+				android:weightSum="3">
+
+				<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/id_rv_damage_minor"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp"
+					android:layout_weight="1"
+					android:orientation="vertical" />
+
+				<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/id_rv_damage_none"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp"
+					android:layout_weight="1"
+					android:orientation="vertical" />
+
+				<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/id_rv_weakness_major"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp"
+					android:layout_weight="1"
+					android:orientation="vertical" />
+
+			</LinearLayout>
+
+		</com.google.android.material.card.MaterialCardView>
+
+	</RelativeLayout>
+
+	</ScrollView>
+
+</com.google.android.material.card.MaterialCardView>

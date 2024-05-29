@@ -308,9 +308,6 @@ class FragmentDetailsOld : Fragment(), IOnApiLoadQueue {
 			mTypeMap
 		)
 
-
-
-
 	}
 
 	//endregion

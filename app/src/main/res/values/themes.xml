@@ -56,15 +56,15 @@
 
 	<style name="ShapeAppearanceOverlay.MaterialCardView.RoundedTop" parent="">
 		<item name="cornerFamily">rounded</item>
-		<item name="cornerSizeTopRight">@dimen/icon_small</item>
-		<item name="cornerSizeTopLeft">@dimen/icon_small</item>
+		<item name="cornerSizeTopRight">@dimen/icon_mini</item>
+		<item name="cornerSizeTopLeft">@dimen/icon_mini</item>
 		<item name="cornerSizeBottomLeft">0dp</item>
 		<item name="cornerSizeBottomRight">0dp</item>
 	</style>
 
 	<style name="ShapeAppearanceOverlay.MaterialCardView.RoundedTopLeft" parent="">
 		<item name="cornerFamily">rounded</item>
-		<item name="cornerSizeTopLeft">@dimen/icon_small</item>
+		<item name="cornerSizeTopLeft">@dimen/icon_mini</item>
 		<item name="cornerSizeTopRight">0dp</item>
 		<item name="cornerSizeBottomLeft">0dp</item>
 		<item name="cornerSizeBottomRight">0dp</item>

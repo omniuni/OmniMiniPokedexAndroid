@@ -24,12 +24,17 @@ import com.omniimpact.mini.pokedex.network.api.ApiGetPokemonSpecies
 import com.omniimpact.mini.pokedex.network.api.ApiGetType
 import com.omniimpact.mini.pokedex.network.api.IApi
 import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
+import com.omniimpact.mini.pokedex.utilities.UtilityFragmentManager
 import com.omniimpact.mini.pokedex.utilities.view.PicassoTintOnLoad
 import com.omniimpact.mini.pokedex.utilities.view.UtilityDetailsView
 import com.squareup.picasso.Picasso
 
 
-class FragmentDetails : Fragment(), IOnApiLoadQueue {
+interface IRequestDetailView{
+	fun requestDetails(entryNumber: Int, pokedexName: String)
+}
+class FragmentDetails : Fragment(), IOnApiLoadQueue, IRequestDetailView {
+
 
 	companion object {
 		const val FRAGMENT_KEY = "FragmentDetails"
@@ -151,6 +156,7 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 
 	private fun updateDetailCards(){
 		val detailViewPager: ViewPager2 = mFragmentViewBinding.idVpDetail
+		detailViewPager.offscreenPageLimit = 1
 		val detailPageAdapter = DetailCardPagerAdapter(requireActivity())
 		detailViewPager.adapter = detailPageAdapter
 	}
@@ -172,6 +178,8 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 		}
 	}
 
+	private val mFragmentDetails: FragmentDetails = this
+
 	private inner class DetailCardPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
 
 		override fun getItemCount(): Int {
@@ -179,9 +187,32 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue {
 		}
 
 		override fun createFragment(position: Int): Fragment{
-			return FragmentDetailsOverview()
+			val argumentsBundle = Bundle()
+			argumentsBundle.putInt(KEY_POKEMON_ENTRY_NUMBER, mPokemonEntryNumber)
+			argumentsBundle.putString(KEY_COMBINED_POKEDEX, mCombinedPokedexName)
+			when(position){
+				1 -> {
+					val fragment = FragmentDetailsMatchups()
+					fragment.arguments = argumentsBundle
+					return fragment
+				}
+				else -> {
+					val fragment = FragmentDetailsOverview(mFragmentDetails)
+					fragment.arguments = argumentsBundle
+					return fragment
+				}
+			}
 		}
 
+	}
+
+	override fun requestDetails(entryNumber: Int, pokedexName: String) {
+		val detailsFragment = FragmentDetailsOld()
+		val argumentsBundle = Bundle()
+		argumentsBundle.putInt(FragmentDetailsOld.KEY_POKEMON_ENTRY_NUMBER, entryNumber)
+		argumentsBundle.putString(FragmentDetailsOld.KEY_COMBINED_POKEDEX, pokedexName)
+		UtilityFragmentManager.using(parentFragmentManager).load(detailsFragment)
+			.with(argumentsBundle).into(view?.parent as ViewGroup).now()
 	}
 
 	//endregion

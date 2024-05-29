@@ -12,7 +12,7 @@
 	<FrameLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_below="@id/id_ll_banner"
+		android:layout_toEndOf="@id/id_ll_banner"
 		android:background="?colorPrimary">
 
 		<com.google.android.material.card.MaterialCardView
@@ -20,13 +20,14 @@
 			android:layout_height="match_parent"
 			android:backgroundTint="@color/md_theme_inversePrimary_mediumContrast"
 			app:cardPreventCornerOverlap="false"
-			app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialCardView.RoundedTop"
+			app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialCardView.RoundedTopLeft"
 			app:strokeWidth="0dp">
 
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="@dimen/layout_min_touch_height"
 				android:orientation="horizontal">
+
 				<TextView
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
