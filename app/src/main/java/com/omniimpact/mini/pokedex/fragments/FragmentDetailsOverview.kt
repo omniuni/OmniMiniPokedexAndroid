@@ -1,8 +1,10 @@
 package com.omniimpact.mini.pokedex.fragments
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -19,23 +21,16 @@ import com.omniimpact.mini.pokedex.network.api.ApiGetPokemonSpecies
 import com.omniimpact.mini.pokedex.network.api.IApi
 import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
 import com.omniimpact.mini.pokedex.utilities.UtilityApplicationSettings
-import com.omniimpact.mini.pokedex.utilities.UtilityFragmentManager
+import com.omniimpact.mini.pokedex.utilities.UtilityNavigationCoordinator
 import com.squareup.picasso.Picasso
 
 class FragmentDetailsOverview : Fragment, IOnApiLoadQueue {
 
 	@Suppress("ConvertSecondaryConstructorToPrimary")
-	constructor(caller: IRequestDetailView): super(){
-		mDetailCaller = caller
-	}
-
-	companion object {
-		const val KEY_FRAGMENT_TARGET: String = "KEY_FRAGMENT_TARGET"
-	}
+	constructor(): super()
 
 	//region Variables
 
-	private var mDetailCaller: IRequestDetailView
 	private lateinit var mFragmentViewBinding: FragmentDetailsOverviewBinding
 
 	private var mPokemonEntryNumber: Int = -1
@@ -63,12 +58,17 @@ class FragmentDetailsOverview : Fragment, IOnApiLoadQueue {
 		mPokemonId = ApiGetPokedex.getPokemonIdFromUrl(mSourceItem.pokemonSpecies.url)
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
 		mFragmentViewBinding = FragmentDetailsOverviewBinding.inflate(layoutInflater)
+		return mFragmentViewBinding.root
+	}
+
+	override fun onResume() {
 		UtilityLoader.registerApiCallListener(this)
 		UtilityLoader.addRequests(
 			mapOf(
@@ -76,11 +76,6 @@ class FragmentDetailsOverview : Fragment, IOnApiLoadQueue {
 				ApiGetPokemonSpecies() to mSourceItem.pokemonSpecies.name
 			), requireContext()
 		)
-		return mFragmentViewBinding.root
-	}
-
-	override fun onResume() {
-		UtilityLoader.registerApiCallListener(this)
 		super.onResume()
 	}
 
@@ -158,7 +153,11 @@ class FragmentDetailsOverview : Fragment, IOnApiLoadQueue {
 							mCombinedPokedexName,
 							evolution.species.name
 						)
-					mDetailCaller.requestDetails(speciesEntry.entryNumber, mCombinedPokedexName)
+					val detailsFragment = FragmentDetails()
+					val argumentsBundle = Bundle()
+					argumentsBundle.putInt(FragmentDetailsOld.KEY_POKEMON_ENTRY_NUMBER, speciesEntry.entryNumber)
+					argumentsBundle.putString(FragmentDetailsOld.KEY_COMBINED_POKEDEX, mCombinedPokedexName)
+					UtilityNavigationCoordinator.requestNavigation(detailsFragment, argumentsBundle)
 				}
 			} else {
 				evolutionView.root.setBackgroundColor(Color.TRANSPARENT)

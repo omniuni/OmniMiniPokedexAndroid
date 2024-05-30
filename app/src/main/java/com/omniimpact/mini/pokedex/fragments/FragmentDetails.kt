@@ -25,15 +25,14 @@ import com.omniimpact.mini.pokedex.network.api.ApiGetType
 import com.omniimpact.mini.pokedex.network.api.IApi
 import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
 import com.omniimpact.mini.pokedex.utilities.UtilityFragmentManager
+import com.omniimpact.mini.pokedex.utilities.UtilityNavigationCoordinator
 import com.omniimpact.mini.pokedex.utilities.view.PicassoTintOnLoad
 import com.omniimpact.mini.pokedex.utilities.view.UtilityDetailsView
 import com.squareup.picasso.Picasso
 
 
-interface IRequestDetailView{
-	fun requestDetails(entryNumber: Int, pokedexName: String)
-}
-class FragmentDetails : Fragment(), IOnApiLoadQueue, IRequestDetailView {
+class FragmentDetails : Fragment(), IOnApiLoadQueue,
+	UtilityNavigationCoordinator.INavigationHandler {
 
 
 	companion object {
@@ -100,11 +99,13 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue, IRequestDetailView {
 
 	override fun onResume() {
 		UtilityLoader.registerApiCallListener(this)
+		UtilityNavigationCoordinator.registerToHandleNavigatoin(1, this)
 		super.onResume()
 	}
 
 	override fun onPause() {
 		UtilityLoader.deregisterApiCallListener(this)
+		UtilityNavigationCoordinator.deregisterHandlingNavigation(this)
 		super.onPause()
 	}
 
@@ -178,12 +179,10 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue, IRequestDetailView {
 		}
 	}
 
-	private val mFragmentDetails: FragmentDetails = this
-
 	private inner class DetailCardPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
 
 		override fun getItemCount(): Int {
-			return 5
+			return 2
 		}
 
 		override fun createFragment(position: Int): Fragment{
@@ -197,7 +196,7 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue, IRequestDetailView {
 					return fragment
 				}
 				else -> {
-					val fragment = FragmentDetailsOverview(mFragmentDetails)
+					val fragment = FragmentDetailsOverview()
 					fragment.arguments = argumentsBundle
 					return fragment
 				}
@@ -206,13 +205,9 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue, IRequestDetailView {
 
 	}
 
-	override fun requestDetails(entryNumber: Int, pokedexName: String) {
-		val detailsFragment = FragmentDetailsOld()
-		val argumentsBundle = Bundle()
-		argumentsBundle.putInt(FragmentDetailsOld.KEY_POKEMON_ENTRY_NUMBER, entryNumber)
-		argumentsBundle.putString(FragmentDetailsOld.KEY_COMBINED_POKEDEX, pokedexName)
-		UtilityFragmentManager.using(parentFragmentManager).load(detailsFragment)
-			.with(argumentsBundle).into(view?.parent as ViewGroup).now()
+	override fun onNavigationRequested(fragment: Fragment, bundle: Bundle) {
+		UtilityFragmentManager.using(parentFragmentManager).load(fragment)
+			.with(bundle).into(view?.parent as ViewGroup).now()
 	}
 
 	//endregion

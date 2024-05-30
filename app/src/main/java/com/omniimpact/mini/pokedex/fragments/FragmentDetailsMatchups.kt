@@ -9,8 +9,6 @@ import com.omniimpact.mini.pokedex.R
 import com.omniimpact.mini.pokedex.databinding.FragmentDetailsMatchupsBinding
 import com.omniimpact.mini.pokedex.models.ModelPokemonDetails
 import com.omniimpact.mini.pokedex.models.ModelPokemonDetailsType
-import com.omniimpact.mini.pokedex.models.ModelPokemonEvolutionChain
-import com.omniimpact.mini.pokedex.models.ModelPokemonSpecies
 import com.omniimpact.mini.pokedex.models.PokedexPokemonEntry
 import com.omniimpact.mini.pokedex.network.UtilityLoader
 import com.omniimpact.mini.pokedex.network.api.ApiGetPokedex
@@ -29,11 +27,9 @@ class FragmentDetailsMatchups : Fragment(), IOnApiLoadQueue {
 	private var mPokemonEntryNumber: Int = -1
 	private var mCombinedPokedexName: String = String()
 
-	private var mPokemonSpecies: ModelPokemonSpecies = ModelPokemonSpecies()
 	private var mSourceItem: PokedexPokemonEntry = PokedexPokemonEntry()
 	private var mPokemonId: Int = -1
-
-	private var mPokemonEvolutionChain: ModelPokemonEvolutionChain = ModelPokemonEvolutionChain()
+	private var mTypesLoaded: Boolean = false
 
 	//endregion
 
@@ -57,18 +53,17 @@ class FragmentDetailsMatchups : Fragment(), IOnApiLoadQueue {
 		savedInstanceState: Bundle?
 	): View {
 		mFragmentViewBinding = FragmentDetailsMatchupsBinding.inflate(layoutInflater)
+		return mFragmentViewBinding.root
+	}
+
+	override fun onResume() {
+		super.onResume()
 		UtilityLoader.registerApiCallListener(this)
 		UtilityLoader.addRequests(
 			mapOf(
 				ApiGetPokemonDetails() to mSourceItem.pokemonSpecies.name,
 			), requireContext()
 		)
-		return mFragmentViewBinding.root
-	}
-
-	override fun onResume() {
-		UtilityLoader.registerApiCallListener(this)
-		super.onResume()
 	}
 
 	override fun onPause() {
@@ -77,7 +72,7 @@ class FragmentDetailsMatchups : Fragment(), IOnApiLoadQueue {
 	}
 
 	override fun onComplete() {
-		updateTypeDetails(ApiGetPokemonDetails.getPokemonDetails(mSourceItem.pokemonSpecies.name))
+		if(mTypesLoaded) updateTypeDetails(ApiGetPokemonDetails.getPokemonDetails(mSourceItem.pokemonSpecies.name))
 	}
 
 	override fun onSuccess(success: IApi) {
@@ -93,6 +88,9 @@ class FragmentDetailsMatchups : Fragment(), IOnApiLoadQueue {
 						), requireContext()
 					)
 				}
+			}
+			is ApiGetType -> {
+				mTypesLoaded = true
 			}
 		}
 

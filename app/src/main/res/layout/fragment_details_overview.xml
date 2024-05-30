@@ -70,21 +70,29 @@
 					android:layout_marginTop="26dp"
 					android:background="@color/md_theme_secondaryFixed_mediumContrast" />
 
-				<HorizontalScrollView
+				<com.omniimpact.mini.pokedex.utilities.view.NestedScrollableHost
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="26dp"
-					android:fadingEdgeLength="@dimen/icon_small"
-					android:foregroundGravity="center"
-					android:requiresFadingEdge="horizontal">
+					android:layout_marginTop="26dp">
 
-					<LinearLayout
-						android:id="@+id/id_ll_evolutions"
-						android:layout_width="wrap_content"
+					<HorizontalScrollView
+						android:id="@+id/id_sv_evolution_container"
+						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:orientation="horizontal"
-						android:padding="@dimen/margin_half" />
-				</HorizontalScrollView>
+						android:fadingEdgeLength="@dimen/icon_small"
+						android:foregroundGravity="center"
+						android:requiresFadingEdge="horizontal">
+
+						<LinearLayout
+							android:id="@+id/id_ll_evolutions"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal"
+							android:padding="@dimen/margin_half" />
+					</HorizontalScrollView>
+
+				</com.omniimpact.mini.pokedex.utilities.view.NestedScrollableHost>
+
 
 			</com.google.android.material.card.MaterialCardView>
 
