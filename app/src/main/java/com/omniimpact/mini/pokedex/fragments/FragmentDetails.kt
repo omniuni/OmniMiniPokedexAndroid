@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.omniimpact.mini.pokedex.databinding.FragmentDetailsBinding
@@ -160,6 +161,31 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue,
 		detailViewPager.offscreenPageLimit = 1
 		val detailPageAdapter = DetailCardPagerAdapter(requireActivity())
 		detailViewPager.adapter = detailPageAdapter
+		detailViewPager.registerOnPageChangeCallback(mvpCallback)
+		mFragmentViewBinding.idIncludeButtons.idBtnOverview.setOnClickListener {
+			detailViewPager.currentItem = 0
+		}
+		mFragmentViewBinding.idIncludeButtons.idBtnMatch.setOnClickListener {
+			detailViewPager.currentItem = 1
+		}
+	}
+
+	private val mvpCallback: ViewPager2.OnPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
+
+		override fun onPageSelected(position: Int) {
+			super.onPageSelected(position)
+			when(position){
+				0 -> {
+					mFragmentViewBinding.idIncludeButtons.idBtnOverview.strokeWidth = 3
+					mFragmentViewBinding.idIncludeButtons.idBtnMatch.strokeWidth = 0
+				}
+				else -> {
+					mFragmentViewBinding.idIncludeButtons.idBtnOverview.strokeWidth = 0
+					mFragmentViewBinding.idIncludeButtons.idBtnMatch.strokeWidth = 3
+				}
+			}
+		}
+
 	}
 
 	private fun updateTypes(details: ModelPokemonDetails) {

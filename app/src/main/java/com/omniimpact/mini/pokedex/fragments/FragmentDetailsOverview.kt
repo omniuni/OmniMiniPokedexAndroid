@@ -4,12 +4,13 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.omniimpact.mini.pokedex.databinding.FragmentDetailsOverviewBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemPokemonEvolutionBinding
+import com.omniimpact.mini.pokedex.fragments.FragmentDetails.Companion.KEY_COMBINED_POKEDEX
+import com.omniimpact.mini.pokedex.fragments.FragmentDetails.Companion.KEY_POKEMON_ENTRY_NUMBER
 import com.omniimpact.mini.pokedex.models.ModelPokemonEvolutionChain
 import com.omniimpact.mini.pokedex.models.ModelPokemonSpecies
 import com.omniimpact.mini.pokedex.models.PokedexPokemonEntry
@@ -155,8 +156,8 @@ class FragmentDetailsOverview : Fragment, IOnApiLoadQueue {
 						)
 					val detailsFragment = FragmentDetails()
 					val argumentsBundle = Bundle()
-					argumentsBundle.putInt(FragmentDetailsOld.KEY_POKEMON_ENTRY_NUMBER, speciesEntry.entryNumber)
-					argumentsBundle.putString(FragmentDetailsOld.KEY_COMBINED_POKEDEX, mCombinedPokedexName)
+					argumentsBundle.putInt(KEY_POKEMON_ENTRY_NUMBER, speciesEntry.entryNumber)
+					argumentsBundle.putString(KEY_COMBINED_POKEDEX, mCombinedPokedexName)
 					UtilityNavigationCoordinator.requestNavigation(detailsFragment, argumentsBundle)
 				}
 			} else {
