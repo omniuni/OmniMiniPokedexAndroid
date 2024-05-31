@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:backgroundTint="@color/md_theme_background_mediumContrast"
+	app:cardPreventCornerOverlap="false"
+	app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialCardView.RoundedTop"
+	app:strokeWidth="0dp">
+
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:fadingEdgeLength="@dimen/margin_standard"
+		android:padding="@dimen/margin_standard"
+		android:requiresFadingEdge="vertical">
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+			<com.google.android.material.card.MaterialCardView
+				android:id="@+id/id_cv_flavor"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="@dimen/margin_half"
+				android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
+				app:contentPadding="@dimen/margin_half">
+
+				<TextView
+					style="@style/TextAppearance.Material3.TitleMedium"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Routes" />
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="@dimen/layout_divider"
+					android:layout_marginTop="26dp"
+					android:background="@color/md_theme_secondaryFixed_mediumContrast" />
+
+				<TextView
+					android:id="@+id/id_tv_flavor"
+					style="@style/TextAppearance.Material3.BodyMedium"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp" />
+
+			</com.google.android.material.card.MaterialCardView>
+
+		</RelativeLayout>
+
+	</ScrollView>
+
+</com.google.android.material.card.MaterialCardView>

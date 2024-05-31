@@ -6,13 +6,11 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.allViews
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.omniimpact.mini.pokedex.R
 import com.omniimpact.mini.pokedex.databinding.FragmentDetailsBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemTabButtonBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemTypeChipBinding
@@ -239,6 +237,21 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue,
 			when(position){
 				1 -> {
 					val fragment = FragmentDetailsMatchups()
+					fragment.arguments = argumentsBundle
+					return fragment
+				}
+				2 -> {
+					val fragment = FragmentDetailsRoutes()
+					fragment.arguments = argumentsBundle
+					return fragment
+				}
+				3 -> {
+					val fragment = FragmentDetailsMoves()
+					fragment.arguments = argumentsBundle
+					return fragment
+				}
+				4 -> {
+					val fragment = FragmentDetailsMedia()
 					fragment.arguments = argumentsBundle
 					return fragment
 				}
