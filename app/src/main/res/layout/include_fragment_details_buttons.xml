@@ -1,33 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/id_ll_tabs"
 	android:layout_width="match_parent"
 	android:layout_height="@dimen/layout_min_touch_height"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:background="@color/md_theme_inversePrimary_mediumContrast"
 	android:gravity="center"
-	android:orientation="horizontal">
-
-	<com.google.android.material.button.MaterialButton
-		android:id="@+id/id_btn_overview"
-		android:layout_width="wrap_content"
-		android:layout_height="match_parent"
-		android:layout_margin="@dimen/margin_quarter"
-		app:strokeColor="@color/md_theme_onPrimary"
-		android:text="Overview"/>
-
-	<com.google.android.material.button.MaterialButton
-		android:id="@+id/id_btn_match"
-		android:layout_width="wrap_content"
-		android:layout_height="match_parent"
-		android:layout_margin="@dimen/margin_quarter"
-		app:strokeColor="@color/md_theme_onPrimary"
-		android:text="Matchups"/>
-
-	<!--
-	<TextView
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:gravity="center"
-		android:text="Overview | Matchups | Moves | Routes | Media" />
-		-->
-
-</LinearLayout>
+	android:orientation="horizontal"/>

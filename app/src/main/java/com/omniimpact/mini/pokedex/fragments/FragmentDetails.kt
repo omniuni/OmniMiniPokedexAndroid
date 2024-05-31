@@ -6,13 +6,15 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.allViews
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.omniimpact.mini.pokedex.R
 import com.omniimpact.mini.pokedex.databinding.FragmentDetailsBinding
+import com.omniimpact.mini.pokedex.databinding.ListItemTabButtonBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemTypeChipBinding
 import com.omniimpact.mini.pokedex.models.ModelPokemonDetails
 import com.omniimpact.mini.pokedex.models.ModelPokemonSpecies
@@ -156,36 +158,55 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue,
 			)
 	}
 
+	private val mTabsMap: Map<Int, String> = mapOf(
+		Pair(0, "Overview"),
+		Pair(1, "Matches"),
+		Pair(2, "Routes"),
+		Pair(3, "Moves"),
+		Pair(4, "Media"),
+	)
+
 	private fun updateDetailCards(){
 		val detailViewPager: ViewPager2 = mFragmentViewBinding.idVpDetail
 		detailViewPager.offscreenPageLimit = 1
 		val detailPageAdapter = DetailCardPagerAdapter(requireActivity())
 		detailViewPager.adapter = detailPageAdapter
 		detailViewPager.registerOnPageChangeCallback(mvpCallback)
-		mFragmentViewBinding.idIncludeButtons.idBtnOverview.setOnClickListener {
-			detailViewPager.currentItem = 0
+		mTabsMap.forEach{ tabPair ->
+			val newTab = ListItemTabButtonBinding.inflate(
+				layoutInflater,
+				mFragmentViewBinding.idIncludeButtons.idLlTabs,
+				true
+			)
+			newTab.idBtn.text = tabPair.value
+			newTab.idBtn.setOnClickListener {
+				resetTabBackgroundsExcept(tabPair.key)
+				detailViewPager.currentItem = tabPair.key
+				newTab.idCvBg.callOnClick()
+				newTab.idCvActive.callOnClick()
+			}
+			newTab.idCvActive.tag = tabPair.key
 		}
-		mFragmentViewBinding.idIncludeButtons.idBtnMatch.setOnClickListener {
-			detailViewPager.currentItem = 1
+	}
+
+	private fun resetTabBackgroundsExcept(skip: Int = 0){
+		mTabsMap.forEach { tabPair ->
+			mFragmentViewBinding.idIncludeButtons.idLlTabs.findViewWithTag<View>(tabPair.key)?.also {
+				if(tabPair.key == skip){
+					it.visibility = View.VISIBLE
+				} else {
+					it.visibility = View.GONE
+				}
+			}
+
 		}
 	}
 
 	private val mvpCallback: ViewPager2.OnPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
-
 		override fun onPageSelected(position: Int) {
 			super.onPageSelected(position)
-			when(position){
-				0 -> {
-					mFragmentViewBinding.idIncludeButtons.idBtnOverview.strokeWidth = 3
-					mFragmentViewBinding.idIncludeButtons.idBtnMatch.strokeWidth = 0
-				}
-				else -> {
-					mFragmentViewBinding.idIncludeButtons.idBtnOverview.strokeWidth = 0
-					mFragmentViewBinding.idIncludeButtons.idBtnMatch.strokeWidth = 3
-				}
-			}
+			resetTabBackgroundsExcept(position)
 		}
-
 	}
 
 	private fun updateTypes(details: ModelPokemonDetails) {
@@ -208,7 +229,7 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue,
 	private inner class DetailCardPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
 
 		override fun getItemCount(): Int {
-			return 2
+			return mTabsMap.size
 		}
 
 		override fun createFragment(position: Int): Fragment{
