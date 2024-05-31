@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.omniimpact.mini.pokedex.databinding.FragmentDetailsOverviewBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemPokemonEvolutionBinding
+import com.omniimpact.mini.pokedex.databinding.ListItemStatBinding
 import com.omniimpact.mini.pokedex.fragments.FragmentDetails.Companion.KEY_COMBINED_POKEDEX
 import com.omniimpact.mini.pokedex.fragments.FragmentDetails.Companion.KEY_POKEMON_ENTRY_NUMBER
 import com.omniimpact.mini.pokedex.models.ModelPokemonEvolutionChain
@@ -48,11 +49,11 @@ class FragmentDetailsOverview : Fragment, IOnApiLoadQueue {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		arguments?.also {
-			if (it.keySet().contains(FragmentDetails.KEY_POKEMON_ENTRY_NUMBER) && it.keySet()
-					.contains(FragmentDetails.KEY_COMBINED_POKEDEX)
+			if (it.keySet().contains(KEY_POKEMON_ENTRY_NUMBER) && it.keySet()
+					.contains(KEY_COMBINED_POKEDEX)
 			) {
-				mPokemonEntryNumber = it.getInt(FragmentDetails.KEY_POKEMON_ENTRY_NUMBER)
-				mCombinedPokedexName = it.getString(FragmentDetails.KEY_COMBINED_POKEDEX, String())
+				mPokemonEntryNumber = it.getInt(KEY_POKEMON_ENTRY_NUMBER)
+				mCombinedPokedexName = it.getString(KEY_COMBINED_POKEDEX, String())
 			}
 		}
 		mSourceItem = ApiGetPokedex.getPokedexPokemonEntry(mCombinedPokedexName, mPokemonEntryNumber)
@@ -90,6 +91,22 @@ class FragmentDetailsOverview : Fragment, IOnApiLoadQueue {
 	override fun onSuccess(success: IApi) {
 
 		when(success){
+
+			is ApiGetPokemonDetails -> {
+
+				val details = ApiGetPokemonDetails.getPokemonDetails(mSourceItem.pokemonSpecies.name)
+
+				details.stats.forEach {
+					val newStat = ListItemStatBinding.inflate(
+						layoutInflater,
+						mFragmentViewBinding.idLlStats,
+						true
+					)
+					newStat.idTvStat.text = it.stat.name
+					newStat.idPbStat.progress = it.baseStat
+				}
+
+			}
 
 			is ApiGetPokemonSpecies -> {
 				mPokemonSpecies = ApiGetPokemonSpecies.getPokemonSpecies(mSourceItem.pokemonSpecies.name)
