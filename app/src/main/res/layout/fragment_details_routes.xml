@@ -8,6 +8,11 @@
 	app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialCardView.RoundedTop"
 	app:strokeWidth="0dp">
 
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/margin_quarter"
+		android:background="@color/md_theme_surfaceContainerHigh_mediumContrast"/>
+
 	<ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
