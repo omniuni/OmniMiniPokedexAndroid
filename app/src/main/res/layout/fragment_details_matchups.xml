@@ -1,62 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:backgroundTint="@color/md_theme_background_mediumContrast"
+	app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialCardView.RoundedTop"
+	app:cardPreventCornerOverlap="false"
+	app:strokeWidth="0dp">
+
+	<View
 		android:layout_width="match_parent"
-		android:layout_height="match_parent">
+		android:layout_height="@dimen/margin_quarter"
+		android:background="@color/md_theme_surfaceContainerHigh_mediumContrast"/>
 
-	<com.google.android.material.card.MaterialCardView
-			android:id="@+id/id_cv_flavor"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_margin="@dimen/margin_half"
-			android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
-			app:contentPadding="@dimen/margin_half">
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:fadingEdgeLength="@dimen/margin_standard"
+		android:padding="@dimen/margin_standard"
+		android:requiresFadingEdge="vertical">
 
-		<TextView
-				style="@style/TextAppearance.Material3.TitleMedium"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/label_description" />
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
 
-		<View
-				android:layout_width="match_parent"
-				android:layout_height="@dimen/layout_divider"
-				android:layout_marginTop="26dp"
-				android:background="@color/md_theme_secondaryFixed_mediumContrast" />
-
-		<TextView
-				android:id="@+id/id_tv_flavor"
-				style="@style/TextAppearance.Material3.BodyMedium"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="30dp" />
-
-	</com.google.android.material.card.MaterialCardView>
-
-
-	<com.google.android.material.card.MaterialCardView
+		<com.google.android.material.card.MaterialCardView
 			android:id="@+id/id_cv_strength"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_below="@id/id_cv_flavor"
 			android:layout_margin="@dimen/margin_half"
 			android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
 			app:contentPadding="@dimen/margin_half">
 
-		<TextView
+			<TextView
 				style="@style/TextAppearance.Material3.TitleMedium"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_horizontal"
 				android:text="@string/label_strength" />
 
-		<View
+			<View
 				android:layout_width="match_parent"
 				android:layout_height="@dimen/layout_divider"
 				android:layout_marginTop="26dp"
 				android:background="@color/md_theme_secondaryFixed_mediumContrast" />
 
-		<LinearLayout
+			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:animateLayoutChanges="true"
@@ -64,7 +53,7 @@
 				android:orientation="horizontal"
 				android:weightSum="3">
 
-			<androidx.recyclerview.widget.RecyclerView
+				<androidx.recyclerview.widget.RecyclerView
 					android:id="@+id/id_rv_strength_major"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
@@ -72,7 +61,7 @@
 					android:layout_weight="1"
 					android:orientation="vertical" />
 
-			<androidx.recyclerview.widget.RecyclerView
+				<androidx.recyclerview.widget.RecyclerView
 					android:id="@+id/id_rv_defense_major"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
@@ -80,7 +69,7 @@
 					android:layout_weight="1"
 					android:orientation="vertical" />
 
-			<androidx.recyclerview.widget.RecyclerView
+				<androidx.recyclerview.widget.RecyclerView
 					android:id="@+id/id_rv_defense_high"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
@@ -88,12 +77,12 @@
 					android:layout_weight="1"
 					android:orientation="vertical" />
 
-		</LinearLayout>
+			</LinearLayout>
 
-	</com.google.android.material.card.MaterialCardView>
+		</com.google.android.material.card.MaterialCardView>
 
 
-	<com.google.android.material.card.MaterialCardView
+		<com.google.android.material.card.MaterialCardView
 			android:id="@+id/id_cv_weakness"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -102,20 +91,20 @@
 			android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
 			app:contentPadding="@dimen/margin_half">
 
-		<TextView
+			<TextView
 				style="@style/TextAppearance.Material3.TitleMedium"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_horizontal"
 				android:text="@string/label_weakness" />
 
-		<View
+			<View
 				android:layout_width="match_parent"
 				android:layout_height="@dimen/layout_divider"
 				android:layout_marginTop="26dp"
 				android:background="@color/md_theme_secondaryFixed_mediumContrast" />
 
-		<LinearLayout
+			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:animateLayoutChanges="true"
@@ -123,7 +112,7 @@
 				android:orientation="horizontal"
 				android:weightSum="3">
 
-			<androidx.recyclerview.widget.RecyclerView
+				<androidx.recyclerview.widget.RecyclerView
 					android:id="@+id/id_rv_damage_minor"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
@@ -131,7 +120,7 @@
 					android:layout_weight="1"
 					android:orientation="vertical" />
 
-			<androidx.recyclerview.widget.RecyclerView
+				<androidx.recyclerview.widget.RecyclerView
 					android:id="@+id/id_rv_damage_none"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
@@ -139,7 +128,7 @@
 					android:layout_weight="1"
 					android:orientation="vertical" />
 
-			<androidx.recyclerview.widget.RecyclerView
+				<androidx.recyclerview.widget.RecyclerView
 					android:id="@+id/id_rv_weakness_major"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
@@ -147,47 +136,12 @@
 					android:layout_weight="1"
 					android:orientation="vertical" />
 
-		</LinearLayout>
+			</LinearLayout>
 
-	</com.google.android.material.card.MaterialCardView>
+		</com.google.android.material.card.MaterialCardView>
 
-	<com.google.android.material.card.MaterialCardView
-			android:id="@+id/id_cv_evolutions"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_below="@id/id_cv_weakness"
-			android:layout_margin="@dimen/margin_half"
-			android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
-			app:contentPadding="@dimen/margin_half">
+	</RelativeLayout>
 
-		<TextView
-				style="@style/TextAppearance.Material3.TitleMedium"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/label_evolutions" />
+	</ScrollView>
 
-		<View
-				android:layout_width="match_parent"
-				android:layout_height="@dimen/layout_divider"
-				android:layout_marginTop="26dp"
-				android:background="@color/md_theme_secondaryFixed_mediumContrast" />
-
-		<HorizontalScrollView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="26dp"
-				android:fadingEdgeLength="@dimen/icon_small"
-				android:foregroundGravity="center"
-				android:requiresFadingEdge="horizontal">
-
-			<LinearLayout
-					android:id="@+id/id_ll_evolutions"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:orientation="horizontal"
-					android:padding="@dimen/margin_half" />
-		</HorizontalScrollView>
-
-	</com.google.android.material.card.MaterialCardView>
-
-</RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

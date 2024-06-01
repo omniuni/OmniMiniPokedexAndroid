@@ -13,6 +13,7 @@
 	<dimen name="icon_medium">64dp</dimen>
 	<dimen name="icon_list_large">72dp</dimen>
 	<dimen name="icon_large">100dp</dimen>
+	<dimen name="icon_header_medium">110dp</dimen>
 	<dimen name="icon_header_large">140dp</dimen>
 	<dimen name="size_chip_medium">120dp</dimen>
 	<dimen name="layout_divider">0.7dp</dimen>

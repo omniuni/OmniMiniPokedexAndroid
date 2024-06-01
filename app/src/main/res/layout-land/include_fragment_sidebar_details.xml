@@ -1,51 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:tools="http://schemas.android.com/tools"
-		android:layout_width="@dimen/layout_sidebar_width"
-		android:layout_height="match_parent"
-		android:background="?colorPrimary"
-		android:gravity="center"
-		android:orientation="vertical">
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="@dimen/layout_sidebar_width"
+	android:layout_height="match_parent"
+	android:background="?colorPrimary"
+	android:gravity="center"
+	android:orientation="vertical">
 
 	<TextView
-			android:id="@+id/id_tv_pokemon_name"
-			style="@style/TextAppearance.Material3.HeadlineLarge"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textColor="?colorOnSurface" />
+		android:id="@+id/id_tv_pokemon_name"
+		style="@style/TextAppearance.Material3.HeadlineLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:includeFontPadding="false"
+		android:lines="1"
+		android:textColor="?colorOnSurface" />
 
 	<FrameLayout
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="@dimen/margin_standard">
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/margin_standard">
 
 		<ImageView
-				android:id="@+id/id_iv_platform"
-				android:layout_width="@dimen/icon_header_large"
-				android:layout_height="@dimen/icon_header_large"
-				android:layout_marginTop="24dp"
-				android:src="@drawable/ic_platform"
-				tools:ignore="ContentDescription" />
+			android:id="@+id/id_iv_platform"
+			android:layout_width="@dimen/icon_header_medium"
+			android:layout_height="@dimen/icon_header_medium"
+			android:layout_marginTop="16dp"
+			android:src="@drawable/ic_platform"
+			tools:ignore="ContentDescription" />
 
 		<ImageView
-				android:layout_width="@dimen/icon_header_large"
-				android:layout_height="@dimen/icon_header_large"
-				android:layout_marginTop="24dp"
-				android:src="@drawable/ic_platform_shade"
-				tools:ignore="ContentDescription" />
+			android:layout_width="@dimen/icon_header_medium"
+			android:layout_height="@dimen/icon_header_medium"
+			android:layout_marginTop="16dp"
+			android:src="@drawable/ic_platform_shade"
+			tools:ignore="ContentDescription" />
 
 		<ImageView
-				android:id="@+id/id_iv_pokemon_icon"
-				android:layout_width="@dimen/icon_header_large"
-				android:layout_height="@dimen/icon_header_large"
-				tools:ignore="ContentDescription" />
+			android:id="@+id/id_iv_pokemon_icon"
+			android:layout_width="@dimen/icon_header_medium"
+			android:layout_height="@dimen/icon_header_medium"
+			tools:ignore="ContentDescription" />
 	</FrameLayout>
 
 	<LinearLayout
-			android:id="@+id/id_ll_chips"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:orientation="vertical" />
+		android:id="@+id/id_ll_chips"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="vertical" />
 
 
 </LinearLayout>

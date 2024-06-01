@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
+	<TextView
+		android:id="@+id/id_tv_stat"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/placeholder_name"/>
+	<ProgressBar
+		android:id="@+id/id_pb_stat"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="15dp"
+		android:min="0"
+		android:max="256"
+		android:progress="170"
+		style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+		/>
+</FrameLayout>

@@ -17,7 +17,7 @@
 	<com.google.android.material.appbar.MaterialToolbar
 			android:id="@+id/id_toolbar"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="@dimen/layout_min_touch_height"
 			android:layout_below="@id/id_fl_status_bar"
 			android:background="?attr/colorPrimary"
 			android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"

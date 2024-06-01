@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:backgroundTint="@color/md_theme_background_mediumContrast"
+	app:cardPreventCornerOverlap="false"
+	app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialCardView.RoundedTop"
+	app:strokeWidth="0dp">
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/margin_quarter"
+		android:background="@color/md_theme_surfaceContainerHigh_mediumContrast"/>
+
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:fadingEdgeLength="@dimen/margin_standard"
+		android:padding="@dimen/margin_standard"
+		android:requiresFadingEdge="vertical">
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+			<com.google.android.material.card.MaterialCardView
+				android:id="@+id/id_cv_flavor"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="@dimen/margin_half"
+				android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
+				app:contentPadding="@dimen/margin_half">
+
+				<TextView
+					style="@style/TextAppearance.Material3.TitleMedium"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/label_description" />
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="@dimen/layout_divider"
+					android:layout_marginTop="26dp"
+					android:background="@color/md_theme_secondaryFixed_mediumContrast" />
+
+				<TextView
+					android:id="@+id/id_tv_flavor"
+					style="@style/TextAppearance.Material3.BodyMedium"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp" />
+
+			</com.google.android.material.card.MaterialCardView>
+
+
+			<com.google.android.material.card.MaterialCardView
+				android:id="@+id/id_cv_evolutions"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/id_cv_flavor"
+				android:layout_margin="@dimen/margin_half"
+				android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
+				app:contentPadding="@dimen/margin_half">
+
+				<TextView
+					style="@style/TextAppearance.Material3.TitleMedium"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/label_evolutions" />
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="@dimen/layout_divider"
+					android:layout_marginTop="26dp"
+					android:background="@color/md_theme_secondaryFixed_mediumContrast" />
+
+				<com.omniimpact.mini.pokedex.utilities.view.NestedScrollableHost
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="26dp">
+
+					<HorizontalScrollView
+						android:id="@+id/id_sv_evolution_container"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:fadingEdgeLength="@dimen/icon_small"
+						android:foregroundGravity="center"
+						android:requiresFadingEdge="horizontal">
+
+						<LinearLayout
+							android:id="@+id/id_ll_evolutions"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal"
+							android:padding="@dimen/margin_half" />
+					</HorizontalScrollView>
+
+				</com.omniimpact.mini.pokedex.utilities.view.NestedScrollableHost>
+
+			</com.google.android.material.card.MaterialCardView>
+
+
+			<com.google.android.material.card.MaterialCardView
+				android:id="@+id/id_cv_stats"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/id_cv_evolutions"
+				android:layout_margin="@dimen/margin_half"
+				android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
+				app:contentPadding="@dimen/margin_half">
+
+				<TextView
+					style="@style/TextAppearance.Material3.TitleMedium"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/label_stats" />
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="@dimen/layout_divider"
+					android:layout_marginTop="26dp"
+					android:background="@color/md_theme_secondaryFixed_mediumContrast" />
+
+				<LinearLayout
+					android:id="@+id/id_ll_stats"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="28dp"
+					android:orientation="vertical"/>
+
+			</com.google.android.material.card.MaterialCardView>
+
+		</RelativeLayout>
+
+	</ScrollView>
+
+</com.google.android.material.card.MaterialCardView>
