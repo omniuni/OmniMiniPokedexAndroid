@@ -22,7 +22,7 @@ import com.omniimpact.mini.pokedex.network.api.IApi
 import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
 import com.omniimpact.mini.pokedex.utilities.UtilityApplicationSettings
 
-class FragmentDetailsRoutes : Fragment, IOnApiLoadQueue {
+class FragmentDetailsEncounters : Fragment, IOnApiLoadQueue {
 
 	@Suppress("ConvertSecondaryConstructorToPrimary")
 	constructor(): super()
@@ -105,9 +105,9 @@ class FragmentDetailsRoutes : Fragment, IOnApiLoadQueue {
 	override fun onFailed(failure: IApi) {}
 
 	private fun updateUi(){
-		Log.d(FragmentDetailsRoutes::class.simpleName, "Found encounters in ${mEncountersByVersion.size} versions.")
+		Log.d(FragmentDetailsEncounters::class.simpleName, "Found encounters in ${mEncountersByVersion.size} versions.")
 		mEncountersByVersion.forEach { (versionName, listOfEncounters) ->
-			Log.d(FragmentDetailsRoutes::class.simpleName, "Version $versionName has ${listOfEncounters.size} encounters.")
+			Log.d(FragmentDetailsEncounters::class.simpleName, "Version $versionName has ${listOfEncounters.size} encounters.")
 		}
 	}
 

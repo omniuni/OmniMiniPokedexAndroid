@@ -164,7 +164,7 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue,
 	private val mTabsMap: Map<Int, String> = mapOf(
 		Pair(0, "Overview"),
 		Pair(1, "Matches"),
-		Pair(2, "Routes"),
+		Pair(2, "Places"),
 		Pair(3, "Moves"),
 		Pair(4, "Media"),
 	)
@@ -246,7 +246,7 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue,
 					return fragment
 				}
 				2 -> {
-					val fragment = FragmentDetailsRoutes()
+					val fragment = FragmentDetailsEncounters()
 					fragment.arguments = argumentsBundle
 					return fragment
 				}
