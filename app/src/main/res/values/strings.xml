@@ -19,6 +19,9 @@
 	<string name="label_half_defense">½ Defense</string>
 
 	<string name="label_evolutions">Evolutions</string>
+	<string name="moves">Moves</string>
+	<string name="routes">Routes</string>
+	<string name="media">Media</string>
 
 	<string name="a_of_b">%1$d of %2$d</string>
 	<string name="label_filter">Filter Pokemon</string>

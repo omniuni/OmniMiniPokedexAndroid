@@ -91,23 +91,9 @@ class FragmentDetailsOverview : Fragment, IOnApiLoadQueue {
 	override fun onSuccess(success: IApi) {
 
 		when(success){
-
 			is ApiGetPokemonDetails -> {
-
-				val details = ApiGetPokemonDetails.getPokemonDetails(mSourceItem.pokemonSpecies.name)
-
-				details.stats.forEach {
-					val newStat = ListItemStatBinding.inflate(
-						layoutInflater,
-						mFragmentViewBinding.idLlStats,
-						true
-					)
-					newStat.idTvStat.text = it.stat.name
-					newStat.idPbStat.progress = it.baseStat
-				}
-
+				addDetails()
 			}
-
 			is ApiGetPokemonSpecies -> {
 				mPokemonSpecies = ApiGetPokemonSpecies.getPokemonSpecies(mSourceItem.pokemonSpecies.name)
 				val flavorText = ApiGetPokemonSpecies.getPokemonFlavorText(
@@ -142,6 +128,23 @@ class FragmentDetailsOverview : Fragment, IOnApiLoadQueue {
 
 	override fun onFailed(failure: IApi) {}
 
+	private fun addDetails(){
+
+		val details = ApiGetPokemonDetails.getPokemonDetails(mSourceItem.pokemonSpecies.name)
+
+		if(mFragmentViewBinding.idLlStats.childCount == 0) {
+			details.stats.forEach {
+				val newStat = ListItemStatBinding.inflate(
+					layoutInflater,
+					mFragmentViewBinding.idLlStats,
+					true
+				)
+				newStat.idTvStat.text = it.stat.name
+				newStat.idPbStat.progress = it.baseStat
+			}
+		}
+
+	}
 
 
 	private fun addEvolutionView(evolution: ModelPokemonEvolutionChain) {

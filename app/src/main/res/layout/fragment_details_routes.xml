@@ -11,6 +11,7 @@
 	<View
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/margin_quarter"
+		android:layout_marginHorizontal="@dimen/margin_standard"
 		android:background="@color/md_theme_surfaceContainerHigh_mediumContrast"/>
 
 	<ScrollView
@@ -22,7 +23,7 @@
 
 		<RelativeLayout
 			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+			android:layout_height="wrap_content">
 
 			<com.google.android.material.card.MaterialCardView
 				android:id="@+id/id_cv_flavor"
@@ -36,7 +37,7 @@
 					style="@style/TextAppearance.Material3.TitleMedium"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:text="Routes" />
+					android:text="@string/routes" />
 
 				<View
 					android:layout_width="match_parent"
