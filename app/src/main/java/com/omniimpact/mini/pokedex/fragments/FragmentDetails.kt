@@ -110,6 +110,11 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue,
 		super.onPause()
 	}
 
+	override fun onDestroyView() {
+		mFragmentViewBinding.idVpDetail.adapter = null
+		super.onDestroyView()
+	}
+
 	//endregion
 
 	//region Interfaces

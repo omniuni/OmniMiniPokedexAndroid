@@ -23,6 +23,10 @@ abstract class ApiBase : IApi {
 
 	//endregion
 
+	override fun getUrlSuffix(): String{
+		return String()
+	}
+
 	//region Builder
 
 	override fun with(context: Context): IApi {
@@ -49,7 +53,7 @@ abstract class ApiBase : IApi {
 
 		loadScope.launch {
 			try {
-				val jsonResult: String = UtilityCachingGetRequest(mContext, getBaseUrl() + mParameter).get()
+				val jsonResult: String = UtilityCachingGetRequest(mContext, getBaseUrl() + mParameter + getUrlSuffix()).get()
 				parse(jsonResult)
 				launch(Dispatchers.Main) {
 					mCallback.onSuccess(this@ApiBase)

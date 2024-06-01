@@ -14,6 +14,7 @@ interface IApi {
 
 	fun isLoaded(): Boolean
 	fun getBaseUrl(): String
+	fun getUrlSuffix(): String
 	fun getUrlHash(): Int
 
 	// Other
