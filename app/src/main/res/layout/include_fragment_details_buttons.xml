@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/id_ll_tabs"
+<com.google.android.material.card.MaterialCardView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
 	android:layout_height="@dimen/layout_min_touch_height"
-	android:background="@color/md_theme_inversePrimary_mediumContrast"
-	android:gravity="center"
-	android:orientation="horizontal"/>
+	android:backgroundTint="@color/md_theme_inversePrimary_mediumContrast"
+	app:cardPreventCornerOverlap="false"
+	app:strokeWidth="0dp"
+	app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialCardView.RoundedTop">
+	<LinearLayout
+		android:gravity="center"
+		android:id="@+id/id_ll_tabs"
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"/>
+</com.google.android.material.card.MaterialCardView>
