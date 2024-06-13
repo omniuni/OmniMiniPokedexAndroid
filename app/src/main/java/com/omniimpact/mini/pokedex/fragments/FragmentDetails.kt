@@ -175,6 +175,7 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue,
 		val detailViewPager: ViewPager2 = mFragmentViewBinding.idVpDetail
 		detailViewPager.offscreenPageLimit = 1
 		val detailPageAdapter = DetailCardPagerAdapter(requireActivity())
+		detailViewPager.isSaveEnabled = false
 		detailViewPager.adapter = detailPageAdapter
 		detailViewPager.registerOnPageChangeCallback(mvpCallback)
 		mTabsMap.forEach{ tabPair ->

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/id_sw_version"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/layout_min_touch_height"
+        android:layout_marginStart="@dimen/margin_standard"/>
+    <TextView
+        android:id="@+id/id_tv_version"
+        style="@style/TextAppearance.Material3.BodyLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/layout_min_touch_height"
+        android:layout_marginStart="@dimen/icon_medium"
+        android:gravity="center_vertical"
+        android:text="@string/placeholder_version"/>
+</FrameLayout>

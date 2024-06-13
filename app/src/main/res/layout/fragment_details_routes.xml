@@ -21,16 +21,46 @@
 		android:padding="@dimen/margin_standard"
 		android:requiresFadingEdge="vertical">
 
+
 		<RelativeLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
+			<com.google.android.material.card.MaterialCardView
+				android:id="@+id/id_cv_header"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="@dimen/margin_half"
+				android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
+				app:contentPadding="@dimen/margin_half">
+
+				<TextView
+					style="@style/TextAppearance.Material3.TitleMedium"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/label_show_version" />
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="@dimen/layout_divider"
+					android:layout_marginTop="26dp"
+					android:background="@color/md_theme_secondaryFixed_mediumContrast" />
+
+				<LinearLayout
+					android:id="@+id/id_ll_switches"
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp" />
+
+			</com.google.android.material.card.MaterialCardView>
+
 			<LinearLayout
 				android:id="@+id/id_ll_quick_test"
+				android:layout_below="@id/id_cv_header"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="vertical"/>
-
 
 			<com.google.android.material.card.MaterialCardView
 				android:id="@+id/id_cv_flavor"
