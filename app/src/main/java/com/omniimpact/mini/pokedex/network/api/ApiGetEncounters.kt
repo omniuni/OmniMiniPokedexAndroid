@@ -1,10 +1,8 @@
 package com.omniimpact.mini.pokedex.network.api
 
 import com.omniimpact.mini.pokedex.models.ModelEncounter
-import com.omniimpact.mini.pokedex.models.ModelEncounterDetail
 import com.omniimpact.mini.pokedex.models.ModelEncounterLocationArea
 import com.omniimpact.mini.pokedex.models.ModelEncounterVersionDetail
-import com.omniimpact.mini.pokedex.models.ModelVersionGroup
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -24,7 +22,7 @@ class ApiGetEncounters : ApiBase() {
 			val simplifiedEncounters: MutableList<Pair<ModelEncounterLocationArea, ModelEncounterVersionDetail>> = mutableListOf()
 			encounters.forEach { modelEncounter: ModelEncounter ->
 				modelEncounter.versionDetails.forEach {
-					if(it.version.name == version){
+					if(version.contains(it.version.name, ignoreCase = true)){
 						simplifiedEncounters.add(Pair(modelEncounter.locationArea, it))
 					}
 				}

@@ -7,7 +7,7 @@
 	<string name="label_encountered">Encountered</string>
 	<string name="label_alphabetical">Alphabetical</string>
 	<string name="label_description">Description</string>
-	<string name="label_stats">Stats</string>
+	<string name="label_stats">Base Stats</string>
 	<string name="label_strength">Strengths</string>
 	<string name="label_weakness">Weakness</string>
 	<string name="label_none">none</string>

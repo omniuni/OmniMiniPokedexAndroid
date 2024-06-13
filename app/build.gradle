@@ -1,7 +1,8 @@
 plugins {
 	alias(libs.plugins.androidApplication)
 	alias(libs.plugins.jetbrainsKotlinAndroid)
-	id("com.google.devtools.ksp").version("1.9.23-1.0.20")
+	id('base')
+	id("com.google.devtools.ksp").version("2.0.0-1.0.22")
 }
 
 kotlin {
@@ -35,6 +36,7 @@ android {
 		}
 	}
 
+	def customArchiveName
 	defaultConfig {
 		applicationId "com.omniimpact.mini.pokedex"
 		minSdk 27
@@ -42,7 +44,7 @@ android {
 		// https://semver.org/
 		versionName androidGitVersion.name()
 		versionCode androidGitVersion.code()
-		archivesBaseName = "$applicationId-$versionCode-$versionName"
+		customArchiveName = "$applicationId-$versionCode-$versionName"
 
 		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 		vectorDrawables {
@@ -53,7 +55,10 @@ android {
 		buildConfigField("int", "APP_VERSION_CODE", "$versionCode")
 
 		signingConfig signingConfigs.config
+	}
 
+	base {
+		archivesName = customArchiveName
 	}
 
 	flavorDimensions += "devTools"

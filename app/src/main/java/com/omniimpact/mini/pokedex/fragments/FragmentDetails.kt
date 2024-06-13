@@ -165,9 +165,11 @@ class FragmentDetails : Fragment(), IOnApiLoadQueue,
 		Pair(0, "Overview"),
 		Pair(1, "Matches"),
 		Pair(2, "Places"),
+	)
+	/*
 		Pair(3, "Moves"),
 		Pair(4, "Media"),
-	)
+	 */
 
 	private fun updateDetailCards(){
 		val detailViewPager: ViewPager2 = mFragmentViewBinding.idVpDetail

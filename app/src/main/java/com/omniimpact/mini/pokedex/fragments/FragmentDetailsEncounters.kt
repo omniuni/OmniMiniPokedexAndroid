@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import com.omniimpact.mini.pokedex.databinding.FragmentDetailsRoutesBinding
 import com.omniimpact.mini.pokedex.fragments.FragmentDetails.Companion.KEY_COMBINED_POKEDEX
@@ -98,15 +100,38 @@ class FragmentDetailsEncounters : Fragment, IOnApiLoadQueue {
 					mEncountersByVersion[it.name] = ApiGetEncounters.getSimplifiedEncountersForPokemon(mSourceItem.pokemonSpecies.name, it.name)
 				}
 				updateUi()
+				getEncounterLocations()
+				getEncounterMethods()
 			}
 		}
 	}
 
 	override fun onFailed(failure: IApi) {}
 
+	private fun getEncounterLocations(){
+
+	}
+
+	private fun getEncounterMethods(){
+
+	}
+
 	private fun updateUi(){
 		Log.d(FragmentDetailsEncounters::class.simpleName, "Found encounters in ${mEncountersByVersion.size} versions.")
 		mEncountersByVersion.forEach { (versionName, listOfEncounters) ->
+			Log.d(FragmentDetailsEncounters::class.simpleName, "Version $versionName has ${listOfEncounters.size} encounters.")
+		}
+		mEncountersByVersion.forEach { (versionName, listOfEncounters) ->
+			listOfEncounters.forEach {
+				val tv = TextView(requireContext())
+				var text = "In $versionName, found at ${it.first.name}.\n"
+				it.second.encounterDetails.distinct().forEach {
+					text+="Find by \"${it.method.name}\", ${it.chance}% chance, between levels ${it.minLevel} and ${it.maxLevel}.\n"
+				}
+				tv.text = text
+				tv.updatePadding(bottom = 20)
+				mFragmentViewBinding.idLlQuickTest.addView(tv)
+			}
 			Log.d(FragmentDetailsEncounters::class.simpleName, "Version $versionName has ${listOfEncounters.size} encounters.")
 		}
 	}
