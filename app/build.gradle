@@ -42,8 +42,8 @@ android {
 		minSdk 27
 		targetSdk 34
 		// https://semver.org/
-		versionName androidGitVersion.name()
-		versionCode androidGitVersion.code()
+		versionName "000.000.008"
+		versionCode "0000001008".toInteger()
 		customArchiveName = "$applicationId-$versionCode-$versionName"
 
 		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

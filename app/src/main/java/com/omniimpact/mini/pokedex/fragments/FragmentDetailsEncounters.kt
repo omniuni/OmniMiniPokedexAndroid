@@ -11,6 +11,9 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.omniimpact.mini.pokedex.databinding.FragmentDetailsRoutesBinding
+import com.omniimpact.mini.pokedex.databinding.ListItemEncounterBinding
+import com.omniimpact.mini.pokedex.databinding.ListItemEncounterLocationBinding
+import com.omniimpact.mini.pokedex.databinding.ListItemStatBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemVersionSwitchBinding
 import com.omniimpact.mini.pokedex.fragments.FragmentDetails.Companion.KEY_COMBINED_POKEDEX
 import com.omniimpact.mini.pokedex.fragments.FragmentDetails.Companion.KEY_POKEMON_ENTRY_NUMBER
@@ -21,12 +24,15 @@ import com.omniimpact.mini.pokedex.models.ModelVersionGroup
 import com.omniimpact.mini.pokedex.models.PokedexPokemonEntry
 import com.omniimpact.mini.pokedex.network.UtilityLoader
 import com.omniimpact.mini.pokedex.network.api.ApiGetEncounters
+import com.omniimpact.mini.pokedex.network.api.ApiGetLocationArea
 import com.omniimpact.mini.pokedex.network.api.ApiGetPokedex
 import com.omniimpact.mini.pokedex.network.api.ApiGetVersion
 import com.omniimpact.mini.pokedex.network.api.ApiGetVersionGroup
 import com.omniimpact.mini.pokedex.network.api.IApi
 import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
 import com.omniimpact.mini.pokedex.utilities.UtilityApplicationSettings
+import java.util.Locale
+import kotlin.math.min
 
 class FragmentDetailsEncounters : Fragment, IOnApiLoadQueue {
 
@@ -45,6 +51,9 @@ class FragmentDetailsEncounters : Fragment, IOnApiLoadQueue {
 	private var mVersionGroup: ModelVersionGroup = ModelVersionGroup()
 
 	private var mEncountersByVersion: MutableMap<String, List<Pair<ModelEncounterLocationArea, ModelEncounterVersionDetail>>> = mutableMapOf()
+
+	private var mGotLocations = false
+	private var mGotMethods = false
 
 	//endregion
 
@@ -77,6 +86,7 @@ class FragmentDetailsEncounters : Fragment, IOnApiLoadQueue {
 		savedInstanceState: Bundle?
 	): View {
 		mFragmentViewBinding = FragmentDetailsRoutesBinding.inflate(layoutInflater)
+		mFragmentViewBinding.idCvHeader.visibility = View.GONE
 		return mFragmentViewBinding.root
 	}
 
@@ -95,7 +105,11 @@ class FragmentDetailsEncounters : Fragment, IOnApiLoadQueue {
 		super.onPause()
 	}
 
-	override fun onComplete() {}
+	override fun onComplete() {
+		if(mGotLocations) {
+			updateUi()
+		}
+	}
 
 	override fun onSuccess(success: IApi) {
 		when(success){
@@ -103,9 +117,11 @@ class FragmentDetailsEncounters : Fragment, IOnApiLoadQueue {
 				mVersionGroup.versions.forEach {
 					mEncountersByVersion[it.name] = ApiGetEncounters.getSimplifiedEncountersForPokemon(mSourceItem.pokemonSpecies.name, it.name)
 				}
-				updateUi()
 				getEncounterLocations()
 				getEncounterMethods()
+			}
+			is ApiGetLocationArea -> {
+				mGotLocations = true
 			}
 		}
 	}
@@ -113,15 +129,31 @@ class FragmentDetailsEncounters : Fragment, IOnApiLoadQueue {
 	override fun onFailed(failure: IApi) {}
 
 	private fun getEncounterLocations(){
-
+		var hasEncounters = false
+		mEncountersByVersion.forEach { listOfEncounters ->
+			listOfEncounters.value.forEach { pairOfEncounters ->
+				val locationName = pairOfEncounters.first.name
+				UtilityLoader.addRequests(
+					mapOf(
+						ApiGetLocationArea() to locationName,
+					), requireContext()
+				)
+				hasEncounters = true
+			}
+		}
+		if(!hasEncounters){
+			mFragmentViewBinding.idCvLoading.visibility = View.GONE
+			mFragmentViewBinding.idCvNoResults.visibility = View.VISIBLE
+		}
 	}
 
 	private fun getEncounterMethods(){
-
 	}
 
 	private fun updateUi(){
 		Log.d(FragmentDetailsEncounters::class.simpleName, "Found encounters in ${mEncountersByVersion.size} versions.")
+		mFragmentViewBinding.idCvLoading.visibility = View.GONE
+		mFragmentViewBinding.idCvHeader.visibility = View.VISIBLE
 		setUpSwitches()
 		loadEncounters()
 	}
@@ -135,7 +167,7 @@ class FragmentDetailsEncounters : Fragment, IOnApiLoadQueue {
 			mSwitchMap[versionName] = switch.idSwVersion
 			val version = ApiGetVersion.getVersionByName(versionName)
 			val versionDisplayName = ApiGetVersion.getVersionNameInEnglish(version)
-			switch.idTvVersion.text = "$versionDisplayName (${listOfEncounters.size})"
+			switch.idTvVersion.text = String.format(Locale.getDefault(), "%s (%d)", versionDisplayName, listOfEncounters.size)
 			switch.idSwVersion.setOnCheckedChangeListener { _, isChecked ->
 				if(isChecked){
 					mSelectedVersion = version
@@ -154,17 +186,54 @@ class FragmentDetailsEncounters : Fragment, IOnApiLoadQueue {
 	}
 
 	private fun loadEncounters(){
-		mFragmentViewBinding.idLlQuickTest.removeAllViews()
+
+		mFragmentViewBinding.idLlEncounterLocations.removeAllViews()
 		mEncountersByVersion[mSelectedVersion.name]?.forEach { areaDetailsPair ->
-			val tv = TextView(requireContext())
-			var text = "In ${mSelectedVersion.name}, found at ${areaDetailsPair.first.name}.\n"
-			areaDetailsPair.second.encounterDetails.distinct().forEach {
-				text+="Find by \"${it.method.name}\", ${it.chance}% chance, between levels ${it.minLevel} and ${it.maxLevel}.\n"
+
+			val locationName = ApiGetLocationArea.getEnglishNameByKey(areaDetailsPair.first.name)
+
+			val newEncounterLocation = ListItemEncounterLocationBinding.inflate(
+				layoutInflater,
+				mFragmentViewBinding.idLlEncounterLocations,
+				true
+			)
+			newEncounterLocation.idTvLocation.text = locationName
+
+			var lastMethod = String()
+			var totalPercent = 0
+			areaDetailsPair.second.encounterDetails.forEach { encounter ->
+				totalPercent+=encounter.chance
 			}
-			tv.text = text
-			tv.updatePadding(bottom = 20)
-			mFragmentViewBinding.idLlQuickTest.addView(tv)
+			areaDetailsPair.second.encounterDetails.forEach { encounter ->
+
+				val levelText = if(encounter.minLevel != encounter.maxLevel){
+					"Levels ${encounter.minLevel} - ${encounter.maxLevel}"
+				} else {
+					"Level ${encounter.minLevel}"
+				}
+
+
+				val newEncounter = ListItemEncounterBinding.inflate(
+					layoutInflater,
+					newEncounterLocation.idLlLocations,
+					true
+				)
+				newEncounter.idTvLevels.text = levelText
+				if(encounter.method.name != lastMethod) {
+					newEncounter.idTvMethod.text = encounter.method.name
+					lastMethod = encounter.method.name
+				} else {
+					newEncounter.idTvMethod.text = String.format(Locale.getDefault(), "\"")
+				}
+				newEncounter.idTvPercent.text = String.format(Locale.getDefault(), "%d%%", encounter.chance)
+				newEncounter.idPbPercent.progress = encounter.chance
+				newEncounter.idPbPercent.max = totalPercent
+
+			}
+
 		}
+
+
 	}
 
 

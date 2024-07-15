@@ -22,7 +22,7 @@ class ApiGetEncounters : ApiBase() {
 			val simplifiedEncounters: MutableList<Pair<ModelEncounterLocationArea, ModelEncounterVersionDetail>> = mutableListOf()
 			encounters.forEach { modelEncounter: ModelEncounter ->
 				modelEncounter.versionDetails.forEach {
-					if(version.contains(it.version.name, ignoreCase = true)){
+					if(version == it.version.name){
 						simplifiedEncounters.add(Pair(modelEncounter.locationArea, it))
 					}
 				}

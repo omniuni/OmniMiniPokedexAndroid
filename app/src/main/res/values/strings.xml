@@ -18,6 +18,8 @@
 	<string name="label_no_damage">Can\'t Damage</string>
 	<string name="label_half_defense">½ Defense</string>
 	<string name="label_show_version">Show Version</string>
+	<string name="label_no_encounters">No Encounters</string>
+	<string name="label_loading">Loading…</string>
 
 	<string name="label_evolutions">Evolutions</string>
 	<string name="moves">Moves</string>
@@ -37,6 +39,8 @@
 	<string name="scroll_up">scroll up</string>
 	<string name="clear_version">clear version</string>
 	<string name="no_items_match">No items match\nyour search</string>
+	<string name="loading_encounters">Please wait a moment while loading the encounters…</string>
+	<string name="no_encounters_found">No method was found to directly encounter this pokémon in the selected version of the game.</string>
 
 	<string name="placeholder_level">000</string>
 	<string name="placeholder_name">PokemonName</string>

@@ -21,13 +21,76 @@
 		android:padding="@dimen/margin_standard"
 		android:requiresFadingEdge="vertical">
 
-
 		<RelativeLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
 			<com.google.android.material.card.MaterialCardView
+				android:id="@+id/id_cv_loading"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="@dimen/margin_half"
+				android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
+				app:contentPadding="@dimen/margin_half">
+
+				<TextView
+					style="@style/TextAppearance.Material3.TitleMedium"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/label_loading" />
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="@dimen/layout_divider"
+					android:layout_marginTop="26dp"
+					android:background="@color/md_theme_secondaryFixed_mediumContrast" />
+
+
+				<TextView
+					style="@style/TextAppearance.Material3.BodyMedium"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp"
+					android:text="@string/loading_encounters" />
+
+
+			</com.google.android.material.card.MaterialCardView>
+
+
+			<com.google.android.material.card.MaterialCardView
+				android:id="@+id/id_cv_no_results"
+				android:layout_below="@id/id_cv_loading"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="@dimen/margin_half"
+				android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
+				android:visibility="gone"
+				app:contentPadding="@dimen/margin_half">
+
+				<TextView
+					style="@style/TextAppearance.Material3.TitleMedium"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/label_no_encounters" />
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="@dimen/layout_divider"
+					android:layout_marginTop="26dp"
+					android:background="@color/md_theme_secondaryFixed_mediumContrast" />
+
+				<TextView
+					style="@style/TextAppearance.Material3.BodyMedium"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp"
+					android:text="@string/no_encounters_found" />
+
+			</com.google.android.material.card.MaterialCardView>
+
+			<com.google.android.material.card.MaterialCardView
 				android:id="@+id/id_cv_header"
+				android:layout_below="@id/id_cv_loading"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_margin="@dimen/margin_half"
@@ -56,41 +119,18 @@
 			</com.google.android.material.card.MaterialCardView>
 
 			<LinearLayout
-				android:id="@+id/id_ll_quick_test"
+				android:id="@+id/id_ll_encounter_locations"
 				android:layout_below="@id/id_cv_header"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="vertical"/>
 
-			<com.google.android.material.card.MaterialCardView
-				android:id="@+id/id_cv_flavor"
-				android:layout_below="@id/id_ll_quick_test"
+			<LinearLayout
+				android:id="@+id/id_ll_quick_test"
+				android:layout_below="@id/id_ll_encounter_locations"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="@dimen/margin_half"
-				android:backgroundTint="@color/md_theme_surfaceContainerHigh_mediumContrast"
-				app:contentPadding="@dimen/margin_half">
-
-				<TextView
-					style="@style/TextAppearance.Material3.TitleMedium"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="@string/routes" />
-
-				<View
-					android:layout_width="match_parent"
-					android:layout_height="@dimen/layout_divider"
-					android:layout_marginTop="26dp"
-					android:background="@color/md_theme_secondaryFixed_mediumContrast" />
-
-				<TextView
-					android:id="@+id/id_tv_flavor"
-					style="@style/TextAppearance.Material3.BodyMedium"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="30dp" />
-
-			</com.google.android.material.card.MaterialCardView>
+				android:orientation="vertical"/>
 
 		</RelativeLayout>
 
