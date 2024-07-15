@@ -6,14 +6,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.omniimpact.mini.pokedex.databinding.FragmentDetailsRoutesBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemEncounterBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemEncounterLocationBinding
-import com.omniimpact.mini.pokedex.databinding.ListItemStatBinding
 import com.omniimpact.mini.pokedex.databinding.ListItemVersionSwitchBinding
 import com.omniimpact.mini.pokedex.fragments.FragmentDetails.Companion.KEY_COMBINED_POKEDEX
 import com.omniimpact.mini.pokedex.fragments.FragmentDetails.Companion.KEY_POKEMON_ENTRY_NUMBER
@@ -32,7 +29,6 @@ import com.omniimpact.mini.pokedex.network.api.IApi
 import com.omniimpact.mini.pokedex.network.api.IOnApiLoadQueue
 import com.omniimpact.mini.pokedex.utilities.UtilityApplicationSettings
 import java.util.Locale
-import kotlin.math.min
 
 class FragmentDetailsEncounters : Fragment, IOnApiLoadQueue {
 
@@ -53,7 +49,7 @@ class FragmentDetailsEncounters : Fragment, IOnApiLoadQueue {
 	private var mEncountersByVersion: MutableMap<String, List<Pair<ModelEncounterLocationArea, ModelEncounterVersionDetail>>> = mutableMapOf()
 
 	private var mGotLocations = false
-	private var mGotMethods = false
+	// private var mGotMethods = false
 
 	//endregion
 
