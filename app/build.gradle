@@ -2,7 +2,7 @@ plugins {
 	alias(libs.plugins.androidApplication)
 	alias(libs.plugins.jetbrainsKotlinAndroid)
 	id('base')
-	id("com.google.devtools.ksp").version("2.0.0-1.0.22")
+	id("com.google.devtools.ksp").version("2.2.0-2.0.2")
 }
 
 kotlin {
@@ -18,8 +18,8 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 keystorePropertiesProd.load(new FileInputStream(keystorePropertiesProdFile))
 
 android {
-	namespace 'com.omniimpact.mini.pokedex'
-	compileSdk 34
+	namespace = 'com.omniimpact.mini.mindex'
+	compileSdk = 36
 
 	signingConfigs {
 		config {
@@ -38,9 +38,9 @@ android {
 
 	def customArchiveName
 	defaultConfig {
-		applicationId "com.omniimpact.mini.pokedex"
-		minSdk 27
-		targetSdk 34
+		applicationId "com.omniimpact.mini.mindex"
+		minSdk = 27
+		targetSdk = 36
 		// https://semver.org/
 		versionName "000.000.008"
 		versionCode "0000001008".toInteger()
@@ -48,13 +48,13 @@ android {
 
 		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 		vectorDrawables {
-			useSupportLibrary true
+			useSupportLibrary = true
 		}
 
 		buildConfigField("String", "APP_VERSION_NAME", "\"$versionName\"")
 		buildConfigField("int", "APP_VERSION_CODE", "$versionCode")
 
-		signingConfig signingConfigs.config
+		signingConfig = signingConfigs.config
 	}
 
 	base {
@@ -72,23 +72,23 @@ android {
 	}
 	buildTypes {
 		debug {
-			signingConfig signingConfigs.config
-			minifyEnabled false
+			signingConfig = signingConfigs.config
+			minifyEnabled = false
 			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 			testProguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-			applicationIdSuffix ".debug"
+			applicationIdSuffix = ".debug"
 		}
 		release {
-			signingConfig signingConfigs.configProd
-			minifyEnabled true
+			signingConfig = signingConfigs.configProd
+			minifyEnabled = true
 			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 			testProguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-			applicationIdSuffix ".app"
+			applicationIdSuffix = ".app"
 		}
 	}
 	buildFeatures {
-		viewBinding true
-		buildConfig true
+		viewBinding = true
+		buildConfig = true
 	}
 
 }

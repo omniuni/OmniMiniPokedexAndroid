@@ -76,7 +76,7 @@
 					android:layout_marginTop="26dp"
 					android:background="@color/md_theme_secondaryFixed_mediumContrast" />
 
-				<com.omniimpact.mini.pokedex.utilities.view.NestedScrollableHost
+				<com.omniimpact.mini.mindex.utilities.view.NestedScrollableHost
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="26dp">
@@ -97,7 +97,7 @@
 							android:padding="@dimen/margin_half" />
 					</HorizontalScrollView>
 
-				</com.omniimpact.mini.pokedex.utilities.view.NestedScrollableHost>
+				</com.omniimpact.mini.mindex.utilities.view.NestedScrollableHost>
 
 			</com.google.android.material.card.MaterialCardView>
 
